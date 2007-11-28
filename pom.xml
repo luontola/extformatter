@@ -116,13 +116,13 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/main/assembly/assembly-dist-descriptor.xml</descriptor>
+                        <descriptor>src/main/assembly/assembly-bin-descriptor.xml</descriptor>
                         <descriptor>src/main/assembly/assembly-src-descriptor.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>dist</id>
+                        <id>bin</id>
                         <phase>package</phase>
                         <goals>
                             <goal>directory-inline</goal>

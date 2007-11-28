@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+
+<!-- Author: Alexander Shvets -->
+
+<groups>
+  <group name="Maven2" groupId="org.apache.maven.archetypes" prefix="maven-archetype-" version="1.0" >
+    <archetypes>
+      <archetype name="archetype"/>
+
+      <archetype name="j2ee-simple" description="A simple J2EE Java application"/>
+
+      <archetype name="marmalade-mojo" description="A Maven plugin development project using marmalade"/>
+
+      <archetype name="mojo" description="A Maven Java plugin development project"/>
+
+      <archetype name="portlet" description="A simple portlet application"/>
+
+      <archetype name="profiles"/>
+
+      <archetype name="quickstart"/>
+
+      <archetype name="simple"/>
+
+      <archetype name="site-simple" description="A simple site generation project"/>
+
+      <archetype name="site" description="A more complex site project"/>
+
+      <archetype name="webapp" description="A simple Java web application"/>
+    </archetypes>
+  </group>
+
+  <group name="Appfuse" groupId="org.appfuse.archetypes" prefix="appfuse-" version="2.0" >
+    <archetypes>
+      <archetype name="basic-jsf" 
+            description="Archetype for creating a web application with Hibernate, Spring and JSF"/>
+
+      <archetype name="basic-spring" 
+            description="Archetype for creating a web application with Hibernate, Spring and Spring MVC"/>
+
+      <archetype name="basic-struts" 
+            description="Archetype for creating a web application with Hibernate, Spring and Struts 2"/>
+
+      <archetype name="basic-tapestry" 
+            description="Archetype for creating a web application with Hibernate, Spring and Tapestry 4"/>
+
+      <archetype name="modular-jsf" 
+            description="Archetype for creating a modular application with Hibernate, Spring and JSF"/>
+
+      <archetype name="modular-spring" 
+            description="Archetype for creating a modular application with Hibernate, Spring and Spring MVC"/>
+
+      <archetype name="modular-struts" 
+            description="Archetype for creating a modular application with Hibernate, Spring and Struts 2"/>
+
+      <archetype name="modular-tapestry"
+            description="Archetype for creating a modular application with Hibernate, Spring and Tapestry 4"/>
+
+      <archetype name="core" 
+            description="Archetype for creating a jar application with Hibernate and Spring and XFire"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://static.appfuse.org/repository</repository>
+    </repositories>
+  </group>
+
+  <group name="JPA" groupId="com.sourcebeat" prefix="jpa-" version="1.0-SNAPSHOT">
+    <notes>
+       Resource: http://jroller.com/page/cmaki?entry=jpa_maven_2_archetype
+    </notes>
+
+    <archetypes>
+      <archetype name="hibernate-archetype"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://scriptlandia-repository.googlecode.com/svn/trunk/tools</repository>
+    </repositories>
+  </group>
+
+  <group name="JPA2" groupId="com.rfc.maven.archetypes" version="1.0-SNAPSHOT">
+    <archetypes>
+      <archetype name="jpa-maven-archetype" description="JPA application"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://maven.rodcoffin.com/repo</repository>
+    </repositories>
+  </group>
+
+  <group name="Shale" groupId="org.apache.shale" prefix="shale-archetype-" version="1.0.3-SNAPSHOT">
+    <archetypes>
+      <archetype name="blank" 
+            description="A blank Shale web application with JSF"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://people.apache.org/repo/m2-snapshot-repository</repository>
+    </repositories>
+  </group>
+
+  <group name="Struts2" groupId="org.apache.struts" prefix="struts2-archetype-" version="2.0.9-SNAPSHOT">
+    <archetypes>
+      <archetype name="starter" 
+            description="A starter Struts 2 application with Sitemesh, DWR, and Spring"/>
+
+      <archetype name="blank" 
+            description="A minimal Struts 2 application"/>
+
+      <archetype name="portlet" 
+            description="A minimal Struts 2 application that can be deployed as a portlet"/>
+
+      <archetype name="dbportlet" 
+            description="A starter Struts 2 portlet that demonstrates a simple CRUD interface with db backing"/>
+
+      <archetype name="A Struts 2 plugin" 
+            description="A starter Struts 2 portlet that demonstrates a simple CRUD interface with db backing"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://people.apache.org/repo/m2-snapshot-repository</repository>
+    </repositories>
+  </group>
+
+  <group name="Spring-OSGI" groupId="org.springframework.osgi" version="1.0-SNAPSHOT">
+    <archetypes>
+      <archetype name="spring-osgi-bundle-archetype" 
+            description="Spring-OSGi archetype"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://static.springframework.org/maven2-snapshots</repository>
+    </repositories>
+  </group>
+
+  <group name="WebTide" groupId="com.webtide" prefix="maven-archetype-" version="1.0">
+    <notes>
+       Resource: http://www.webtide.com/resources.jsp
+    </notes>
+    <archetypes>
+      <archetype name="ActiveMQ"/>
+      <archetype name="DOJO"/>
+      <archetype name="DWR"/>
+      <archetype name="JSF"/>
+      <archetype name="SiteMesh"/>
+      <archetype name="Spring"/>
+      <archetype name="SpringJpa"/>
+      <archetype name="Struts"/>
+      <archetype name="Tapestry"/>
+      <archetype name="WebWork"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://scriptlandia-repository.googlecode.com/svn/trunk/tools</repository>
+    </repositories>
+  </group>
+
+  <group name="ADF" groupId="org.apache.myfaces.adfbuild" version="1.0-SNAPSHOT">
+    <archetypes>
+      <archetype name="maven-adf-archetype" 
+            description="Archetype to ease the burden of creating a new application based with ADF"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://people.apache.org/repo/m2-snapshot-repository</repository>
+    </repositories>
+  </group>
+
+  <group name="DataBinder" groupId="net.databinder" version="0.4">
+    <archetypes>
+      <archetype name="data-app" 
+                 description="A new Databinder application with sources and resources."/>
+    </archetypes>
+  </group>
+
+  <group name="Jini" groupId="org.jini.maven-jini-plugin" version="2.0">
+    <archetypes>
+      <archetype name="jini-service-archetype" 
+                 description="Archetype for Jini service project creation."/>
+    </archetypes>
+  </group>
+
+  <group name="Softeu" groupId="org.apache.maven.archetypes" prefix="softeu-archetype-" version="1.0">
+    <archetypes>
+      <archetype name="seam" version="1.5.8" 
+            description="JSF+Facelets+Seam Archetype"/>
+
+      <archetype name="seam-simple" version="1.3" 
+            description="JSF+Facelets+Seam (no persistence) Archetype"/>
+
+      <archetype name="jsf" version="1.0.3"
+            description="JSF+Facelets Archetype"/>
+    </archetypes>
+
+    <repositories>
+      <repository>http://maven.softeu.cz</repository>
+    </repositories>
+  </group>
+
+</groups>

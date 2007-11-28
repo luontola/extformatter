@@ -1,0 +1,21 @@
+<assembly>
+  <id>src</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+
+  <fileSets>
+    <fileSet>
+      <includes>
+        <include>*.ipr</include>
+        <!--<include>*.iws</include>-->
+        <include>*.iml</include>
+        <include>*.txt</include>
+        <include>*.xml</include>
+
+        <include>src/**</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+
+</assembly>

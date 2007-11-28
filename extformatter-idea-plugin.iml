@@ -13,7 +13,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="cglib:cglib-nodep:2.1_3">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar!/" />
@@ -26,7 +26,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="junit:junit:4.3">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/junit/junit/4.3/junit-4.3.jar!/" />
@@ -39,7 +39,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="org.hamcrest:hamcrest-api:1.0">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/org/hamcrest/hamcrest-api/1.0/hamcrest-api-1.0.jar!/" />
@@ -52,7 +52,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="org.hamcrest:hamcrest-library:1.0">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/org/hamcrest/hamcrest-library/1.0/hamcrest-library-1.0.jar!/" />
@@ -65,7 +65,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="org.jdave:jdave-core:0.9.0">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/org/jdave/jdave-core/0.9.0/jdave-core-0.9.0.jar!/" />
@@ -78,7 +78,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="org.jdave:jdave-junit4:0.9.0">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/org/jdave/jdave-junit4/0.9.0/jdave-junit4-0.9.0.jar!/" />
@@ -91,7 +91,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="org.jmock:jmock-legacy:2.1.0">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/org/jmock/jmock-legacy/2.1.0/jmock-legacy-2.1.0.jar!/" />
@@ -104,7 +104,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="org.jmock:jmock:2.1.0">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/org/jmock/jmock/2.1.0/jmock-2.1.0.jar!/" />
@@ -117,7 +117,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="org.objenesis:objenesis:1.0">
         <CLASSES>
           <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/org/objenesis/objenesis/1.0/objenesis-1.0.jar!/" />

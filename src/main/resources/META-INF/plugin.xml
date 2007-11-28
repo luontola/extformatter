@@ -1,16 +1,20 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
 <idea-plugin>
+
     <name>External Code Formatter</name>
+    <id>ExternalCodeFormatter</id>
     <description>Allows using external code formatters, such as Eclipse's code formatter, from within IntelliJ IDEA.</description>
+    <category>Formatting</category>
     <version>1.0.0</version>
-    <idea-version since-build="7364"/>
 
     <vendor url="http://www.orfjackal.net">Esko Luontola</vendor>
+
+    <idea-version since-build="7364"/>
 
     <change-notes><![CDATA[
         <p>1.0.0 - Initial release</p>
     ]]></change-notes>
-    
+
 </idea-plugin>
 
 <!--

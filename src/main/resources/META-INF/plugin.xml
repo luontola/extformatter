@@ -1,5 +1,19 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin>
+    <name>External Code Formatter</name>
+    <description>Allows using external code formatters, such as Eclipse's code formatter, from within IntelliJ IDEA.</description>
+    <version>1.0.0</version>
+    <idea-version since-build="7364"/>
 
+    <vendor url="http://www.orfjackal.net">Esko Luontola</vendor>
+
+    <change-notes><![CDATA[
+        <p>1.0.0 - Initial release</p>
+    ]]></change-notes>
+    
+</idea-plugin>
+
+<!--
 <idea-plugin url="http://code.google.com/p/maven-archetypes-idea-plugin">
   <name>Maven Archetypes</name>
 
@@ -22,16 +36,16 @@
     </ul>
 
     Changes:
-     1. Initial implementation. 
+     1. Initial implementation.
   ]]></change-notes>
-  
+
   <project-components>
-    <!--
+    <!- -
     <component>
       <implementation-class>org.google.code.archetypes.ArchetypesConfiguration</implementation-class>
       <option name="workspace" value="true"/>
     </component>
-     -->
+     - ->
 
     <component>
       <implementation-class>org.google.code.archetypes.ArchetypesToolWindow</implementation-class>
@@ -46,3 +60,4 @@
 
  <depends>org.jetbrains.idea.maven</depends>
 </idea-plugin>
+-->

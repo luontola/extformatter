@@ -9,10 +9,11 @@
     <packaging>jar</packaging>
     <properties>
         <idea.version>7.0.1.7364</idea.version>
+        <idea.pluginId>ExternalCodeFormatter</idea.pluginId>
     </properties>
 
     <name>External Code Formatter</name>
-    <description>Intellij IDEA plugin for using external code formatters, such as Eclipse's code formatter.</description>
+    <description>Intellij IDEA plugin for using external code formatters.</description>
     <url>http://www.orfjackal.net</url>
     <inceptionYear>2007</inceptionYear>
 
@@ -118,8 +119,6 @@
                         <descriptor>src/main/assembly/assembly-dist-descriptor.xml</descriptor>
                         <descriptor>src/main/assembly/assembly-src-descriptor.xml</descriptor>
                     </descriptors>
-                    <finalName>${project.artifactId}</finalName>
-                    <!--<finalName>${project.artifactId}-${project.version}</finalName>-->
                 </configuration>
                 <executions>
                     <execution>

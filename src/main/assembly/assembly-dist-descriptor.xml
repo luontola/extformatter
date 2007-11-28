@@ -4,6 +4,7 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>true</includeBaseDirectory>
+    <baseDirectory>${idea.pluginId}</baseDirectory>
     <fileSets>
         <fileSet>
             <directory>target</directory>
@@ -19,15 +20,6 @@
                 <include>META-INF/plugin.xml</include>
             </includes>
         </fileSet>
-        <!--
-        <fileSet>
-            <directory>src/main/resources</directory>
-            <outputDirectory></outputDirectory>
-            <includes>
-                <include>META-INF/plugin.xml</include>
-            </includes>
-        </fileSet>
-        -->
     </fileSets>
     <dependencySets>
         <dependencySet>

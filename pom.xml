@@ -7,6 +7,9 @@
     <artifactId>extformatter-idea-plugin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <properties>
+        <idea.version>7.0.1.7364</idea.version>
+    </properties>
 
     <name>External Code Formatter</name>
     <description>Intellij IDEA plugin for using external code formatters, such as Eclipse's code formatter.</description>
@@ -51,32 +54,21 @@
             <groupId>com.intellij.idea</groupId>
             <artifactId>openapi</artifactId>
             <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/openapi.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.intellij.idea</groupId>
             <artifactId>extensions</artifactId>
             <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/extensions.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.intellij.idea</groupId>
             <artifactId>annotations</artifactId>
             <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/annotations.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.intellij.idea</groupId>
-            <artifactId>jdom</artifactId>
-            <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/jdom.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
 
         <!-- JDave -->
@@ -92,7 +84,22 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}-${project.version}</finalName>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/plugin.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/plugin.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
 
         <plugins>
             <plugin>
@@ -108,10 +115,30 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/main/assembly/src.xml</descriptor>
+                        <descriptor>src/main/assembly/assembly-dist-descriptor.xml</descriptor>
+                        <descriptor>src/main/assembly/assembly-src-descriptor.xml</descriptor>
                     </descriptors>
-                    <finalName>${project.build.finalName}</finalName>
+                    <finalName>${project.artifactId}</finalName>
+                    <!--<finalName>${project.artifactId}-${project.version}</finalName>-->
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>dist</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>directory-inline</goal>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>src</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>directory-inline</goal>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

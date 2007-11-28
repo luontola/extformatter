@@ -5,7 +5,7 @@
     <id>ExternalCodeFormatter</id>
     <description>Allows using external code formatters, such as Eclipse's code formatter, from within IntelliJ IDEA.</description>
     <category>Formatting</category>
-    <version>1.0.0</version>
+    <version>${project.version}</version>
 
     <vendor url="http://www.orfjackal.net">Esko Luontola</vendor>
 

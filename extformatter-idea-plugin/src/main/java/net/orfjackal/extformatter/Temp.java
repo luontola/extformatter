@@ -22,4 +22,8 @@ package net.orfjackal.extformatter;
  * @since 28.11.2007
  */
 public class Temp {
+
+    public Temp() {
+        new Temp2();
+    }
 }

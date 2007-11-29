@@ -78,6 +78,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="extformatter-core" exported="" />
     <orderEntry type="module-library" exported="">
       <library name="org.hamcrest:hamcrest-api:1.0">
         <CLASSES>

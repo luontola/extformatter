@@ -13,6 +13,7 @@
     <artifactId>extformatter-idea-plugin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>extformatter-idea-plugin</name>
 
     <dependencies>
         <dependency>

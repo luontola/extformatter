@@ -121,30 +121,10 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/main/assembly/assembly-bin-descriptor.xml</descriptor>
-                        <descriptor>src/main/assembly/assembly-src-descriptor.xml</descriptor>
+                        <descriptor>src/assembly/bin.xml</descriptor>
+                        <descriptor>src/assembly/src.xml</descriptor>
                     </descriptors>
                 </configuration>
-                <!--
-                <executions>
-                    <execution>
-                        <id>bin</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>directory-inline</goal>
-                            <goal>attached</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>src</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>directory-inline</goal>
-                            <goal>attached</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                -->
             </plugin>
 
             <plugin>

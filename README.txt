@@ -9,7 +9,8 @@ within IDEA.
     BUILDING
 
 1. Configure IDEA_HOME in "idea-install-files.bat" and run the file
-   to add the necessary jars to your local maven repository.
+   to add the necessary jars to your local maven repository. You need
+   to do this only once.
 
 2. Run the following command
         mvn clean package assembly:assembly

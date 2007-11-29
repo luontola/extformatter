@@ -5,12 +5,28 @@
     <formats>
         <format>zip</format>
     </formats>
+    <!--
+    <moduleSets>
+    	<moduleSet>
+    	    <includes>
+    	    	<include>net.orfjackal.extformatter:extformatter-idea-plugin</include>
+    	    	<include>net.orfjackal.extformatter:extformatter-core</include>
+    	    </includes>
+    	    <sources>
+        	<outputDirectory>sources/${artifactId}</outputDirectory>
+      	    </sources>
+    	</moduleSet>
+    </moduleSets>
+    -->
+    
     <fileSets>
         <fileSet>
             <excludes>
                 <exclude>*.iws</exclude>
                 <exclude>target/**</exclude>
+                <exclude>*/target/**</exclude>
             </excludes>
         </fileSet>
     </fileSets>
+    
 </assembly>

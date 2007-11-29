@@ -7,6 +7,19 @@
     </formats>
     <includeBaseDirectory>true</includeBaseDirectory>
     <baseDirectory>${idea.pluginId}</baseDirectory>
+    <moduleSets>
+    	<moduleSet>
+    	    <includes>
+    	    	<include>net.orfjackal.extformatter:extformatter-idea-plugin</include>
+    	    	<include>net.orfjackal.extformatter:extformatter-core</include>
+    	    </includes>
+    	    <binaries>
+        	<outputDirectory>lib</outputDirectory>
+        	<unpack>false</unpack>
+      	    </binaries>
+    	</moduleSet>
+    </moduleSets>
+    <!--
     <fileSets>
         <fileSet>
             <directory>target</directory>
@@ -14,7 +27,7 @@
             <includes>
                 <include>*.jar</include>
             </includes>
-        </fileSet>
+        </fileSet>-->
         <!--
         <fileSet>
             <directory>target/classes</directory>
@@ -24,7 +37,8 @@
             </includes>
         </fileSet>
         -->
-    </fileSets>
+    <!--</fileSets>
+    -->
     <!--
     <dependencySets>
         <dependencySet>

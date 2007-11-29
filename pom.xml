@@ -4,9 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.orfjackal.extformatter</groupId>
-    <artifactId>extformatter-idea-plugin</artifactId>
+    <artifactId>extformatter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+    <modules>
+    	<module>extformatter-core</module>
+    	<module>extformatter-idea-plugin</module>
+    </modules>
     <properties>
         <idea.version>7.0.1.7364</idea.version>
         <idea.pluginId>ExternalCodeFormatter</idea.pluginId>
@@ -121,6 +125,7 @@
                         <descriptor>src/main/assembly/assembly-src-descriptor.xml</descriptor>
                     </descriptors>
                 </configuration>
+                <!--
                 <executions>
                     <execution>
                         <id>bin</id>
@@ -139,6 +144,7 @@
                         </goals>
                     </execution>
                 </executions>
+                -->
             </plugin>
 
             <plugin>

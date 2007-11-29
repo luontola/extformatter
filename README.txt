@@ -16,16 +16,15 @@ into IDEA.
    installation of version IDEA_VERSION. Run the file to add the necessary jars 
    to your local maven repository. You need to do this only once.
 
-2. Run the following command
+2. Run the following command in the root source directory
         mvn clean package assembly:assembly
 
-3. Collect the *-bin.zip and *-src.zip files from /target directory.
+3. Collect the *-bin.zip and *-src.zip files from the /target directory.
 
 
     INSTALLING
 
-1. Unpack the binary release to
-   "C:\Documents and Settings\YourUsername\.IntelliJIdea70\config\plugins"
+1. Unpack the binary release to %HOMEPATH%\.IntelliJIdea70\config\plugins
    or use IDEA's plugin manager to install it automatically.
 
 2. Follow the instructions in the plugin's configuration dialog.

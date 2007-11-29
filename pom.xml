@@ -35,6 +35,11 @@
         </developer>
     </developers>
 
+    <scm>
+        <developerConnection>scm:svn:svn+ssh://orfjackal@tux/var/svn/orfjackal/extformatter/trunk</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <repositories>
         <repository>
             <id>laughing-panda</id>

@@ -15,6 +15,7 @@
                 <include>*.jar</include>
             </includes>
         </fileSet>
+        <!--
         <fileSet>
             <directory>target/classes</directory>
             <outputDirectory>/</outputDirectory>
@@ -22,6 +23,7 @@
                 <include>META-INF/plugin.xml</include>
             </includes>
         </fileSet>
+        -->
     </fileSets>
     <!--
     <dependencySets>

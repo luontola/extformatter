@@ -17,11 +17,121 @@
 
 package net.orfjackal.extformatter;
 
+import java.io.*;
+
 /**
  * @author Esko Luontola
  * @since 1.12.2007
  */
 public class EclipseFormatterManualTests {
 
+    private static File testfilesDir;
+    private static File fooFile;
+    private static File barFile;
+    private static File bazFile;
 
+    public static class FormatSingleFile {
+
+        /**
+         * Expected: The file "Foo.java" formatted according to Eclipse's rules. Other files untouched.
+         */
+        public static void main(String[] args) {
+            prepareTestFiles();
+            Formatter formatter = new EclipseFormatter();
+            formatter.reformatFile(fooFile);
+            showResultingFiles();
+        }
+    }
+
+    public static class FormatFilesInDirectory {
+
+        /**
+         * Expected: The files "Foo.java" and "Bar.java" formatted according to Eclipse's rules. Other files untouched.
+         */
+        public static void main(String[] args) {
+            prepareTestFiles();
+            Formatter formatter = new EclipseFormatter();
+            formatter.reformatFilesInDirectory(testfilesDir);
+            showResultingFiles();
+        }
+    }
+
+    public static class FormatFileInDirectoryRecursively {
+
+        /**
+         * Expected: All files formatted according to Eclipse's rules.
+         */
+        public static void main(String[] args) {
+            prepareTestFiles();
+            Formatter formatter = new EclipseFormatter();
+            formatter.reformatFilesInDirectoryRecursively(testfilesDir);
+            showResultingFiles();
+        }
+    }
+
+    private static void prepareTestFiles() {
+        File tempDir = new File(System.getProperty("java.io.tmpdir"), EclipseFormatterManualTests.class.getName());
+        testfilesDir = new File(tempDir, "testfiles");
+        File testfilesSubdir = new File(testfilesDir, "subdir");
+        tempDir.mkdir();
+        testfilesDir.mkdir();
+        testfilesSubdir.mkdir();
+
+        fooFile = new File(testfilesDir, "Foo.java");
+        barFile = new File(testfilesDir, "Bar.java");
+        bazFile = new File(testfilesSubdir, "Baz.java");
+        copy(TestResources.FOO_FILE, fooFile);
+        copy(TestResources.BAR_FILE, barFile);
+        copy(TestResources.BAZ_FILE, bazFile);
+
+        deleteOnExit(tempDir, testfilesDir, testfilesSubdir, fooFile, barFile, bazFile);
+    }
+
+    private static void copy(File from, File to) {
+        try {
+            InputStream readFrom = new FileInputStream(from);
+            OutputStream writeTo = new FileOutputStream(to);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = readFrom.read(buf)) > 0) {
+                writeTo.write(buf, 0, len);
+            }
+            readFrom.close();
+            writeTo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void deleteOnExit(File... files) {
+        for (File file : files) {
+            file.deleteOnExit();
+        }
+    }
+
+    private static void showResultingFiles() {
+        System.out.println("--- testfiles/Foo.java ---");
+        System.out.println(contentsOf(fooFile));
+        System.out.println("--- testfiles/Bar.java ---");
+        System.out.println(contentsOf(barFile));
+        System.out.println("--- testfiles/subdir/Baz.java ---");
+        System.out.println(contentsOf(bazFile));
+        System.out.println("--- END ---");
+    }
+
+    private static String contentsOf(File file) {
+        try {
+            Reader reader = new FileReader(file);
+            char[] buf = new char[1024];
+            int len;
+            StringBuilder sb = new StringBuilder();
+            while ((len = reader.read(buf)) > 0) {
+                sb.append(buf, 0, len);
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

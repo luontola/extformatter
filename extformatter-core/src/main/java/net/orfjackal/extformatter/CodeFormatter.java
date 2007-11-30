@@ -25,7 +25,7 @@ import java.io.File;
  * @author Esko Luontola
  * @since 30.11.2007
  */
-public interface Formatter {
+public interface CodeFormatter {
 
     void reformatFile(@NotNull File file);
 

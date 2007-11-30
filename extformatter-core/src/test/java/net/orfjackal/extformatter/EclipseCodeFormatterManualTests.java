@@ -23,7 +23,9 @@ import java.io.*;
  * @author Esko Luontola
  * @since 1.12.2007
  */
-public class EclipseFormatterManualTests {
+public class EclipseCodeFormatterManualTests {
+
+    private static File eclipsePrefsFile;
 
     private static File testfilesDir;
     private static File fooFile;
@@ -37,7 +39,7 @@ public class EclipseFormatterManualTests {
          */
         public static void main(String[] args) {
             prepareTestFiles();
-            Formatter formatter = new EclipseFormatter();
+            CodeFormatter formatter = new EclipseCodeFormatter(eclipsePrefsFile);
             formatter.reformatFile(fooFile);
             showResultingFiles();
         }
@@ -50,7 +52,7 @@ public class EclipseFormatterManualTests {
          */
         public static void main(String[] args) {
             prepareTestFiles();
-            Formatter formatter = new EclipseFormatter();
+            CodeFormatter formatter = new EclipseCodeFormatter(eclipsePrefsFile);
             formatter.reformatFilesInDirectory(testfilesDir);
             showResultingFiles();
         }
@@ -63,28 +65,30 @@ public class EclipseFormatterManualTests {
          */
         public static void main(String[] args) {
             prepareTestFiles();
-            Formatter formatter = new EclipseFormatter();
+            CodeFormatter formatter = new EclipseCodeFormatter(eclipsePrefsFile);
             formatter.reformatFilesInDirectoryRecursively(testfilesDir);
             showResultingFiles();
         }
     }
 
     private static void prepareTestFiles() {
-        File tempDir = new File(System.getProperty("java.io.tmpdir"), EclipseFormatterManualTests.class.getName());
+        File tempDir = new File(System.getProperty("java.io.tmpdir"), EclipseCodeFormatterManualTests.class.getName());
         testfilesDir = new File(tempDir, "testfiles");
         File testfilesSubdir = new File(testfilesDir, "subdir");
         tempDir.mkdir();
         testfilesDir.mkdir();
         testfilesSubdir.mkdir();
 
+        eclipsePrefsFile = new File(tempDir, "org.eclipse.jdt.core.prefs");
         fooFile = new File(testfilesDir, "Foo.java");
         barFile = new File(testfilesDir, "Bar.java");
         bazFile = new File(testfilesSubdir, "Baz.java");
+        copy(TestResources.ECLIPSE_PREFS_FILE, eclipsePrefsFile);
         copy(TestResources.FOO_FILE, fooFile);
         copy(TestResources.BAR_FILE, barFile);
         copy(TestResources.BAZ_FILE, bazFile);
 
-        deleteOnExit(tempDir, testfilesDir, testfilesSubdir, fooFile, barFile, bazFile);
+        deleteOnExit(tempDir, testfilesDir, testfilesSubdir, eclipsePrefsFile, fooFile, barFile, bazFile);
     }
 
     private static void copy(File from, File to) {

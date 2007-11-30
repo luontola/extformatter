@@ -25,7 +25,13 @@ import java.io.File;
  * @author Esko Luontola
  * @since 1.12.2007
  */
-public class EclipseFormatter implements Formatter {
+public class EclipseCodeFormatter implements CodeFormatter {
+
+    private File eclipsePrefsFile;
+
+    public EclipseCodeFormatter(@NotNull File eclipsePrefsFile) {
+        this.eclipsePrefsFile = eclipsePrefsFile;
+    }
 
     public void reformatFile(@NotNull File file) {
         // TODO

@@ -25,6 +25,6 @@ public class Temp {
 
     public Temp() {
         // DEBUG: makes sure that dependencies to extformatter-core work
-        System.out.println(Formatter.class);
+        System.out.println(CodeFormatter.class);
     }
 }

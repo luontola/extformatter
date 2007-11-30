@@ -29,16 +29,16 @@ import org.junit.runner.RunWith;
  * @since 30.11.2007
  */
 @RunWith(JDaveRunner.class)
-public class CommandLineFormatterSpec extends Specification<Formatter> {
+public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
 
     public class FormatterWithAllCommandsSpecified {
 
         private Executer executer;
-        private Formatter formatter;
+        private CodeFormatter formatter;
 
-        public Formatter create() {
+        public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineFormatter(executer, "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%");
+            formatter = new CommandLineCodeFormatter(executer, "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%");
             return formatter;
         }
 
@@ -67,11 +67,11 @@ public class CommandLineFormatterSpec extends Specification<Formatter> {
     public class FormatterWithNoRecursiveCommandSpecified {
 
         private Executer executer;
-        private Formatter formatter;
+        private CodeFormatter formatter;
 
-        public Formatter create() {
+        public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineFormatter(executer, "format %FILE%", "formatDir %DIRECTORY%", null);
+            formatter = new CommandLineCodeFormatter(executer, "format %FILE%", "formatDir %DIRECTORY%", null);
             return formatter;
         }
 
@@ -87,11 +87,11 @@ public class CommandLineFormatterSpec extends Specification<Formatter> {
     public class FormatterWithNoDirectoryCommandSpecified {
 
         private Executer executer;
-        private Formatter formatter;
+        private CodeFormatter formatter;
 
-        public Formatter create() {
+        public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineFormatter(executer, "format %FILE%", null, null);
+            formatter = new CommandLineCodeFormatter(executer, "format %FILE%", null, null);
             return formatter;
         }
 
@@ -115,11 +115,11 @@ public class CommandLineFormatterSpec extends Specification<Formatter> {
 
     public class FormatterWithNoSingleFileCommandSpecified {
 
-        private Formatter formatter;
+        private CodeFormatter formatter;
 
-        public Formatter create() {
+        public CodeFormatter create() {
             Executer executer = mock(Executer.class);
-            formatter = new CommandLineFormatter(executer, null, null, null);
+            formatter = new CommandLineCodeFormatter(executer, null, null, null);
             return formatter;
         }
 

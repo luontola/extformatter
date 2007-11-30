@@ -28,15 +28,15 @@ import java.util.regex.Matcher;
  * @author Esko Luontola
  * @since 30.11.2007
  */
-public class CommandLineFormatter implements Formatter {
+public class CommandLineCodeFormatter implements CodeFormatter {
 
     @NotNull private Executer executer;
     @Nullable private String singleFileCommand;
     @Nullable private String directoryCommand;
     @Nullable private String recursiveDirectoryCommand;
 
-    public CommandLineFormatter(@NotNull Executer executer, @Nullable String singleFileCommand,
-                                @Nullable String directoryCommand, @Nullable String recursiveDirectoryCommand) {
+    public CommandLineCodeFormatter(@NotNull Executer executer, @Nullable String singleFileCommand,
+                                    @Nullable String directoryCommand, @Nullable String recursiveDirectoryCommand) {
         this.executer = executer;
         this.singleFileCommand = singleFileCommand;
         this.directoryCommand = directoryCommand;

@@ -1,4 +1,4 @@
-package testFiles;
+package testfiles;
 
 public class Foo {
 

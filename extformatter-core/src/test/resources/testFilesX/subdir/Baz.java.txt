@@ -1,0 +1,5 @@
+package testfiles.subdir;
+
+public class Baz {
+
+}

@@ -18,6 +18,8 @@
 package net.orfjackal.extformatter;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * @author Esko Luontola
@@ -25,10 +27,22 @@ import java.io.File;
  */
 public class TestResources {
 
-    public static final File TEST_DIR = new File("testFiles");
-    public static final File FOO_FILE = new File(TEST_DIR, "Foo.java");
-    public static final File BAR_FILE = new File(TEST_DIR, "Bar.java");
+    public static final File TEST_DIR = file("/testFiles");
+    public static final File FOO_FILE = file("/testFiles/Foo.java.txt");
+    public static final File BAR_FILE = file("/testFiles/Bar.java.txt");
+    public static final File TEST_SUBDIR = file("/testFiles/subdir");
+    public static final File BAZ_FILE = file("/testFiles/subdir/Baz.java.txt");
 
     private TestResources() {
+    }
+
+    private static File file(String path) {
+        try {
+            URL resource = TestResources.class.getResource(path);
+            System.out.println("resource = " + resource);
+            return new File(resource.toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

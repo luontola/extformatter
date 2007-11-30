@@ -8,7 +8,7 @@
     <fileSets>
         <fileSet>
             <excludes>
-                <exclude>*.iws</exclude>
+                <!--<exclude>*.iws</exclude>-->
                 <exclude>target/**</exclude>
                 <exclude>*/target/**</exclude>
             </excludes>

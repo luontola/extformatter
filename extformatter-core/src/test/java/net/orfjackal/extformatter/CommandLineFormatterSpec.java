@@ -38,7 +38,7 @@ public class CommandLineFormatterSpec extends Specification<Formatter> {
 
         public Formatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineFormatter(executer, "format %FILE%", "formatDir %FILE%", "formatDirRec %FILE%");
+            formatter = new CommandLineFormatter(executer, "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%");
             return formatter;
         }
 
@@ -71,7 +71,7 @@ public class CommandLineFormatterSpec extends Specification<Formatter> {
 
         public Formatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineFormatter(executer, "format %FILE%", "formatDir %FILE%", null);
+            formatter = new CommandLineFormatter(executer, "format %FILE%", "formatDir %DIRECTORY%", null);
             return formatter;
         }
 

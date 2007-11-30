@@ -43,8 +43,15 @@ public class CommandLineFormatter implements Formatter {
         this.recursiveDirectoryCommand = recursiveDirectoryCommand;
     }
 
-    private String parsed(@NotNull String rawCommand, @NotNull File file) {
-        return rawCommand.replaceAll("%FILE%", Matcher.quoteReplacement(file.getPath()));
+    private String parsed(@NotNull String command, @NotNull File file) {
+        if (file.isFile()) {
+            command = command.replaceAll("%FILE%", Matcher.quoteReplacement(file.getPath()));
+        } else if (file.isDirectory()) {
+            command = command.replaceAll("%DIRECTORY%", Matcher.quoteReplacement(file.getPath()));
+        } else {
+            throw new IllegalArgumentException("Not a file nor a directory: " + file);
+        }
+        return command;
     }
 
     public void reformatFile(@NotNull File file) {

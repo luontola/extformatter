@@ -28,4 +28,7 @@ public class TestResources {
     public static final File TEST_DIR = new File("testFiles");
     public static final File FOO_FILE = new File(TEST_DIR, "Foo.java");
     public static final File BAR_FILE = new File(TEST_DIR, "Bar.java");
+
+    private TestResources() {
+    }
 }

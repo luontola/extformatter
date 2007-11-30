@@ -24,6 +24,7 @@ package net.orfjackal.extformatter;
 public class Temp {
 
     public Temp() {
-        new Temp2();
+        // DEBUG: makes sure that dependencies to extformatter-core work
+        System.out.println(Formatter.class);
     }
 }

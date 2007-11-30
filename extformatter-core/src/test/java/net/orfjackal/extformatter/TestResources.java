@@ -27,11 +27,11 @@ import java.net.URL;
  */
 public class TestResources {
 
-    public static final File TEST_DIR = file("/testFiles");
-    public static final File FOO_FILE = file("/testFiles/Foo.java.txt");
-    public static final File BAR_FILE = file("/testFiles/Bar.java.txt");
-    public static final File TEST_SUBDIR = file("/testFiles/subdir");
-    public static final File BAZ_FILE = file("/testFiles/subdir/Baz.java.txt");
+    public static final File TESTFILES_DIR = file("/testfiles");
+    public static final File FOO_FILE = file("/testfiles/Foo.java.txt");
+    public static final File BAR_FILE = file("/testfiles/Bar.java.txt");
+    public static final File TESTFILES_SUBDIR = file("/testfiles/subdir");
+    public static final File BAZ_FILE = file("/testfiles/subdir/Baz.java.txt");
 
     private TestResources() {
     }
@@ -39,7 +39,7 @@ public class TestResources {
     private static File file(String path) {
         try {
             URL resource = TestResources.class.getResource(path);
-            System.out.println("resource = " + resource);
+            assert resource != null : path;
             return new File(resource.toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);

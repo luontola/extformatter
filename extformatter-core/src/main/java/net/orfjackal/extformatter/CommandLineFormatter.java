@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.regex.Matcher;
 
 /**
@@ -42,19 +43,46 @@ public class CommandLineFormatter implements Formatter {
         this.recursiveDirectoryCommand = recursiveDirectoryCommand;
     }
 
-    private String parsed(String rawCommand, File file) {
+    private String parsed(@NotNull String rawCommand, @NotNull File file) {
         return rawCommand.replaceAll("%FILE%", Matcher.quoteReplacement(file.getPath()));
     }
 
-    public void reformatSingleFile(@NotNull File file) {
-        executer.execute(parsed(singleFileCommand, file));
+    public void reformatFile(@NotNull File file) {
+        if (singleFileCommand != null) {
+            executer.execute(parsed(singleFileCommand, file));
+        } else {
+            throw new IllegalStateException("Formatting a single file is not supported");
+        }
     }
 
     public void reformatFilesInDirectory(@NotNull File directory) {
-        executer.execute(parsed(directoryCommand, directory));
+        if (directoryCommand != null) {
+            executer.execute(parsed(directoryCommand, directory));
+        } else {
+            File[] files = directory.listFiles(new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.isFile();
+                }
+            });
+            for (File file : files) {
+                reformatFile(file);
+            }
+        }
     }
 
     public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
-        executer.execute(parsed(recursiveDirectoryCommand, directory));
+        if (recursiveDirectoryCommand != null) {
+            executer.execute(parsed(recursiveDirectoryCommand, directory));
+        } else {
+            File[] subDirs = directory.listFiles(new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.isDirectory();
+                }
+            });
+            reformatFilesInDirectory(directory);
+            for (File dir : subDirs) {
+                reformatFilesInDirectoryRecursively(dir);
+            }
+        }
     }
 }

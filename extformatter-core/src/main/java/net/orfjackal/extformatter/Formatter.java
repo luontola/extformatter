@@ -27,7 +27,7 @@ import java.io.File;
  */
 public interface Formatter {
 
-    void reformatSingleFile(@NotNull File file);
+    void reformatFile(@NotNull File file);
 
     void reformatFilesInDirectory(@NotNull File directory);
 

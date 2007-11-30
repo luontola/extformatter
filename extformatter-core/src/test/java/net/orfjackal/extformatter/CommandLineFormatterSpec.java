@@ -17,12 +17,12 @@
 
 package net.orfjackal.extformatter;
 
+import jdave.Block;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
+import static net.orfjackal.extformatter.TestResources.*;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
-
-import java.io.File;
 
 /**
  * @author Esko Luontola
@@ -43,27 +43,108 @@ public class CommandLineFormatterSpec extends Specification<Formatter> {
         }
 
         public void shouldExecuteCommandForSingleFile() {
-            final File file = TestResources.FOO_FILE;
             checking(new Expectations() {{
-                one(executer).execute("format " + file);
+                one(executer).execute("format " + FOO_FILE);
             }});
-            formatter.reformatSingleFile(file);
+            formatter.reformatFile(FOO_FILE);
         }
 
         public void shouldExecuteCommandForFilesInDirectory() {
-            final File directory = TestResources.TEST_DIR;
             checking(new Expectations() {{
-                one(executer).execute("formatDir " + directory);
+                one(executer).execute("formatDir " + TESTFILES_DIR);
             }});
-            formatter.reformatFilesInDirectory(directory);
+            formatter.reformatFilesInDirectory(TESTFILES_DIR);
         }
 
         public void shouldExecuteCommandForFilesInDirectoryRecursively() {
-            final File directory = TestResources.TEST_DIR;
             checking(new Expectations() {{
-                one(executer).execute("formatDirRec " + directory);
+                one(executer).execute("formatDirRec " + TESTFILES_DIR);
             }});
-            formatter.reformatFilesInDirectoryRecursively(directory);
+            formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+        }
+    }
+
+    public class FormatterWithNoRecursiveCommandSpecified {
+
+        private Executer executer;
+        private Formatter formatter;
+
+        public Formatter create() {
+            executer = mock(Executer.class);
+            formatter = new CommandLineFormatter(executer, "format %FILE%", "formatDir %FILE%", null);
+            return formatter;
+        }
+
+        public void shouldUseDirectoryCommandInsteadOfRecursiveDirectoryCommand() {
+            checking(new Expectations() {{
+                one(executer).execute("formatDir " + TESTFILES_DIR);
+                one(executer).execute("formatDir " + TESTFILES_SUBDIR);
+            }});
+            formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+        }
+    }
+
+    public class FormatterWithNoDirectoryCommandSpecified {
+
+        private Executer executer;
+        private Formatter formatter;
+
+        public Formatter create() {
+            executer = mock(Executer.class);
+            formatter = new CommandLineFormatter(executer, "format %FILE%", null, null);
+            return formatter;
+        }
+
+        public void shouldUseSingleFileCommandInsteadOfDirectoryCommand() {
+            checking(new Expectations() {{
+                one(executer).execute("format " + FOO_FILE);
+                one(executer).execute("format " + BAR_FILE);
+            }});
+            formatter.reformatFilesInDirectory(TESTFILES_DIR);
+        }
+
+        public void shouldUseSingleFileCommandInsteadOfRecursiveDirectoryCommand() {
+            checking(new Expectations() {{
+                one(executer).execute("format " + FOO_FILE);
+                one(executer).execute("format " + BAR_FILE);
+                one(executer).execute("format " + BAZ_FILE);
+            }});
+            formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+        }
+    }
+
+    public class FormatterWithNoSingleFileCommandSpecified {
+
+        private Formatter formatter;
+
+        public Formatter create() {
+            Executer executer = mock(Executer.class);
+            formatter = new CommandLineFormatter(executer, null, null, null);
+            return formatter;
+        }
+
+        public void shouldNotFormatSingleFile() {
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatFile(TESTFILES_DIR);
+                }
+            }, should.raise(IllegalStateException.class));
+        }
+
+        public void shouldNotFormatDirectory() {
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatFile(TESTFILES_DIR);
+                }
+            }, should.raise(IllegalStateException.class));
+        }
+
+        public void shouldNotFormatDirectoryRecursively() {
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatFile(TESTFILES_DIR);
+                }
+            }, should.raise(IllegalStateException.class));
         }
     }
 }

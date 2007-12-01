@@ -5,7 +5,11 @@
     <id>${plugin.id}</id>
     <version>${project.version}</version>
 
-    <description>Allows using external code formatters, such as Eclipse's code formatter, from within IntelliJ IDEA.</description>
+    <description>
+        Allows using external code formatters, such as Eclipse's code formatter, from within IntelliJ IDEA.
+        Solves the problem of maintaining a common code style in team environments where both IDEA and Eclipse
+        are being used.
+    </description>
     <category>Formatting</category>
 
     <vendor url="http://www.orfjackal.net">Esko Luontola</vendor>

@@ -20,6 +20,7 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Esko Luontola
@@ -29,14 +30,20 @@ public class EclipseCodeFormatter implements CodeFormatter {
 
     private File eclipseInstallDir;
     private File eclipsePrefsFile;
+    private Executer executer;
 
     public EclipseCodeFormatter(@NotNull File eclipseInstallDir, @NotNull File eclipsePrefsFile) {
         this.eclipseInstallDir = eclipseInstallDir;
         this.eclipsePrefsFile = eclipsePrefsFile;
+        this.executer = new ExecuterImpl();
     }
 
     public void reformatFile(@NotNull File file) {
-        // TODO
+        try {
+            executer.execute(commandFor(quoted(file.getCanonicalPath())));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void reformatFilesInDirectory(@NotNull File directory) {
@@ -45,5 +52,26 @@ public class EclipseCodeFormatter implements CodeFormatter {
 
     public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
         // TODO
+    }
+
+    private String commandFor(String path) {
+        // At least this command worked for me:
+        // C:\eclipse-SDK-3.3.1-win32\eclipse>eclipse -vm "C:\Program Files\Java\jre1.6.0_02\bin\java.exe"
+        //      -application org.eclipse.jdt.core.JavaCodeFormatter -verbose
+        //      -config C:\eclipse-SDK-3.3.1-win32\workspace\foo\.settings\org.eclipse.jdt.core.prefs
+        //      C:\Temp\weenyconsole\src\main\java\net\orfjackal\weenyconsole\*.java
+        try {
+            String eclipse = quoted(new File(eclipseInstallDir, "eclipse").getCanonicalPath());
+            String java = quoted(new File(System.getProperty("java.home"), "bin/java").getCanonicalPath());
+            String config = quoted(eclipsePrefsFile.getCanonicalPath());
+            return eclipse + " -application org.eclipse.jdt.core.JavaCodeFormatter -verbose"
+                    + " -vm " + java + " -config " + config + " " + path;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String quoted(String s) {
+        return '"' + s + '"';
     }
 }

@@ -6,7 +6,7 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>true</includeBaseDirectory>
-    <baseDirectory>${idea.pluginId}</baseDirectory>
+    <baseDirectory>${plugin.id}</baseDirectory>
     <moduleSets>
         <moduleSet>
             <includes>

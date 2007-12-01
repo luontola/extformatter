@@ -13,7 +13,8 @@
     </modules>
     <properties>
         <idea.version>7.0.1.7364</idea.version>
-        <idea.pluginId>ExternalCodeFormatter</idea.pluginId>
+        <plugin.name>External Code Formatter</plugin.name>
+        <plugin.id>ExternalCodeFormatter</plugin.id>
     </properties>
 
     <name>External Code Formatter</name>

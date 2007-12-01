@@ -6,7 +6,7 @@
     <version>${project.version}</version>
 
     <description>
-        Allows using external code formatters, such as Eclipse's code formatter, from within IntelliJ IDEA.
+        Allows using external code formatters, especially Eclipse's code formatter, from within IntelliJ IDEA.
         Solves the problem of maintaining a common code style in team environments where both IDEA and Eclipse
         are being used.
     </description>

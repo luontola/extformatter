@@ -25,6 +25,8 @@ import java.io.*;
  */
 public class EclipseCodeFormatterManualTests {
 
+    private static File ECLIPSE_INSTALL_DIR = new File("C:/eclipse-SDK-3.3.1-win32/eclipse");
+
     private static File testfilesDir;
     private static File eclipsePrefsFile;
     private static File fooFile;
@@ -38,7 +40,7 @@ public class EclipseCodeFormatterManualTests {
          */
         public static void main(String[] args) {
             prepareTestFiles();
-            CodeFormatter formatter = new EclipseCodeFormatter(eclipsePrefsFile);
+            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
             formatter.reformatFile(fooFile);
             showResultingFiles();
         }
@@ -51,7 +53,7 @@ public class EclipseCodeFormatterManualTests {
          */
         public static void main(String[] args) {
             prepareTestFiles();
-            CodeFormatter formatter = new EclipseCodeFormatter(eclipsePrefsFile);
+            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
             formatter.reformatFilesInDirectory(testfilesDir);
             showResultingFiles();
         }
@@ -64,7 +66,7 @@ public class EclipseCodeFormatterManualTests {
          */
         public static void main(String[] args) {
             prepareTestFiles();
-            CodeFormatter formatter = new EclipseCodeFormatter(eclipsePrefsFile);
+            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
             formatter.reformatFilesInDirectoryRecursively(testfilesDir);
             showResultingFiles();
         }

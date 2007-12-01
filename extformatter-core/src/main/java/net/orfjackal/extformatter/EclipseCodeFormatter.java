@@ -27,9 +27,11 @@ import java.io.File;
  */
 public class EclipseCodeFormatter implements CodeFormatter {
 
+    private File eclipseInstallDir;
     private File eclipsePrefsFile;
 
-    public EclipseCodeFormatter(@NotNull File eclipsePrefsFile) {
+    public EclipseCodeFormatter(@NotNull File eclipseInstallDir, @NotNull File eclipsePrefsFile) {
+        this.eclipseInstallDir = eclipseInstallDir;
         this.eclipsePrefsFile = eclipsePrefsFile;
     }
 

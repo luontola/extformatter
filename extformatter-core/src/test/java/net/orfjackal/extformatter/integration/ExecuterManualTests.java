@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter;
+package net.orfjackal.extformatter.integration;
+
+import net.orfjackal.extformatter.Executer;
+import net.orfjackal.extformatter.ExecuterImpl;
 
 /**
  * @author Esko Luontola

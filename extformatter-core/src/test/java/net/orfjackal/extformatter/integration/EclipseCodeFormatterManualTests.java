@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter;
+package net.orfjackal.extformatter.integration;
+
+import net.orfjackal.extformatter.*;
 
 import java.io.*;
 

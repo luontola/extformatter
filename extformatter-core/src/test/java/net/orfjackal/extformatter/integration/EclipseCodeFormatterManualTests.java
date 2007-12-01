@@ -30,7 +30,8 @@ public class EclipseCodeFormatterManualTests {
     /**
      * "eclipsec.exe" does not pop up a black command line dialog, so it's best to use it instead of "eclipse.exe"
      */
-    private static final File ECLIPSE_EXECUTABLE = new File("C:/eclipse-SDK-3.3.1-win32/eclipse/eclipsec.exe");
+//    private static final File ECLIPSE_EXECUTABLE = new File("C:\\eclipse-SDK-3.3.1-win32\\eclipse\\eclipsec.exe");
+    private static final File ECLIPSE_EXECUTABLE = new File("C:\\eclipse-java-europa-fall2-win32\\eclipse\\eclipsec.exe");
     private static final Executer EXECUTER = new ExecuterImpl();
 //    private static final Executer EXECUTER = new ExecuterDummy();
 

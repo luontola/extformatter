@@ -55,11 +55,14 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public void reformatFilesInDirectory(@NotNull File directory) {
-        // TODO
     }
 
     public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
-        // TODO
+        try {
+            executer.execute(commandFor(quoted(directory.getCanonicalPath())));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String commandFor(String path) {

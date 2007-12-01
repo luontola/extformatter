@@ -23,7 +23,7 @@ package net.orfjackal.extformatter;
  */
 public class ExecuterManualTests {
 
-    public static class ShouldExecuteTheCommand {
+    public static class ExecuteCommandTest {
 
         /**
          * EXPECTED: To System.out will be printed the output of the ping command,

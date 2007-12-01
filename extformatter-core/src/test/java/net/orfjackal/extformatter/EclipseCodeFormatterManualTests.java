@@ -25,14 +25,13 @@ import java.io.*;
  */
 public class EclipseCodeFormatterManualTests {
 
-    private static File eclipsePrefsFile;
-
     private static File testfilesDir;
+    private static File eclipsePrefsFile;
     private static File fooFile;
     private static File barFile;
     private static File bazFile;
 
-    public static class FormatSingleFile {
+    public static class FormatSingleFileTest {
 
         /**
          * Expected: The file "Foo.java" formatted according to Eclipse's rules. Other files untouched.
@@ -45,7 +44,7 @@ public class EclipseCodeFormatterManualTests {
         }
     }
 
-    public static class FormatFilesInDirectory {
+    public static class FormatFilesInDirectoryTest {
 
         /**
          * Expected: The files "Foo.java" and "Bar.java" formatted according to Eclipse's rules. Other files untouched.
@@ -58,7 +57,7 @@ public class EclipseCodeFormatterManualTests {
         }
     }
 
-    public static class FormatFileInDirectoryRecursively {
+    public static class FormatFileInDirectoryRecursivelyTest {
 
         /**
          * Expected: All files formatted according to Eclipse's rules.
@@ -91,6 +90,16 @@ public class EclipseCodeFormatterManualTests {
         deleteOnExit(tempDir, testfilesDir, testfilesSubdir, eclipsePrefsFile, fooFile, barFile, bazFile);
     }
 
+    private static void showResultingFiles() {
+        System.out.println("--- testfiles/Foo.java ---");
+        System.out.println(contentsOf(fooFile));
+        System.out.println("--- testfiles/Bar.java ---");
+        System.out.println(contentsOf(barFile));
+        System.out.println("--- testfiles/subdir/Baz.java ---");
+        System.out.println(contentsOf(bazFile));
+        System.out.println("--- END ---");
+    }
+
     private static void copy(File from, File to) {
         try {
             InputStream readFrom = new FileInputStream(from);
@@ -113,29 +122,19 @@ public class EclipseCodeFormatterManualTests {
         }
     }
 
-    private static void showResultingFiles() {
-        System.out.println("--- testfiles/Foo.java ---");
-        System.out.println(contentsOf(fooFile));
-        System.out.println("--- testfiles/Bar.java ---");
-        System.out.println(contentsOf(barFile));
-        System.out.println("--- testfiles/subdir/Baz.java ---");
-        System.out.println(contentsOf(bazFile));
-        System.out.println("--- END ---");
-    }
-
     private static String contentsOf(File file) {
+        StringBuilder contents = new StringBuilder();
         try {
             Reader reader = new FileReader(file);
             char[] buf = new char[1024];
             int len;
-            StringBuilder sb = new StringBuilder();
             while ((len = reader.read(buf)) > 0) {
-                sb.append(buf, 0, len);
+                contents.append(buf, 0, len);
             }
-            return sb.toString();
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return contents.toString();
     }
 }

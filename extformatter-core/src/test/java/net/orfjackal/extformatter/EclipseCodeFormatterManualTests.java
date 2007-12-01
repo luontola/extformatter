@@ -46,6 +46,19 @@ public class EclipseCodeFormatterManualTests {
         }
     }
 
+    public static class ReformatFilesTest {
+
+        /**
+         * Expected: The files "Foo.java" and "Baz.java" formatted according to Eclipse's rules. Other files untouched.
+         */
+        public static void main(String[] args) {
+            prepareTestFiles();
+            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
+            formatter.reformatFiles(fooFile, bazFile);
+            showResultingFiles();
+        }
+    }
+
     public static class ReformatFilesInDirectoryTest {
 
         /**

@@ -47,7 +47,11 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public void reformatFiles(@NotNull File... files) {
-        // TODO
+        try {
+            executer.execute(commandFor(listOf(files)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void reformatFilesInDirectory(@NotNull File directory) {
@@ -87,6 +91,20 @@ public class EclipseCodeFormatter implements CodeFormatter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String listOf(File... files) throws IOException {
+        if (files.length == 0) {
+            throw new IllegalArgumentException("No files");
+        }
+        String paths = "";
+        for (File file : files) {
+            if (paths.length() > 0) {
+                paths += " ";
+            }
+            paths += quoted(file.getCanonicalPath());
+        }
+        return paths;
     }
 
     private static String quoted(String s) {

@@ -28,9 +28,9 @@ import java.io.IOException;
  */
 public class EclipseCodeFormatter implements CodeFormatter {
 
-    private File eclipseInstallDir;
-    private File eclipsePrefsFile;
-    private Executer executer;
+    @NotNull private File eclipseInstallDir;
+    @NotNull private File eclipsePrefsFile;
+    @NotNull private Executer executer;
 
     public EclipseCodeFormatter(@NotNull File eclipseInstallDir, @NotNull File eclipsePrefsFile) {
         this.eclipseInstallDir = eclipseInstallDir;

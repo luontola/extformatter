@@ -58,7 +58,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         if (singleFileCommand != null) {
             executer.execute(parsed(singleFileCommand, file));
         } else {
-            throw new IllegalStateException("Formatting a single file is not supported");
+            throw new IllegalStateException("Reformatting a single file is not supported");
         }
     }
 
@@ -77,9 +77,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
                     return pathname.isFile();
                 }
             });
-            for (File file : files) {
-                reformatFile(file);
-            }
+            reformatFiles(files);
         }
     }
 

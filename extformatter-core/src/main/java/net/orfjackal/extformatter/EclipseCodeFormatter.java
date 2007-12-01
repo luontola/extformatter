@@ -29,18 +29,18 @@ import java.io.IOException;
  */
 public class EclipseCodeFormatter implements CodeFormatter {
 
-    @NotNull private File eclipseInstallDir;
-    @NotNull private File eclipsePrefsFile;
+    @NotNull private File eclipseExecutable;
+    @NotNull private File eclipsePrefs;
     @NotNull private Executer executer;
 
-    public EclipseCodeFormatter(@NotNull File eclipseInstallDir, @NotNull File eclipsePrefsFile, @NotNull Executer executer) {
-        this.eclipseInstallDir = eclipseInstallDir;
-        this.eclipsePrefsFile = eclipsePrefsFile;
+    public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs, @NotNull Executer executer) {
+        this.eclipseExecutable = eclipseExecutable;
+        this.eclipsePrefs = eclipsePrefs;
         this.executer = executer;
     }
 
-    public EclipseCodeFormatter(@NotNull File eclipseInstallDir, @NotNull File eclipsePrefsFile) {
-        this(eclipseInstallDir, eclipsePrefsFile, new ExecuterImpl());
+    public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs) {
+        this(eclipseExecutable, eclipsePrefs, new ExecuterImpl());
     }
 
     public void reformatFile(@NotNull File file) {
@@ -97,9 +97,9 @@ public class EclipseCodeFormatter implements CodeFormatter {
         //      -config C:\eclipse-SDK-3.3.1-win32\workspace\foo\.settings\org.eclipse.jdt.core.prefs
         //      C:\Temp\weenyconsole\src\main\java\net\orfjackal\weenyconsole\*.java
         try {
-            String eclipse = quoted(new File(eclipseInstallDir, "eclipsec").getCanonicalPath());
+            String eclipse = quoted(eclipseExecutable.getCanonicalPath());
             String java = quoted(new File(System.getProperty("java.home"), "bin/java").getCanonicalPath());
-            String config = quoted(eclipsePrefsFile.getCanonicalPath());
+            String config = quoted(eclipsePrefs.getCanonicalPath());
             return eclipse + " -application org.eclipse.jdt.core.JavaCodeFormatter -verbose"
                     + " -vm " + java + " -config " + config + " " + path;
         } catch (IOException e) {

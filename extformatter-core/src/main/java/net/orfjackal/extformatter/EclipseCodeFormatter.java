@@ -29,9 +29,9 @@ import java.io.IOException;
  */
 public class EclipseCodeFormatter implements CodeFormatter {
 
-    @NotNull private File eclipseExecutable;
-    @NotNull private File eclipsePrefs;
-    @NotNull private Executer executer;
+    @NotNull private final File eclipseExecutable;
+    @NotNull private final File eclipsePrefs;
+    @NotNull private final Executer executer;
 
     public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs, @NotNull Executer executer) {
         this.eclipseExecutable = eclipseExecutable;

@@ -30,10 +30,10 @@ import java.util.regex.Matcher;
  */
 public class CommandLineCodeFormatter implements CodeFormatter {
 
-    @Nullable private String singleFileCommand;
-    @Nullable private String directoryCommand;
-    @Nullable private String recursiveDirectoryCommand;
-    @NotNull private Executer executer;
+    @Nullable private final String singleFileCommand;
+    @Nullable private final String directoryCommand;
+    @Nullable private final String recursiveDirectoryCommand;
+    @NotNull private final Executer executer;
 
     public CommandLineCodeFormatter(@Nullable String singleFileCommand, @Nullable String directoryCommand,
                                     @Nullable String recursiveDirectoryCommand, @NotNull Executer executer) {

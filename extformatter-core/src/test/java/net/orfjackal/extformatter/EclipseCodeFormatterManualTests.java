@@ -100,7 +100,8 @@ public class EclipseCodeFormatterManualTests {
     private static void showCurrentTest(Class<?> clazz, String expected) {
         String readableName = separateWords(clazz.getSimpleName());
         System.out.println("--- " + readableName + " ---");
-        System.out.println("Expected files to be formatted: " + expected + "\n");
+        System.out.println("Expected files to be formatted: " + expected);
+        System.out.println();
     }
 
     private static String separateWords(String className) {
@@ -115,6 +116,7 @@ public class EclipseCodeFormatterManualTests {
     }
 
     private static void showResultingFiles() {
+        System.out.println();
         System.out.println("--- testfiles/Foo.java (1) ---");
         System.out.println(contentsOf(fooFile));
         System.out.println("--- testfiles/Bar.java (2) ---");

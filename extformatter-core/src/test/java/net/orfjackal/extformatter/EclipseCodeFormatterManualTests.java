@@ -26,8 +26,8 @@ import java.io.*;
 public class EclipseCodeFormatterManualTests {
 
     private static final File ECLIPSE_INSTALL_DIR = new File("C:/eclipse-SDK-3.3.1-win32/eclipse");
-//    private static final Executer EXECUTER = new ExecuterImpl();
-    private static final Executer EXECUTER = new ExecuterDummy();
+    private static final Executer EXECUTER = new ExecuterImpl();
+//    private static final Executer EXECUTER = new ExecuterDummy();
 
     private static File testfilesDir;
     private static File eclipsePrefsFile;

@@ -25,7 +25,9 @@ import java.io.*;
  */
 public class EclipseCodeFormatterManualTests {
 
-    private static File ECLIPSE_INSTALL_DIR = new File("C:/eclipse-SDK-3.3.1-win32/eclipse");
+    private static final File ECLIPSE_INSTALL_DIR = new File("C:/eclipse-SDK-3.3.1-win32/eclipse");
+//    private static final Executer EXECUTER = new ExecuterImpl();
+    private static final Executer EXECUTER = new ExecuterDummy();
 
     private static File testfilesDir;
     private static File eclipsePrefsFile;
@@ -38,7 +40,7 @@ public class EclipseCodeFormatterManualTests {
         public static void main(String[] args) {
             showCurrentTest(ReformatSingleFileTest.class, "Foo.java (1)");
             prepareTestFiles();
-            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
+            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile, EXECUTER);
             formatter.reformatFile(fooFile);
             showResultingFiles();
         }
@@ -49,7 +51,7 @@ public class EclipseCodeFormatterManualTests {
         public static void main(String[] args) {
             showCurrentTest(ReformatManyFilesTest.class, "Foo.java (1), Baz.java (3)");
             prepareTestFiles();
-            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
+            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile, EXECUTER);
             formatter.reformatFiles(fooFile, bazFile);
             showResultingFiles();
         }
@@ -60,7 +62,7 @@ public class EclipseCodeFormatterManualTests {
         public static void main(String[] args) {
             showCurrentTest(ReformatFilesInDirectoryTest.class, "Foo.java (1), Bar.java (2)");
             prepareTestFiles();
-            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
+            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile, EXECUTER);
             formatter.reformatFilesInDirectory(testfilesDir);
             showResultingFiles();
         }
@@ -71,7 +73,7 @@ public class EclipseCodeFormatterManualTests {
         public static void main(String[] args) {
             showCurrentTest(ReformatFilesInDirectoryRecursivelyTest.class, "Foo.java (1), Bar.java (2), Baz.java (3)");
             prepareTestFiles();
-            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
+            CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile, EXECUTER);
             formatter.reformatFilesInDirectoryRecursively(testfilesDir);
             showResultingFiles();
         }

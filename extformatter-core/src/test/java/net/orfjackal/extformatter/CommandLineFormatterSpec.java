@@ -38,7 +38,7 @@ public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
 
         public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter(executer, "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%");
+            formatter = new CommandLineCodeFormatter("format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
             return formatter;
         }
 
@@ -79,7 +79,7 @@ public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
 
         public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter(executer, "format %FILE%", "formatDir %DIRECTORY%", null);
+            formatter = new CommandLineCodeFormatter("format %FILE%", "formatDir %DIRECTORY%", null, executer);
             return formatter;
         }
 
@@ -99,7 +99,7 @@ public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
 
         public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter(executer, "format %FILE%", null, null);
+            formatter = new CommandLineCodeFormatter("format %FILE%", null, null, executer);
             return formatter;
         }
 
@@ -127,7 +127,7 @@ public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
 
         public CodeFormatter create() {
             Executer executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter(executer, null, null, null);
+            formatter = new CommandLineCodeFormatter(null, null, null, executer);
             return formatter;
         }
 

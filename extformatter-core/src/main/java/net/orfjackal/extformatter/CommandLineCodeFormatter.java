@@ -30,17 +30,22 @@ import java.util.regex.Matcher;
  */
 public class CommandLineCodeFormatter implements CodeFormatter {
 
-    @NotNull private Executer executer;
     @Nullable private String singleFileCommand;
     @Nullable private String directoryCommand;
     @Nullable private String recursiveDirectoryCommand;
+    @NotNull private Executer executer;
 
-    public CommandLineCodeFormatter(@NotNull Executer executer, @Nullable String singleFileCommand,
-                                    @Nullable String directoryCommand, @Nullable String recursiveDirectoryCommand) {
-        this.executer = executer;
+    public CommandLineCodeFormatter(@Nullable String singleFileCommand, @Nullable String directoryCommand,
+                                    @Nullable String recursiveDirectoryCommand, @NotNull Executer executer) {
         this.singleFileCommand = singleFileCommand;
         this.directoryCommand = directoryCommand;
         this.recursiveDirectoryCommand = recursiveDirectoryCommand;
+        this.executer = executer;
+    }
+
+    public CommandLineCodeFormatter(@Nullable String singleFileCommand, @Nullable String directoryCommand,
+                                    @Nullable String recursiveDirectoryCommand) {
+        this(singleFileCommand, directoryCommand, recursiveDirectoryCommand, new ExecuterImpl());
     }
 
     private String parsed(@NotNull String command, @NotNull File file) {

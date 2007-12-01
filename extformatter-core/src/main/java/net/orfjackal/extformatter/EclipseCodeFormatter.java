@@ -33,10 +33,14 @@ public class EclipseCodeFormatter implements CodeFormatter {
     @NotNull private File eclipsePrefsFile;
     @NotNull private Executer executer;
 
-    public EclipseCodeFormatter(@NotNull File eclipseInstallDir, @NotNull File eclipsePrefsFile) {
+    public EclipseCodeFormatter(@NotNull File eclipseInstallDir, @NotNull File eclipsePrefsFile, @NotNull Executer executer) {
         this.eclipseInstallDir = eclipseInstallDir;
         this.eclipsePrefsFile = eclipsePrefsFile;
-        this.executer = new ExecuterImpl();
+        this.executer = executer;
+    }
+
+    public EclipseCodeFormatter(@NotNull File eclipseInstallDir, @NotNull File eclipsePrefsFile) {
+        this(eclipseInstallDir, eclipsePrefsFile, new ExecuterImpl());
     }
 
     public void reformatFile(@NotNull File file) {

@@ -55,13 +55,27 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     private String commandFor(String path) {
+        /*
+         *  Usage: eclipse -application org.eclipse.jdt.core.JavaCodeFormatter [ OPTIONS ] -config <configFile> <files>
+         *
+         *     <files>   Java source files and/or directories to format.
+         *               Only files ending with .java will be formatted in the given directory.
+         *     -config <configFile> Use the formatting style from the specified properties file.
+         *                          Refer to the help documentation to find out how to generate this file.
+         *
+         *   OPTIONS:
+         *
+         *     -help                Display this message.
+         *     -quiet               Only print error messages.
+         *     -verbose             Be verbose about the formatting job.
+         */
         // At least this command worked for me:
         // C:\eclipse-SDK-3.3.1-win32\eclipse>eclipse -vm "C:\Program Files\Java\jre1.6.0_02\bin\java.exe"
         //      -application org.eclipse.jdt.core.JavaCodeFormatter -verbose
         //      -config C:\eclipse-SDK-3.3.1-win32\workspace\foo\.settings\org.eclipse.jdt.core.prefs
         //      C:\Temp\weenyconsole\src\main\java\net\orfjackal\weenyconsole\*.java
         try {
-            String eclipse = quoted(new File(eclipseInstallDir, "eclipse").getCanonicalPath());
+            String eclipse = quoted(new File(eclipseInstallDir, "eclipsec").getCanonicalPath());
             String java = quoted(new File(System.getProperty("java.home"), "bin/java").getCanonicalPath());
             String config = quoted(eclipsePrefsFile.getCanonicalPath());
             return eclipse + " -application org.eclipse.jdt.core.JavaCodeFormatter -verbose"

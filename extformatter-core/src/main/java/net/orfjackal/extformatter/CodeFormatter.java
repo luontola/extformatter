@@ -29,6 +29,8 @@ public interface CodeFormatter {
 
     void reformatFile(@NotNull File file);
 
+    void reformatFiles(@NotNull File... files);
+
     void reformatFilesInDirectory(@NotNull File directory);
 
     void reformatFilesInDirectoryRecursively(@NotNull File directory);

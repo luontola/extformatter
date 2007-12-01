@@ -46,6 +46,10 @@ public class EclipseCodeFormatter implements CodeFormatter {
         }
     }
 
+    public void reformatFiles(@NotNull File... files) {
+        // TODO
+    }
+
     public void reformatFilesInDirectory(@NotNull File directory) {
         // TODO
     }

@@ -62,6 +62,12 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         }
     }
 
+    public void reformatFiles(@NotNull File... files) {
+        for (File file : files) {
+            reformatFile(file);
+        }
+    }
+
     public void reformatFilesInDirectory(@NotNull File directory) {
         if (directoryCommand != null) {
             executer.execute(parsed(directoryCommand, directory));

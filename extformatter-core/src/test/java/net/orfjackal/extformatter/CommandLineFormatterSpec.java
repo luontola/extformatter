@@ -49,6 +49,14 @@ public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
             formatter.reformatFile(FOO_FILE);
         }
 
+        public void shouldExecuteCommandForManyFiles() {
+            checking(new Expectations() {{
+                one(executer).execute("format " + FOO_FILE);
+                one(executer).execute("format " + BAZ_FILE);
+            }});
+            formatter.reformatFiles(FOO_FILE, BAZ_FILE);
+        }
+
         public void shouldExecuteCommandForFilesInDirectory() {
             checking(new Expectations() {{
                 one(executer).execute("formatDir " + TESTFILES_DIR);

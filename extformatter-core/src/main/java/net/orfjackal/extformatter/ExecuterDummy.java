@@ -29,7 +29,7 @@ public class ExecuterDummy implements Executer {
 
     public void execute(@NotNull String command) {
         System.out.println(ExecuterDummy.class.getName() + ".execute(), command:");
-        System.out.println(wrap(command));
+        System.out.print(wrap(command));
     }
 
     private static String wrap(String text) {

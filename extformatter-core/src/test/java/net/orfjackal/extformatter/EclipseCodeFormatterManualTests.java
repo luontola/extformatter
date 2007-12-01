@@ -31,7 +31,7 @@ public class EclipseCodeFormatterManualTests {
     private static File barFile;
     private static File bazFile;
 
-    public static class FormatSingleFileTest {
+    public static class ReformatFileTest {
 
         /**
          * Expected: The file "Foo.java" formatted according to Eclipse's rules. Other files untouched.
@@ -44,7 +44,7 @@ public class EclipseCodeFormatterManualTests {
         }
     }
 
-    public static class FormatFilesInDirectoryTest {
+    public static class ReformatFilesInDirectoryTest {
 
         /**
          * Expected: The files "Foo.java" and "Bar.java" formatted according to Eclipse's rules. Other files untouched.
@@ -57,7 +57,7 @@ public class EclipseCodeFormatterManualTests {
         }
     }
 
-    public static class FormatFileInDirectoryRecursivelyTest {
+    public static class ReformatFilesInDirectoryRecursivelyTest {
 
         /**
          * Expected: All files formatted according to Eclipse's rules.

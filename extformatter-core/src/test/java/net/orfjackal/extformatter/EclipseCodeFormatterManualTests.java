@@ -33,12 +33,10 @@ public class EclipseCodeFormatterManualTests {
     private static File barFile;
     private static File bazFile;
 
-    public static class ReformatFileTest {
+    public static class ReformatSingleFileTest {
 
-        /**
-         * Expected: The file "Foo.java" formatted according to Eclipse's rules. Other files untouched.
-         */
         public static void main(String[] args) {
+            showCurrentTest(ReformatSingleFileTest.class, "Foo.java (1)");
             prepareTestFiles();
             CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
             formatter.reformatFile(fooFile);
@@ -46,12 +44,10 @@ public class EclipseCodeFormatterManualTests {
         }
     }
 
-    public static class ReformatFilesTest {
+    public static class ReformatManyFilesTest {
 
-        /**
-         * Expected: The files "Foo.java" and "Baz.java" formatted according to Eclipse's rules. Other files untouched.
-         */
         public static void main(String[] args) {
+            showCurrentTest(ReformatManyFilesTest.class, "Foo.java (1), Baz.java (3)");
             prepareTestFiles();
             CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
             formatter.reformatFiles(fooFile, bazFile);
@@ -61,10 +57,8 @@ public class EclipseCodeFormatterManualTests {
 
     public static class ReformatFilesInDirectoryTest {
 
-        /**
-         * Expected: The files "Foo.java" and "Bar.java" formatted according to Eclipse's rules. Other files untouched.
-         */
         public static void main(String[] args) {
+            showCurrentTest(ReformatFilesInDirectoryTest.class, "Foo.java (1), Bar.java (2)");
             prepareTestFiles();
             CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
             formatter.reformatFilesInDirectory(testfilesDir);
@@ -74,10 +68,8 @@ public class EclipseCodeFormatterManualTests {
 
     public static class ReformatFilesInDirectoryRecursivelyTest {
 
-        /**
-         * Expected: All files formatted according to Eclipse's rules.
-         */
         public static void main(String[] args) {
+            showCurrentTest(ReformatFilesInDirectoryRecursivelyTest.class, "Foo.java (1), Bar.java (2), Baz.java (3)");
             prepareTestFiles();
             CodeFormatter formatter = new EclipseCodeFormatter(ECLIPSE_INSTALL_DIR, eclipsePrefsFile);
             formatter.reformatFilesInDirectoryRecursively(testfilesDir);
@@ -105,12 +97,29 @@ public class EclipseCodeFormatterManualTests {
         deleteOnExit(tempDir, testfilesDir, testfilesSubdir, eclipsePrefsFile, fooFile, barFile, bazFile);
     }
 
+    private static void showCurrentTest(Class<?> clazz, String expected) {
+        String readableName = separateWords(clazz.getSimpleName());
+        System.out.println("--- " + readableName + " ---");
+        System.out.println("Expected files to be formatted: " + expected + "\n");
+    }
+
+    private static String separateWords(String className) {
+        StringBuilder readableName = new StringBuilder();
+        for (String letter : className.split("")) {
+            if (letter.length() > 0 && Character.isUpperCase(letter.charAt(0))) {
+                readableName.append(" ");
+            }
+            readableName.append(letter.toLowerCase());
+        }
+        return readableName.toString().trim();
+    }
+
     private static void showResultingFiles() {
-        System.out.println("--- testfiles/Foo.java ---");
+        System.out.println("--- testfiles/Foo.java (1) ---");
         System.out.println(contentsOf(fooFile));
-        System.out.println("--- testfiles/Bar.java ---");
+        System.out.println("--- testfiles/Bar.java (2) ---");
         System.out.println(contentsOf(barFile));
-        System.out.println("--- testfiles/subdir/Baz.java ---");
+        System.out.println("--- testfiles/subdir/Baz.java (3) ---");
         System.out.println(contentsOf(bazFile));
         System.out.println("--- END ---");
     }

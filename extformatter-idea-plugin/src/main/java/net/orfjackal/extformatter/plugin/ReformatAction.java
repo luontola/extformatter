@@ -31,7 +31,9 @@ import java.util.Arrays;
  */
 public class ReformatAction extends AnAction {
 
-    // TODO: use com.intellij.openapi.actionSystem.ActionManager to wrap the 
+    // TODO: use com.intellij.openapi.actionSystem.ActionManager to wrap the real ReformatCode action, so that
+    // the queueing of file reformats can be done in ExternalizedCodeStyleManager.reformatText() and then
+    // the reformats could be executed at the end of this action
 
     public void actionPerformed(AnActionEvent e) {
         printDebugData(e);

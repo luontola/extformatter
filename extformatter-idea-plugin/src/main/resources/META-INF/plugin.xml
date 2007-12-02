@@ -21,21 +21,21 @@
     ]]></change-notes>
 
     <actions>
-        <action id="net.orfjackal.extformatter.plugin.ReformatAction"
+        <action id="${plugin.id}.ReformatAction"
                 class="net.orfjackal.extformatter.plugin.ReformatAction"
                 text="Reformat Code Externally..."
                 description="Reformats code by using the External Code Formatter plugin">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt L"/>
             <add-to-group group-id="CodeMenu" anchor="after" relative-to-action="ReformatCode"/>
-            <!--<add-to-group group-id="CallHierarchyPopupMenu" anchor="after" relative-to-action="ReformatCode"/>-->
-            <!--<add-to-group group-id="CommanderPopupMenu" anchor="after" relative-to-action="ReformatCode"/>-->
-            <!--<add-to-group group-id="FavoritesViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>-->
-            <!--<add-to-group group-id="J2EEViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>-->
-            <!--<add-to-group group-id="MethodHierarchyPopupMenu" anchor="after" relative-to-action="ReformatCode"/>-->
+            <add-to-group group-id="CallHierarchyPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
+            <add-to-group group-id="CommanderPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
+            <add-to-group group-id="FavoritesViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
+            <add-to-group group-id="J2EEViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
+            <add-to-group group-id="MethodHierarchyPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
-            <!--<add-to-group group-id="ScopeViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>-->
-            <!--<add-to-group group-id="TypeHierarchyPopupMenu" anchor="after" relative-to-action="ReformatCode"/>-->
-            <!--<add-to-group group-id="Vcs.FileViewPopup" anchor="after" relative-to-action="ReformatCode"/>-->
+            <add-to-group group-id="ScopeViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
+            <add-to-group group-id="TypeHierarchyPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
+            <add-to-group group-id="Vcs.FileViewPopup" anchor="after" relative-to-action="ReformatCode"/>
         </action>
     </actions>
 

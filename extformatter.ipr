@@ -344,7 +344,13 @@
       <option name="VM_PARAMETERS" value=" -Xms32m -Xmx1024m -XX:MaxPermSize=200m -ea -server -Dsun.awt.keepWorkingSetOnMinimize=true -XX:SoftRefLRUPolicyMSPerMB=10000" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <log_file path="C:/Documents and Settings/ORFJackal/.IntelliJIdea70/system/plugins-sandbox/system/log/idea.log" checked="true" skipped="true" show_all="false" alias="IDEA LOG" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="3998" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>
         <option name="Make" value="true" />

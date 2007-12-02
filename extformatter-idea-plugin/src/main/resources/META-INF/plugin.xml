@@ -20,6 +20,12 @@
         <p>1.0.0 - Initial release</p>
     ]]></change-notes>
 
+    <project-components>
+        <component>
+            <implementation-class>net.orfjackal.extformatter.plugin.ProjectCodeStyleInstaller</implementation-class>
+        </component>
+    </project-components>
+
     <actions>
         <action id="${plugin.id}.ReformatAction"
                 class="net.orfjackal.extformatter.plugin.ReformatAction"
@@ -30,7 +36,7 @@
             <add-to-group group-id="CallHierarchyPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
             <add-to-group group-id="CommanderPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
             <add-to-group group-id="FavoritesViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
-            <add-to-group group-id="J2EEViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
+            <!--<add-to-group group-id="J2EEViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>-->
             <add-to-group group-id="MethodHierarchyPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>
             <add-to-group group-id="ScopeViewPopupMenu" anchor="after" relative-to-action="ReformatCode"/>

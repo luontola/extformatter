@@ -25,8 +25,6 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
-import org.jetbrains.annotations.NotNull;
 import org.picocontainer.MutablePicoContainer;
 
 import java.util.Arrays;
@@ -36,8 +34,6 @@ import java.util.Arrays;
  * @since 2.12.2007
  */
 public class ReformatAction extends AnAction {
-
-    private static final String CODE_STYLE_MANAGER_KEY = CodeStyleManager.class.getName();
 
     public void actionPerformed(AnActionEvent e) {
         printDebugData(e);
@@ -49,54 +45,12 @@ public class ReformatAction extends AnAction {
 
         Project project = DataKeys.PROJECT.getData(e.getDataContext());
         assert project != null;
-        installStyleManager(project);
-
+        ProjectCodeStyleInstaller.installExternalCodeFormatter(project);
     }
 
     public void update(AnActionEvent e) {
         boolean enabled = canReformat(selectedFiles(e));
         e.getPresentation().setEnabled(enabled);
-    }
-
-    /* NOTES:
-
-    from ReformatCodeProcessor:
-        CodeStyleManager.getInstance(myProject).reformatText(file, k.getStartOffset(), k.getEndOffset());else
-        CodeStyleManager.getInstance(myProject).reformatText(file, 0, file.getTextRange().getEndOffset());
-    - try to inject a custom com.intellij.psi.codeStyle.CodeStyleManager and replace it after the command exits
-
-    from com.intellij.psi.codeStyle.CodeStyleManager:
-        public static CodeStyleManager getInstance(@NotNull Project project) {
-            return ServiceManager.getService(project, CodeStyleManager.class);
-        }
-    from com.intellij.openapi.components.ServiceManager
-        public static <T> T getService(Project project, Class<T> serviceClass) {
-            return (T)project.getPicoContainer().getComponentInstance(serviceClass.getName());
-        }
-
-     */
-
-    private static void installStyleManager(@NotNull Project project) {
-        CodeStyleManagerEx currentManager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
-        if (!(currentManager instanceof DelegatingCodeStyleManager)) {
-            System.out.println("ReformatAction.installStyleManager");
-            registerCodeStyleManager(project, new DelegatingCodeStyleManager(currentManager));
-        }
-    }
-
-    private static void uninstallStyleManager(@NotNull Project project) {
-        CodeStyleManagerEx currentManager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
-        if (currentManager instanceof DelegatingCodeStyleManager) {
-            System.out.println("ReformatAction.uninstallStyleManager");
-            DelegatingCodeStyleManager delegate = (DelegatingCodeStyleManager) currentManager;
-            registerCodeStyleManager(project, delegate.getTarget());
-        }
-    }
-
-    private static void registerCodeStyleManager(Project project, CodeStyleManagerEx codeStyleManager) {
-        MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
-        container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
-        container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, codeStyleManager);
     }
 
     private static VirtualFile[] selectedFiles(AnActionEvent e) {
@@ -152,6 +106,7 @@ public class ReformatAction extends AnAction {
     }
 
     private void printDebugData(AnActionEvent e) {
+        System.out.println("------------- begin -------------");
         VirtualFile[] selection = selectedFiles(e);
         DataContext context = e.getDataContext();
         System.out.println("ReformatAction.actionPerformed");
@@ -194,5 +149,6 @@ public class ReformatAction extends AnAction {
 //        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
 //        container.registerComponentInstance(KEY, service);
 //        System.out.println("service (back) = " + container.getComponentInstance(KEY));
+        System.out.println("------------- end -------------");
     }
 }

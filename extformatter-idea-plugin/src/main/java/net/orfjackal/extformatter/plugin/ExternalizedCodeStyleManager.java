@@ -43,6 +43,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
     public void reformatText(@NotNull PsiFile file, int startOffset, int endOffset) throws IncorrectOperationException {
         if (wholeFile(file, startOffset, endOffset) && canReformat(file)) {
             // TODO: does not synchronize the file with filesystem
+            // TODO: queue all files so that they can be formatted with one command 
             replacement.reformatFile(physicalFile(file));
         } else {
             super.reformatText(file, startOffset, endOffset);

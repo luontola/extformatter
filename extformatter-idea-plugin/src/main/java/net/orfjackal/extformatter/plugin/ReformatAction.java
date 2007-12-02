@@ -25,6 +25,8 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
+import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
+import org.jetbrains.annotations.NotNull;
 import org.picocontainer.MutablePicoContainer;
 
 import java.util.Arrays;
@@ -34,6 +36,8 @@ import java.util.Arrays;
  * @since 2.12.2007
  */
 public class ReformatAction extends AnAction {
+
+    private static final String CODE_STYLE_MANAGER_KEY = CodeStyleManager.class.getName();
 
     public void actionPerformed(AnActionEvent e) {
         // TODO: insert action logic here
@@ -68,18 +72,22 @@ public class ReformatAction extends AnAction {
         }
 
         Project project = DataKeys.PROJECT.getData(e.getDataContext());
+        assert project != null;
         MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
         System.out.println("project.getPicoContainer() = " + container);
 
         final String KEY = CodeStyleManager.class.getName();
         CodeStyleManager service = (CodeStyleManager) container.getComponentInstance(KEY);
         System.out.println("service = " + service);
-        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
-        container.registerComponentInstance(KEY, "FooBar");
-        System.out.println("service (fake) = " + container.getComponentInstance(KEY));
-        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
-        container.registerComponentInstance(KEY, service);
-        System.out.println("service (back) = " + container.getComponentInstance(KEY));
+        System.out.println("service.getClass() = " + service.getClass());
+//        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
+//        container.registerComponentInstance(KEY, "FooBar");
+//        System.out.println("service (fake) = " + container.getComponentInstance(KEY));
+//        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
+//        container.registerComponentInstance(KEY, service);
+//        System.out.println("service (back) = " + container.getComponentInstance(KEY));
+
+        installStyleManager(project);
 
     }
     /*
@@ -98,6 +106,26 @@ public class ReformatAction extends AnAction {
         }
 
      */
+
+    private void installStyleManager(@NotNull Project project) {
+        MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
+        CodeStyleManagerEx currentManager = (CodeStyleManagerEx) container.getComponentInstance(CODE_STYLE_MANAGER_KEY);
+        if (!(currentManager instanceof DelegatingCodeStyleManager)) {
+            container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
+            container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, new DelegatingCodeStyleManager(currentManager));
+        }
+    }
+
+    private void uninstallStyleManager(@NotNull Project project) {
+        MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
+        CodeStyleManagerEx currentManager = (CodeStyleManagerEx) container.getComponentInstance(CODE_STYLE_MANAGER_KEY);
+        if (currentManager instanceof DelegatingCodeStyleManager) {
+            DelegatingCodeStyleManager delegate = (DelegatingCodeStyleManager) currentManager;
+            CodeStyleManagerEx original = delegate.getTarget();
+            container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
+            container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, original);
+        }
+    }
 
     public void update(AnActionEvent e) {
         boolean enabled = canReformat(selectedFiles(e));

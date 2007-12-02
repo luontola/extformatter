@@ -40,57 +40,26 @@ public class ReformatAction extends AnAction {
     private static final String CODE_STYLE_MANAGER_KEY = CodeStyleManager.class.getName();
 
     public void actionPerformed(AnActionEvent e) {
-        // TODO: insert action logic here
-        DataContext context = e.getDataContext();
-        System.out.println("ReformatAction.actionPerformed");
-        System.out.println(e);
-        System.out.println("e.getPlace() = " + e.getPlace());
-        System.out.println("e.getDataContext() = " + context);
-        System.out.println("DataKeys.VIRTUAL_FILE = " + DataKeys.VIRTUAL_FILE.getData(context));
-        System.out.println("DataKeys.VIRTUAL_FILE_ARRAY = " + Arrays.toString(DataKeys.VIRTUAL_FILE_ARRAY.getData(context)));
+        printDebugData(e);
 
         VirtualFile[] selection = selectedFiles(e);
         if (canReformat(selection)) {
-
-        }
-        System.out.println("canReformat(file) = " + canReformat(selection));
-
-        for (VirtualFile file : selection) {
-            System.out.println("-----");
-            System.out.println("file.getExtension() = " + file.getExtension());
-            System.out.println("file.getFileSystem() = " + file.getFileSystem());
-            System.out.println("file.getFileType() = " + file.getFileType());
-            System.out.println("file.getLength() = " + file.getLength());
-            System.out.println("file.getName() = " + file.getName());
-            System.out.println("file.getParent() = " + file.getParent());
-            System.out.println("file.getPath() = " + file.getPath());
-            System.out.println("file.getPresentableName() = " + file.getPresentableName());
-            System.out.println("file.isDirectory() = " + file.isDirectory());
-            System.out.println("file.isInLocalFileSystem() = " + file.isInLocalFileSystem());
-            System.out.println("file.isValid() = " + file.isValid());
-            System.out.println("file.isWritable() = " + file.isWritable());
+            System.out.println("CAN REFORMAT");
         }
 
         Project project = DataKeys.PROJECT.getData(e.getDataContext());
         assert project != null;
-        MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
-        System.out.println("project.getPicoContainer() = " + container);
-
-        final String KEY = CodeStyleManager.class.getName();
-        CodeStyleManager service = (CodeStyleManager) container.getComponentInstance(KEY);
-        System.out.println("service = " + service);
-        System.out.println("service.getClass() = " + service.getClass());
-//        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
-//        container.registerComponentInstance(KEY, "FooBar");
-//        System.out.println("service (fake) = " + container.getComponentInstance(KEY));
-//        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
-//        container.registerComponentInstance(KEY, service);
-//        System.out.println("service (back) = " + container.getComponentInstance(KEY));
-
         installStyleManager(project);
 
     }
-    /*
+
+    public void update(AnActionEvent e) {
+        boolean enabled = canReformat(selectedFiles(e));
+        e.getPresentation().setEnabled(enabled);
+    }
+
+    /* NOTES:
+
     from ReformatCodeProcessor:
         CodeStyleManager.getInstance(myProject).reformatText(file, k.getStartOffset(), k.getEndOffset());else
         CodeStyleManager.getInstance(myProject).reformatText(file, 0, file.getTextRange().getEndOffset());
@@ -107,29 +76,27 @@ public class ReformatAction extends AnAction {
 
      */
 
-    private void installStyleManager(@NotNull Project project) {
-        MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
-        CodeStyleManagerEx currentManager = (CodeStyleManagerEx) container.getComponentInstance(CODE_STYLE_MANAGER_KEY);
+    private static void installStyleManager(@NotNull Project project) {
+        CodeStyleManagerEx currentManager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
         if (!(currentManager instanceof DelegatingCodeStyleManager)) {
-            container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
-            container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, new DelegatingCodeStyleManager(currentManager));
+            System.out.println("ReformatAction.installStyleManager");
+            registerCodeStyleManager(project, new DelegatingCodeStyleManager(currentManager));
         }
     }
 
-    private void uninstallStyleManager(@NotNull Project project) {
-        MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
-        CodeStyleManagerEx currentManager = (CodeStyleManagerEx) container.getComponentInstance(CODE_STYLE_MANAGER_KEY);
+    private static void uninstallStyleManager(@NotNull Project project) {
+        CodeStyleManagerEx currentManager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
         if (currentManager instanceof DelegatingCodeStyleManager) {
+            System.out.println("ReformatAction.uninstallStyleManager");
             DelegatingCodeStyleManager delegate = (DelegatingCodeStyleManager) currentManager;
-            CodeStyleManagerEx original = delegate.getTarget();
-            container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
-            container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, original);
+            registerCodeStyleManager(project, delegate.getTarget());
         }
     }
 
-    public void update(AnActionEvent e) {
-        boolean enabled = canReformat(selectedFiles(e));
-        e.getPresentation().setEnabled(enabled);
+    private static void registerCodeStyleManager(Project project, CodeStyleManagerEx codeStyleManager) {
+        MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
+        container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
+        container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, codeStyleManager);
     }
 
     private static VirtualFile[] selectedFiles(AnActionEvent e) {
@@ -182,5 +149,50 @@ public class ReformatAction extends AnAction {
     private boolean isOneDirectory(VirtualFile[] selection) {
         return selection.length == 1
                 && selection[0].isDirectory();
+    }
+
+    private void printDebugData(AnActionEvent e) {
+        VirtualFile[] selection = selectedFiles(e);
+        DataContext context = e.getDataContext();
+        System.out.println("ReformatAction.actionPerformed");
+        System.out.println(e);
+        System.out.println("e.getPlace() = " + e.getPlace());
+        System.out.println("e.getDataContext() = " + context);
+        System.out.println("DataKeys.VIRTUAL_FILE = " + DataKeys.VIRTUAL_FILE.getData(context));
+        System.out.println("DataKeys.VIRTUAL_FILE_ARRAY = " + Arrays.toString(DataKeys.VIRTUAL_FILE_ARRAY.getData(context)));
+
+        System.out.println("canReformat(file) = " + canReformat(selection));
+
+        for (VirtualFile file : selection) {
+            System.out.println("-----");
+            System.out.println("file.getExtension() = " + file.getExtension());
+            System.out.println("file.getFileSystem() = " + file.getFileSystem());
+            System.out.println("file.getFileType() = " + file.getFileType());
+            System.out.println("file.getLength() = " + file.getLength());
+            System.out.println("file.getName() = " + file.getName());
+            System.out.println("file.getParent() = " + file.getParent());
+            System.out.println("file.getPath() = " + file.getPath());
+            System.out.println("file.getPresentableName() = " + file.getPresentableName());
+            System.out.println("file.isDirectory() = " + file.isDirectory());
+            System.out.println("file.isInLocalFileSystem() = " + file.isInLocalFileSystem());
+            System.out.println("file.isValid() = " + file.isValid());
+            System.out.println("file.isWritable() = " + file.isWritable());
+        }
+
+        Project project = DataKeys.PROJECT.getData(e.getDataContext());
+        assert project != null;
+        MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
+        System.out.println("project.getPicoContainer() = " + container);
+
+        final String KEY = CodeStyleManager.class.getName();
+        CodeStyleManager service = (CodeStyleManager) container.getComponentInstance(KEY);
+        System.out.println("service = " + service);
+        System.out.println("service.getClass() = " + service.getClass());
+//        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
+//        container.registerComponentInstance(KEY, "FooBar");
+//        System.out.println("service (fake) = " + container.getComponentInstance(KEY));
+//        System.out.println("container.unregisterComponent(KEY); = " + container.unregisterComponent(KEY));
+//        container.registerComponentInstance(KEY, service);
+//        System.out.println("service (back) = " + container.getComponentInstance(KEY));
     }
 }

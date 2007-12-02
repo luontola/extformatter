@@ -39,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @SuppressWarnings({"deprecation"})
 public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
-    /*
+    /* HACK:
     This class must be a subclass of CodeStyleManagerEx (part of private API)
     and not CodeStyleManager (part of OpenAPI), because IDEA tries to cast it
     to CodeStyleManagerEx in some parts of the code. If this class were to
@@ -53,6 +53,10 @@ public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
         at com.intellij.openapi.vcs.impl.AbstractVcsHelperImpl$8.run(AbstractVcsHelperImpl.java:14)
         at com.intellij.openapi.progress.impl.ProgressManagerImpl$2.run(ProgressManagerImpl.java:6)
         ...
+
+    P.S. It's not possible to extend CodeStyleManagerImpl (the actual class),
+    because at least I don't know how to get a StatisticsManagerEx which could
+    be given to CodeStyleManagerImpl's constructor.
      */
 
     @NotNull private final CodeStyleManagerEx target;

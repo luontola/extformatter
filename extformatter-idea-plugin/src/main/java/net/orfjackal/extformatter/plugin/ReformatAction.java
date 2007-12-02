@@ -17,10 +17,7 @@
 
 package net.orfjackal.extformatter.plugin;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
@@ -34,8 +31,14 @@ import java.util.Arrays;
  */
 public class ReformatAction extends AnAction {
 
+    // TODO: use com.intellij.openapi.actionSystem.ActionManager to wrap the 
+
     public void actionPerformed(AnActionEvent e) {
         printDebugData(e);
+
+        // com.intellij.codeInsight.actions.ReformatCodeAction
+        AnAction reformatCode = ActionManager.getInstance().getAction("ReformatCode");
+        System.out.println("reformatCode = " + reformatCode);
 
         VirtualFile[] selection = selectedFiles(e);
         if (ExternalizedCodeStyleManager.canReformat(selection)) {

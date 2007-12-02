@@ -15,28 +15,20 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter;
+package net.orfjackal.extformatter.plugin;
 
-import jdave.Specification;
-import jdave.junit4.JDaveRunner;
-import org.junit.runner.RunWith;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 
 /**
  * @author Esko Luontola
- * @since 28.11.2007
+ * @since 2.12.2007
  */
-@RunWith(JDaveRunner.class)
-public class TestSpec extends Specification<Object> {
+public class ReformatAction extends AnAction {
 
-    public class TestName {
-
-        public Object create() {
-            return null;
-        }
-
-        public void should() {
-            specify(true);
-        }
-
+    public void actionPerformed(AnActionEvent e) {
+        // TODO: insert action logic here
+        System.out.println("ReformatAction.actionPerformed");
+        System.out.println(e);
     }
 }

@@ -21,7 +21,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
@@ -39,7 +38,7 @@ public class ReformatAction extends AnAction {
         printDebugData(e);
 
         VirtualFile[] selection = selectedFiles(e);
-        if (canReformat(selection)) {
+        if (ExternalizedCodeStyleManager.canReformat(selection)) {
             System.out.println("CAN REFORMAT");
         }
 
@@ -49,7 +48,7 @@ public class ReformatAction extends AnAction {
     }
 
     public void update(AnActionEvent e) {
-        boolean enabled = canReformat(selectedFiles(e));
+        boolean enabled = ExternalizedCodeStyleManager.canReformat(selectedFiles(e));
         e.getPresentation().setEnabled(enabled);
     }
 
@@ -61,51 +60,7 @@ public class ReformatAction extends AnAction {
         return selected;
     }
 
-    private boolean canReformat(VirtualFile[] selection) {
-        return notEmpty(selection)
-                && allAreInLocalFileSystem(selection)
-                && allAreWritable(selection)
-                && (allFileTypesAreSupported(selection) || isOneDirectory(selection));
-    }
-
-    private boolean notEmpty(VirtualFile[] selection) {
-        return selection.length > 0;
-    }
-
-    private boolean allAreInLocalFileSystem(VirtualFile[] selection) {
-        for (VirtualFile file : selection) {
-            if (!file.isInLocalFileSystem()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean allAreWritable(VirtualFile[] selection) {
-        for (VirtualFile file : selection) {
-            if (!file.isWritable()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean allFileTypesAreSupported(VirtualFile[] selection) {
-        for (VirtualFile file : selection) {
-            // TODO: ask the formatter if it support the file type
-            if (!file.getFileType().equals(StdFileTypes.JAVA)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean isOneDirectory(VirtualFile[] selection) {
-        return selection.length == 1
-                && selection[0].isDirectory();
-    }
-
-    private void printDebugData(AnActionEvent e) {
+    private static void printDebugData(AnActionEvent e) {
         System.out.println("------------- begin -------------");
         VirtualFile[] selection = selectedFiles(e);
         DataContext context = e.getDataContext();
@@ -116,7 +71,7 @@ public class ReformatAction extends AnAction {
         System.out.println("DataKeys.VIRTUAL_FILE = " + DataKeys.VIRTUAL_FILE.getData(context));
         System.out.println("DataKeys.VIRTUAL_FILE_ARRAY = " + Arrays.toString(DataKeys.VIRTUAL_FILE_ARRAY.getData(context)));
 
-        System.out.println("canReformat(file) = " + canReformat(selection));
+        System.out.println("canReformat(file) = " + ExternalizedCodeStyleManager.canReformat(selection));
 
         for (VirtualFile file : selection) {
             System.out.println("-----");

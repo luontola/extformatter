@@ -21,8 +21,11 @@ import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
+import net.orfjackal.extformatter.EclipseCodeFormatter;
 import org.jetbrains.annotations.NotNull;
 import org.picocontainer.MutablePicoContainer;
+
+import java.io.File;
 
 /**
  * @author Esko Luontola
@@ -78,7 +81,13 @@ public class ProjectCodeStyleInstaller implements ProjectComponent {
     public static void installExternalCodeFormatter(@NotNull Project project) {
         CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
         if (!(manager instanceof DelegatingCodeStyleManager)) {
-            registerCodeStyleManager(project, new DelegatingCodeStyleManager(manager));
+//            registerCodeStyleManager(project, new DelegatingCodeStyleManager(manager));
+            // TODO: get formatter from some configuration manager
+            // TODO: reinstall formatter when configuration is changed
+            registerCodeStyleManager(project, new ExternalizedCodeStyleManager(manager,
+                    new EclipseCodeFormatter(
+                            new File("C:\\eclipse-SDK-3.3.1-win32\\eclipse\\eclipsec.exe"),
+                            new File("C:\\eclipse-SDK-3.3.1-win32\\workspace\\foo\\.settings\\org.eclipse.jdt.core.prefs"))));
         }
     }
 

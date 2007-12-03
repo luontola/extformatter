@@ -64,20 +64,6 @@
 
         <dependency>
             <groupId>com.intellij.idea</groupId>
-            <artifactId>openapi</artifactId>
-            <version>${idea.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.intellij.idea</groupId>
-            <artifactId>extensions</artifactId>
-            <version>${idea.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.intellij.idea</groupId>
             <artifactId>annotations</artifactId>
             <version>${idea.version}</version>
             <scope>provided</scope>

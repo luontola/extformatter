@@ -16,12 +16,30 @@
     <name>extformatter-idea-plugin</name>
 
     <dependencies>
+
         <dependency>
             <groupId>net.orfjackal.extformatter</groupId>
             <artifactId>extformatter-core</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- IntelliJ IDEA -->
+
+        <dependency>
+            <groupId>com.intellij.idea</groupId>
+            <artifactId>openapi</artifactId>
+            <version>${idea.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.intellij.idea</groupId>
+            <artifactId>extensions</artifactId>
+            <version>${idea.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Used by IDEA, not sure that which version -->
         <dependency>
             <groupId>org.picocontainer</groupId>
             <artifactId>picocontainer</artifactId>
@@ -29,7 +47,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- TODO: add to repository, don't use systemPath -->
+        <!-- TODO: move CodeStyleManagerEx to its own jar and add it as a system library, store with sources -->
         <dependency>
             <groupId>com.intellij.idea</groupId>
             <artifactId>idea</artifactId>
@@ -37,6 +55,7 @@
             <scope>system</scope>
             <systemPath>C:\Program Files\JetBrains\IntelliJ IDEA 7.0.1\lib\idea.jar</systemPath>
         </dependency>
+
     </dependencies>
 
 </project>

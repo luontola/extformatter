@@ -77,185 +77,185 @@ public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
 
     @NotNull
     public Project getProject() {
-        LOG.debug("DelegatingCodeStyleManager.getProject");
+        LOG.info("DelegatingCodeStyleManager.getProject");
         return target.getProject();
     }
 
     @NotNull
     public PsiElement reformat(@NotNull PsiElement element) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.reformat");
+        LOG.info("DelegatingCodeStyleManager.reformat");
         return target.reformat(element);
     }
 
     @NotNull
     public PsiElement reformat(@NotNull PsiElement element, boolean canChangeWhiteSpacesOnly) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.reformat");
+        LOG.info("DelegatingCodeStyleManager.reformat");
         return target.reformat(element, canChangeWhiteSpacesOnly);
     }
 
     public PsiElement reformatRange(@NotNull PsiElement element, int startOffset, int endOffset) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.reformatRange");
+        LOG.info("DelegatingCodeStyleManager.reformatRange");
         return target.reformatRange(element, startOffset, endOffset);
     }
 
     public PsiElement reformatRange(@NotNull PsiElement element, int startOffset, int endOffset, boolean canChangeWhiteSpacesOnly) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.reformatRange");
+        LOG.info("DelegatingCodeStyleManager.reformatRange");
         return target.reformatRange(element, startOffset, endOffset, canChangeWhiteSpacesOnly);
     }
 
     public void reformatText(@NotNull PsiFile element, int startOffset, int endOffset) throws IncorrectOperationException {
-        LOG.debug("------------------");
-        LOG.debug(new RuntimeException("TEST"));
-        LOG.debug("DelegatingCodeStyleManager.reformatText");
-        LOG.debug("element = " + element);
-        LOG.debug("startOffset = " + startOffset);
-        LOG.debug("endOffset = " + endOffset);
+        LOG.info("------------------");
+        LOG.info(new RuntimeException("TEST"));
+        LOG.info("DelegatingCodeStyleManager.reformatText");
+        LOG.info("element = " + element);
+        LOG.info("startOffset = " + startOffset);
+        LOG.info("endOffset = " + endOffset);
         target.reformatText(element, startOffset, endOffset);
     }
 
     public PsiElement shortenClassReferences(@NotNull PsiElement element) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.shortenClassReferences");
+        LOG.info("DelegatingCodeStyleManager.shortenClassReferences");
         return target.shortenClassReferences(element);
     }
 
     public void shortenClassReferences(@NotNull PsiElement element, int startOffset, int endOffset) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.shortenClassReferences");
+        LOG.info("DelegatingCodeStyleManager.shortenClassReferences");
         target.shortenClassReferences(element, startOffset, endOffset);
     }
 
     public void optimizeImports(@NotNull PsiFile file) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.optimizeImports");
+        LOG.info("DelegatingCodeStyleManager.optimizeImports");
         target.optimizeImports(file);
     }
 
     public PsiImportList prepareOptimizeImportsResult(@NotNull PsiJavaFile file) {
-        LOG.debug("------------------");
-        LOG.debug(new RuntimeException("TEST"));
-        LOG.debug("DelegatingCodeStyleManager.prepareOptimizeImportsResult");
-        LOG.debug("file = " + file);
+        LOG.info("------------------");
+        LOG.info(new RuntimeException("TEST"));
+        LOG.info("DelegatingCodeStyleManager.prepareOptimizeImportsResult");
+        LOG.info("file = " + file);
         return target.prepareOptimizeImportsResult(file);
     }
 
     public void adjustLineIndent(@NotNull PsiFile file, TextRange rangeToAdjust) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.adjustLineIndent");
+        LOG.info("DelegatingCodeStyleManager.adjustLineIndent");
         target.adjustLineIndent(file, rangeToAdjust);
     }
 
     public int adjustLineIndent(@NotNull PsiFile file, int offset) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.adjustLineIndent");
+        LOG.info("DelegatingCodeStyleManager.adjustLineIndent");
         return target.adjustLineIndent(file, offset);
     }
 
     public int adjustLineIndent(@NotNull Document document, int offset) {
-        LOG.debug("DelegatingCodeStyleManager.adjustLineIndent");
+        LOG.info("DelegatingCodeStyleManager.adjustLineIndent");
         return target.adjustLineIndent(document, offset);
     }
 
     public boolean isLineToBeIndented(@NotNull PsiFile file, int offset) {
-        LOG.debug("DelegatingCodeStyleManager.isLineToBeIndented");
+        LOG.info("DelegatingCodeStyleManager.isLineToBeIndented");
         return target.isLineToBeIndented(file, offset);
     }
 
     public String getLineIndent(@NotNull PsiFile file, int offset) {
-        LOG.debug("DelegatingCodeStyleManager.getLineIndent");
+        LOG.info("DelegatingCodeStyleManager.getLineIndent");
         return target.getLineIndent(file, offset);
     }
 
     public String getLineIndent(@NotNull Editor editor) {
-        LOG.debug("DelegatingCodeStyleManager.getLineIndent");
+        LOG.info("DelegatingCodeStyleManager.getLineIndent");
         return target.getLineIndent(editor);
     }
 
     public Indent getIndent(String text, FileType fileType) {
-        LOG.debug("DelegatingCodeStyleManager.getIndent");
+        LOG.info("DelegatingCodeStyleManager.getIndent");
         return target.getIndent(text, fileType);
     }
 
     public String fillIndent(Indent indent, FileType fileType) {
-        LOG.debug("DelegatingCodeStyleManager.fillIndent");
+        LOG.info("DelegatingCodeStyleManager.fillIndent");
         return target.fillIndent(indent, fileType);
     }
 
     public Indent zeroIndent() {
-        LOG.debug("DelegatingCodeStyleManager.zeroIndent");
+        LOG.info("DelegatingCodeStyleManager.zeroIndent");
         return target.zeroIndent();
     }
 
     public PsiElement insertNewLineIndentMarker(@NotNull PsiFile file, int offset) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.insertNewLineIndentMarker");
+        LOG.info("DelegatingCodeStyleManager.insertNewLineIndentMarker");
         return target.insertNewLineIndentMarker(file, offset);
     }
 
     public VariableKind getVariableKind(@NotNull PsiVariable variable) {
-        LOG.debug("DelegatingCodeStyleManager.getVariableKind");
+        LOG.info("DelegatingCodeStyleManager.getVariableKind");
         return target.getVariableKind(variable);
     }
 
     public SuggestedNameInfo suggestVariableName(@NotNull VariableKind kind, @Nullable String propertyName, @Nullable PsiExpression expr, @Nullable PsiType type) {
-        LOG.debug("DelegatingCodeStyleManager.suggestVariableName");
+        LOG.info("DelegatingCodeStyleManager.suggestVariableName");
         return target.suggestVariableName(kind, propertyName, expr, type);
     }
 
     public String variableNameToPropertyName(@NonNls String name, VariableKind variableKind) {
-        LOG.debug("DelegatingCodeStyleManager.variableNameToPropertyName");
+        LOG.info("DelegatingCodeStyleManager.variableNameToPropertyName");
         return target.variableNameToPropertyName(name, variableKind);
     }
 
     public String propertyNameToVariableName(@NonNls String propertyName, VariableKind variableKind) {
-        LOG.debug("DelegatingCodeStyleManager.propertyNameToVariableName");
+        LOG.info("DelegatingCodeStyleManager.propertyNameToVariableName");
         return target.propertyNameToVariableName(propertyName, variableKind);
     }
 
     public String suggestUniqueVariableName(@NonNls String baseName, PsiElement place, boolean lookForward) {
-        LOG.debug("DelegatingCodeStyleManager.suggestUniqueVariableName");
+        LOG.info("DelegatingCodeStyleManager.suggestUniqueVariableName");
         return target.suggestUniqueVariableName(baseName, place, lookForward);
     }
 
     @NotNull
     public SuggestedNameInfo suggestUniqueVariableName(@NotNull SuggestedNameInfo baseNameInfo, PsiElement place, boolean lookForward) {
-        LOG.debug("DelegatingCodeStyleManager.suggestUniqueVariableName");
+        LOG.info("DelegatingCodeStyleManager.suggestUniqueVariableName");
         return target.suggestUniqueVariableName(baseNameInfo, place, lookForward);
     }
 
     public PsiElement qualifyClassReferences(@NotNull PsiElement element) {
-        LOG.debug("DelegatingCodeStyleManager.qualifyClassReferences");
+        LOG.info("DelegatingCodeStyleManager.qualifyClassReferences");
         return target.qualifyClassReferences(element);
     }
 
     public void removeRedundantImports(@NotNull PsiJavaFile file) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.removeRedundantImports");
+        LOG.info("DelegatingCodeStyleManager.removeRedundantImports");
         target.removeRedundantImports(file);
     }
 
     public void reformatNewlyAddedElement(@NotNull ASTNode block, @NotNull ASTNode addedElement) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.reformatNewlyAddedElement");
+        LOG.info("DelegatingCodeStyleManager.reformatNewlyAddedElement");
         target.reformatNewlyAddedElement(block, addedElement);
     }
 
     public boolean addImport(@NotNull PsiJavaFile psiJavaFile, @NotNull PsiClass psiClass) {
-        LOG.debug("DelegatingCodeStyleManager.addImport");
+        LOG.info("DelegatingCodeStyleManager.addImport");
         return target.addImport(psiJavaFile, psiClass);
     }
 
     public PsiElement shortenClassReferences(@NotNull PsiElement psiElement, int i) throws IncorrectOperationException {
-        LOG.debug("DelegatingCodeStyleManager.shortenClassReferences");
+        LOG.info("DelegatingCodeStyleManager.shortenClassReferences");
         return target.shortenClassReferences(psiElement, i);
     }
 
     @NotNull
     public String getPrefixByVariableKind(VariableKind variableKind) {
-        LOG.debug("DelegatingCodeStyleManager.getPrefixByVariableKind");
+        LOG.info("DelegatingCodeStyleManager.getPrefixByVariableKind");
         return target.getPrefixByVariableKind(variableKind);
     }
 
     @NotNull
     public String getSuffixByVariableKind(VariableKind variableKind) {
-        LOG.debug("DelegatingCodeStyleManager.getSuffixByVariableKind");
+        LOG.info("DelegatingCodeStyleManager.getSuffixByVariableKind");
         return target.getSuffixByVariableKind(variableKind);
     }
 
     public int findEntryIndex(@NotNull PsiImportStatementBase psiImportStatementBase) {
-        LOG.debug("DelegatingCodeStyleManager.findEntryIndex");
+        LOG.info("DelegatingCodeStyleManager.findEntryIndex");
         return target.findEntryIndex(psiImportStatementBase);
     }
 }

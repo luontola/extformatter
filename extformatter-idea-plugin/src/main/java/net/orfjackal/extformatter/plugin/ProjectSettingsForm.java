@@ -17,6 +17,8 @@
 
 package net.orfjackal.extformatter.plugin;
 
+import net.orfjackal.extformatter.settings.ProjectSettings;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter.plugin;
+package net.orfjackal.extformatter.settings;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -17,6 +17,7 @@
 
 package net.orfjackal.extformatter.plugin;
 
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -40,19 +41,19 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         this.replacement = replacement;
     }
 
-    public void reformatText(@NotNull PsiFile file, int startOffset, int endOffset) throws IncorrectOperationException {
-        if (wholeFile(file, startOffset, endOffset) && canReformat(file)) {
-            // TODO: does not synchronize the file with filesystem
+    public void reformatText(@NotNull PsiFile psiFile, int startOffset, int endOffset) throws IncorrectOperationException {
+        VirtualFile file = psiFile.getVirtualFile();
+        if (file != null && canReformat(file) && wholeFile(psiFile, startOffset, endOffset)) {
             // TODO: queue all files so that they can be formatted with one command 
-            replacement.reformatFile(physicalFile(file));
+            try {
+                save(file);
+                replacement.reformatFile(ioFile(file));
+            } finally {
+                file.refresh(false, false);
+            }
         } else {
-            super.reformatText(file, startOffset, endOffset);
+            super.reformatText(psiFile, startOffset, endOffset);
         }
-    }
-
-    private static boolean canReformat(@NotNull PsiFile file) {
-        VirtualFile virtualFile = file.getVirtualFile();
-        return virtualFile != null && canReformat(virtualFile);
     }
 
     private static boolean wholeFile(@NotNull PsiFile file, int startOffset, int endOffset) {
@@ -60,11 +61,14 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
                 && endOffset == file.getTextRange().getEndOffset();
     }
 
+    private static void save(@NotNull VirtualFile file) {
+        FileDocumentManager.getInstance().saveDocument(
+                FileDocumentManager.getInstance().getDocument(file));
+    }
+
     @NotNull
-    private static File physicalFile(@NotNull PsiFile psiFile) {
-        VirtualFile virtualFile = psiFile.getVirtualFile();
-        assert virtualFile != null;
-        return new File(virtualFile.getPath());
+    private static File ioFile(@NotNull VirtualFile file) {
+        return new File(file.getPath());
     }
 
     public static boolean canReformat(@NotNull VirtualFile... selection) {

@@ -112,6 +112,8 @@ public class EclipseCodeFormatter implements CodeFormatter {
         //      -application org.eclipse.jdt.core.JavaCodeFormatter -verbose
         //      -config C:\eclipse-SDK-3.3.1-win32\workspace\foo\.settings\org.eclipse.jdt.core.prefs
         //      C:\Temp\weenyconsole\src\main\java\net\orfjackal\weenyconsole\*.java
+        assert eclipseExecutable.isFile() : "Not a file, eclipseExecutable: " + eclipseExecutable;
+        assert eclipsePrefs.isFile() : "Not a file, eclipsePrefs: " + eclipsePrefs;
         try {
             String eclipse = quoted(eclipseExecutable.getCanonicalPath());
             String java = quoted(new File(System.getProperty("java.home"), "bin/java").getCanonicalPath());

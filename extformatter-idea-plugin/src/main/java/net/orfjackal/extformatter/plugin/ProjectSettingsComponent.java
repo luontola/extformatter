@@ -21,10 +21,12 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import net.orfjackal.extformatter.settings.IllegalSettingsException;
 import net.orfjackal.extformatter.settings.Settings;
 import net.orfjackal.extformatter.settings.SettingsManager;
 import org.jetbrains.annotations.Nls;
@@ -46,6 +48,8 @@ import javax.swing.*;
         )}
 )
 public class ProjectSettingsComponent implements ProjectComponent, Configurable, PersistentStateComponent<Settings> {
+
+    private static final Logger LOG = Logger.getInstance(ProjectSettingsComponent.class.getName());
 
     @NotNull private final ProjectCodeStyleInstaller project;
 
@@ -76,11 +80,28 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     }
 
     private void applySettings() {
-        project.changeFormatterTo(SettingsManager.newFormatter(settings));
+        try {
+            project.changeFormatterTo(SettingsManager.newFormatter(settings));
+        } catch (IllegalSettingsException e) {
+            LOG.error(e);
+        }
     }
 
     private void uninstall() {
         project.changeFormatterTo(null);
+    }
+
+    private void verifySettingsOf(@Nullable ProjectSettingsForm form) throws ConfigurationException {
+        try {
+            if (form != null) {
+                Settings copy = settings.clone();
+                form.getData(copy);
+                SettingsManager.newFormatter(copy);
+            }
+        } catch (IllegalSettingsException e) {
+            LOG.info(e);
+            throw new ConfigurationException("Error in field " + e.getField() + ": " + e.getExplanation());
+        }
     }
 
     @Nls
@@ -112,6 +133,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     }
 
     public void apply() throws ConfigurationException {
+        verifySettingsOf(form);
         if (form != null) {
             form.getData(settings);
             applySettings();

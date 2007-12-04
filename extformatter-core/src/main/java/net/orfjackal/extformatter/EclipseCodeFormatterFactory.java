@@ -17,6 +17,7 @@
 
 package net.orfjackal.extformatter;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -44,7 +45,8 @@ public class EclipseCodeFormatterFactory implements CodeFormatterFactory<Eclipse
         return eclipseExecutable;
     }
 
-    public void setEclipseExecutable(@Nullable File eclipseExecutable) {
+    public void setEclipseExecutable(@NotNull File eclipseExecutable) {
+        assert eclipseExecutable.isFile() : "Not a file: " + eclipseExecutable;
         this.eclipseExecutable = eclipseExecutable;
     }
 
@@ -53,7 +55,8 @@ public class EclipseCodeFormatterFactory implements CodeFormatterFactory<Eclipse
         return eclipsePrefs;
     }
 
-    public void setEclipsePrefs(@Nullable File eclipsePrefs) {
+    public void setEclipsePrefs(@NotNull File eclipsePrefs) {
+        assert eclipsePrefs.isFile() : "Not a file: " + eclipsePrefs;
         this.eclipsePrefs = eclipsePrefs;
     }
 }

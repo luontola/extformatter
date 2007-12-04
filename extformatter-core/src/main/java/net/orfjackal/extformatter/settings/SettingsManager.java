@@ -20,6 +20,7 @@ package net.orfjackal.extformatter.settings;
 import net.orfjackal.extformatter.CodeFormatter;
 import net.orfjackal.extformatter.CodeFormatterFactory;
 import net.orfjackal.extformatter.EclipseCodeFormatterFactory;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -31,7 +32,7 @@ import java.io.File;
 public class SettingsManager {
 
     @Nullable
-    public static CodeFormatter newFormatter(Settings settings) {
+    public static CodeFormatter newFormatter(@NotNull Settings settings) throws IllegalSettingsException {
         if (!settings.isPluginEnabled()) {
             return null;
         }
@@ -39,10 +40,36 @@ public class SettingsManager {
         return factory.newFormatter();
     }
 
-    private static EclipseCodeFormatterFactory eclipseFactory(Settings settings) {
+    @NotNull
+    private static EclipseCodeFormatterFactory eclipseFactory(@NotNull Settings settings) throws IllegalSettingsException {
+        mustBeSet(settings.getEclipseExecutable(), "eclipseExecutable");
+        mustBeSet(settings.getEclipsePrefs(), "eclipsePrefs");
+
+        File eclipsePrefs = new File(settings.getEclipsePrefs());
+        File eclipseExecutable = new File(settings.getEclipseExecutable());
+
+        mustBeFile(eclipseExecutable, "eclipseExecutable");
+        mustBeFile(eclipsePrefs, "eclipsePrefs");
+
         EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
-        factory.setEclipseExecutable(new File(settings.getEclipseExecutable()));
-        factory.setEclipsePrefs(new File(settings.getEclipsePrefs()));
+        factory.setEclipseExecutable(eclipseExecutable);
+        factory.setEclipsePrefs(eclipsePrefs);
         return factory;
+    }
+
+    private static void mustBeSet(String s, String field) throws IllegalSettingsException {
+        if (!notEmpty(s)) {
+            throw new IllegalSettingsException(field, "Not set");
+        }
+    }
+
+    private static void mustBeFile(File file, String field) throws IllegalSettingsException {
+        if (!file.isFile()) {
+            throw new IllegalSettingsException(field, "Not a file: " + file);
+        }
+    }
+
+    private static boolean notEmpty(@NotNull String s) {
+        return s.trim().length() > 0;
     }
 }

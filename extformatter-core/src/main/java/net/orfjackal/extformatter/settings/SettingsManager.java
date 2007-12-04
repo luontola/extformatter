@@ -31,7 +31,7 @@ import java.io.File;
 public class SettingsManager {
 
     @Nullable
-    public static CodeFormatter newFormatter(ProjectSettings settings) {
+    public static CodeFormatter newFormatter(Settings settings) {
         if (!settings.isPluginEnabled()) {
             return null;
         }
@@ -39,7 +39,7 @@ public class SettingsManager {
         return factory.newFormatter();
     }
 
-    private static EclipseCodeFormatterFactory eclipseFactory(ProjectSettings settings) {
+    private static EclipseCodeFormatterFactory eclipseFactory(Settings settings) {
         EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
         factory.setEclipseExecutable(new File(settings.getEclipseExecutable()));
         factory.setEclipsePrefs(new File(settings.getEclipsePrefs()));

@@ -23,11 +23,29 @@ import org.jetbrains.annotations.NotNull;
  * @author Esko Luontola
  * @since 4.12.2007
  */
-public class ProjectSettings {
+public class Settings implements Cloneable {
 
+    private boolean pluginEnabled = false;
     @NotNull private String eclipseExecutable = "";
     @NotNull private String eclipsePrefs = "";
-    private boolean pluginEnabled = true;
+
+    public final Settings clone() {
+        try {
+            return (Settings) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Generated getters and setters
+
+    public boolean isPluginEnabled() {
+        return pluginEnabled;
+    }
+
+    public void setPluginEnabled(boolean pluginEnabled) {
+        this.pluginEnabled = pluginEnabled;
+    }
 
     @NotNull
     public String getEclipseExecutable() {
@@ -45,13 +63,5 @@ public class ProjectSettings {
 
     public void setEclipsePrefs(@NotNull String eclipsePrefs) {
         this.eclipsePrefs = eclipsePrefs;
-    }
-
-    public boolean isPluginEnabled() {
-        return pluginEnabled;
-    }
-
-    public void setPluginEnabled(boolean pluginEnabled) {
-        this.pluginEnabled = pluginEnabled;
     }
 }

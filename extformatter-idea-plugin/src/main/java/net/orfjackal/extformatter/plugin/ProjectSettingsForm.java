@@ -17,7 +17,7 @@
 
 package net.orfjackal.extformatter.plugin;
 
-import net.orfjackal.extformatter.settings.ProjectSettings;
+import net.orfjackal.extformatter.settings.Settings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -93,21 +93,21 @@ public class ProjectSettingsForm {
         return rootComponent;
     }
 
-    public void setData(ProjectSettings data) {
+    public void setData(Settings data) {
         eclipseExecutable.setText(data.getEclipseExecutable());
         eclipsePrefs.setText(data.getEclipsePrefs());
         pluginEnabled.setSelected(data.isPluginEnabled());
         updateComponents();
     }
 
-    public void getData(ProjectSettings data) {
+    public void getData(Settings data) {
         data.setEclipseExecutable(eclipseExecutable.getText());
         data.setEclipsePrefs(eclipsePrefs.getText());
         data.setPluginEnabled(pluginEnabled.isSelected());
     }
 
     @SuppressWarnings({"ConstantConditions", "RedundantIfStatement"})
-    public boolean isModified(ProjectSettings data) {
+    public boolean isModified(Settings data) {
         if (eclipseExecutable.getText() != null ? !eclipseExecutable.getText().equals(data.getEclipseExecutable()) : data.getEclipseExecutable() != null) {
             return true;
         }

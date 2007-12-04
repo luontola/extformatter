@@ -73,7 +73,7 @@ public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
         return target;
     }
 
-    // DELEGATED METHODS
+    // Generated delegate methods
 
     @NotNull
     public Project getProject() {
@@ -105,7 +105,7 @@ public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
 
     public void reformatText(@NotNull PsiFile element, int startOffset, int endOffset) throws IncorrectOperationException {
         LOG.info("------------------");
-        LOG.info(new RuntimeException("TEST"));
+//        LOG.info(new RuntimeException("TEST"));
         LOG.info("DelegatingCodeStyleManager.reformatText");
         LOG.info("element = " + element);
         LOG.info("startOffset = " + startOffset);
@@ -130,7 +130,7 @@ public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
 
     public PsiImportList prepareOptimizeImportsResult(@NotNull PsiJavaFile file) {
         LOG.info("------------------");
-        LOG.info(new RuntimeException("TEST"));
+//        LOG.info(new RuntimeException("TEST"));
         LOG.info("DelegatingCodeStyleManager.prepareOptimizeImportsResult");
         LOG.info("file = " + file);
         return target.prepareOptimizeImportsResult(file);

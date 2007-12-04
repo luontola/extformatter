@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.regex.Matcher;
 
 /**
@@ -49,14 +50,22 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     }
 
     private String parsed(@NotNull String command, @NotNull File file) {
-        if (file.isFile()) {
-            command = command.replaceAll("%FILE%", Matcher.quoteReplacement(file.getPath()));
-        } else if (file.isDirectory()) {
-            command = command.replaceAll("%DIRECTORY%", Matcher.quoteReplacement(file.getPath()));
-        } else {
-            throw new IllegalArgumentException("Not a file nor a directory: " + file);
+        try {
+            if (file.isFile()) {
+                command = command.replaceAll("%FILE%", Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
+            } else if (file.isDirectory()) {
+                command = command.replaceAll("%DIRECTORY%", Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
+            } else {
+                throw new IllegalArgumentException("Not a file nor a directory: " + file);
+            }
+            return command;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return command;
+    }
+
+    private static String quoted(String s) {
+        return '"' + s + '"';
     }
 
     public void reformatFile(@NotNull File file) {

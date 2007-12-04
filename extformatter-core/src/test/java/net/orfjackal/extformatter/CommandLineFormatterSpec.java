@@ -24,6 +24,8 @@ import static net.orfjackal.extformatter.TestResources.*;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+
 /**
  * @author Esko Luontola
  * @since 30.11.2007
@@ -42,31 +44,31 @@ public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldExecuteCommandForSingleFile() {
+        public void shouldExecuteCommandForSingleFile() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("format " + FOO_FILE);
+                one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatFile(FOO_FILE);
         }
 
-        public void shouldExecuteCommandForManyFiles() {
+        public void shouldExecuteCommandForManyFiles() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("format " + FOO_FILE);
-                one(executer).execute("format " + BAZ_FILE);
+                one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
+                one(executer).execute("format \"" + BAZ_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatFiles(FOO_FILE, BAZ_FILE);
         }
 
-        public void shouldExecuteCommandForFilesInDirectory() {
+        public void shouldExecuteCommandForFilesInDirectory() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("formatDir " + TESTFILES_DIR);
+                one(executer).execute("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
             formatter.reformatFilesInDirectory(TESTFILES_DIR);
         }
 
-        public void shouldExecuteCommandForFilesInDirectoryRecursively() {
+        public void shouldExecuteCommandForFilesInDirectoryRecursively() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("formatDirRec " + TESTFILES_DIR);
+                one(executer).execute("formatDirRec \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
             formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
         }
@@ -83,10 +85,10 @@ public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldUseDirectoryCommandInsteadOfRecursiveDirectoryCommand() {
+        public void shouldUseDirectoryCommandInsteadOfRecursiveDirectoryCommand() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("formatDir " + TESTFILES_DIR);
-                one(executer).execute("formatDir " + TESTFILES_SUBDIR);
+                one(executer).execute("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
+                one(executer).execute("formatDir \"" + TESTFILES_SUBDIR.getAbsolutePath() + "\"");
             }});
             formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
         }
@@ -103,19 +105,19 @@ public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldUseSingleFileCommandInsteadOfDirectoryCommand() {
+        public void shouldUseSingleFileCommandInsteadOfDirectoryCommand() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("format " + FOO_FILE);
-                one(executer).execute("format " + BAR_FILE);
+                one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
+                one(executer).execute("format \"" + BAR_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatFilesInDirectory(TESTFILES_DIR);
         }
 
-        public void shouldUseSingleFileCommandInsteadOfRecursiveDirectoryCommand() {
+        public void shouldUseSingleFileCommandInsteadOfRecursiveDirectoryCommand() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("format " + FOO_FILE);
-                one(executer).execute("format " + BAR_FILE);
-                one(executer).execute("format " + BAZ_FILE);
+                one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
+                one(executer).execute("format \"" + BAR_FILE.getAbsolutePath() + "\"");
+                one(executer).execute("format \"" + BAZ_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
         }

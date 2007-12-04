@@ -71,7 +71,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         return new File(file.getPath());
     }
 
-    public static boolean canReformat(@NotNull VirtualFile... selection) {
+    private static boolean canReformat(@NotNull VirtualFile... selection) {
         return notEmpty(selection)
                 && allAreInLocalFileSystem(selection)
                 && allAreWritable(selection)

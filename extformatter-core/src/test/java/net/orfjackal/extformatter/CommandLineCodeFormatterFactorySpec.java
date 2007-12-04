@@ -38,7 +38,7 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
             return formatter;
         }
 
-        public void formatterShouldNotBeCreated() {
+        public void shouldNotCreateAFormatter() {
             specify(formatter, should.equal(null));
         }
     }

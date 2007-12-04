@@ -23,7 +23,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 /**
  * @author Esko Luontola
@@ -79,14 +78,14 @@ public class ProjectSettingsForm {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
         chooser.setFileHidingEnabled(false);    // Eclipse's prefs file is in a hidden ".settings" directory
-        chooser.setCurrentDirectory(new File(target.getText()));
+
+        File currentSelection = new File(target.getText());
+        chooser.setCurrentDirectory(currentSelection);
+        chooser.setSelectedFile(currentSelection);
+
         int result = chooser.showOpenDialog(rootComponent);
         if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                target.setText(chooser.getSelectedFile().getCanonicalPath());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            target.setText(chooser.getSelectedFile().getAbsolutePath());
         }
     }
 

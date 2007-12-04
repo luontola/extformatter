@@ -40,7 +40,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
             return formatter;
         }
 
-        public void formatterShouldNotBeCreated() {
+        public void shouldNotCreateAFormatter() {
             specify(formatter, should.equal(null));
         }
     }
@@ -56,7 +56,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
             return formatter;
         }
 
-        public void formatterShouldNotBeCreated() {
+        public void shouldNotCreateAFormatter() {
             specify(formatter, should.equal(null));
         }
     }
@@ -72,7 +72,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
             return formatter;
         }
 
-        public void formatterShouldNotBeCreated() {
+        public void shouldNotCreateAFormatter() {
             specify(formatter, should.equal(null));
         }
     }

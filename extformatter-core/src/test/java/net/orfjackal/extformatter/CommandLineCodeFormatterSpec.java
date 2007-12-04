@@ -31,7 +31,9 @@ import java.io.IOException;
  * @since 30.11.2007
  */
 @RunWith(JDaveRunner.class)
-public class CommandLineFormatterSpec extends Specification<CodeFormatter> {
+public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
+
+    // TODO: move adaptation to the available commands to its own class
 
     public class FormatterWithAllCommandsSpecified {
 

@@ -110,7 +110,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         }
     }
 
-    private String parsed(@NotNull String command, @NotNull File file) {
+    private static String parsed(@NotNull String command, @NotNull File file) {
         try {
             if (file.isFile()) {
                 command = command.replaceAll("%FILE%", Matcher.quoteReplacement(quoted(file.getCanonicalPath())));

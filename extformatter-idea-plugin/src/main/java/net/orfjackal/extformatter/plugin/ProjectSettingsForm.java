@@ -35,6 +35,7 @@ public class ProjectSettingsForm {
     private JTextField eclipsePrefs;
 
     private JPanel rootComponent;
+    private JLabel titleLabel;
     private JButton eclipseExecutableBrowse;
     private JButton eclipsePrefsBrowse;
     private JLabel eclipseExecutableLabel;
@@ -61,6 +62,7 @@ public class ProjectSettingsForm {
 
     private void updateComponents() {
         JComponent[] affectedByPluginEnabled = new JComponent[]{
+                titleLabel,
                 eclipseExecutable,
                 eclipseExecutableBrowse,
                 eclipseExecutableLabel,

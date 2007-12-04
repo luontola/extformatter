@@ -31,9 +31,11 @@ import java.util.regex.Matcher;
  */
 public class CommandLineCodeFormatter implements CodeFormatter {
 
+    // TODO: more descriptive names, also in factory?
     @Nullable private final String singleFileCommand;
     @Nullable private final String directoryCommand;
     @Nullable private final String recursiveDirectoryCommand;
+
     @NotNull private final Executer executer;
 
     public CommandLineCodeFormatter(@Nullable String singleFileCommand, @Nullable String directoryCommand,
@@ -47,6 +49,65 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     public CommandLineCodeFormatter(@Nullable String singleFileCommand, @Nullable String directoryCommand,
                                     @Nullable String recursiveDirectoryCommand) {
         this(singleFileCommand, directoryCommand, recursiveDirectoryCommand, new ExecuterImpl());
+    }
+
+    public boolean supportsReformatFile() {
+        return singleFileCommand != null;
+    }
+
+    public void reformatFile(@NotNull File file) {
+        if (singleFileCommand != null) {
+            executer.execute(parsed(singleFileCommand, file));
+        } else {
+            throw new IllegalStateException("Reformatting a single file is not supported");
+        }
+    }
+
+    public boolean supportsReformatFiles() {
+        return supportsReformatFile();
+    }
+
+    public void reformatFiles(@NotNull File... files) {
+        for (File file : files) {
+            reformatFile(file);
+        }
+    }
+
+    public boolean supportsReformatFilesInDirectory() {
+        return directoryCommand != null || supportsReformatFile();
+    }
+
+    public void reformatFilesInDirectory(@NotNull File directory) {
+        if (directoryCommand != null) {
+            executer.execute(parsed(directoryCommand, directory));
+        } else {
+            File[] files = directory.listFiles(new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.isFile();
+                }
+            });
+            reformatFiles(files);
+        }
+    }
+
+    public boolean supportsReformatFilesInDirectoryRecursively() {
+        return recursiveDirectoryCommand != null || supportsReformatFilesInDirectory();
+    }
+
+    public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
+        if (recursiveDirectoryCommand != null) {
+            executer.execute(parsed(recursiveDirectoryCommand, directory));
+        } else {
+            File[] subDirs = directory.listFiles(new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.isDirectory();
+                }
+            });
+            reformatFilesInDirectory(directory);
+            for (File dir : subDirs) {
+                reformatFilesInDirectoryRecursively(dir);
+            }
+        }
     }
 
     private String parsed(@NotNull String command, @NotNull File file) {
@@ -66,48 +127,5 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     private static String quoted(String s) {
         return '"' + s + '"';
-    }
-
-    public void reformatFile(@NotNull File file) {
-        if (singleFileCommand != null) {
-            executer.execute(parsed(singleFileCommand, file));
-        } else {
-            throw new IllegalStateException("Reformatting a single file is not supported");
-        }
-    }
-
-    public void reformatFiles(@NotNull File... files) {
-        for (File file : files) {
-            reformatFile(file);
-        }
-    }
-
-    public void reformatFilesInDirectory(@NotNull File directory) {
-        if (directoryCommand != null) {
-            executer.execute(parsed(directoryCommand, directory));
-        } else {
-            File[] files = directory.listFiles(new FileFilter() {
-                public boolean accept(File pathname) {
-                    return pathname.isFile();
-                }
-            });
-            reformatFiles(files);
-        }
-    }
-
-    public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
-        if (recursiveDirectoryCommand != null) {
-            executer.execute(parsed(recursiveDirectoryCommand, directory));
-        } else {
-            File[] subDirs = directory.listFiles(new FileFilter() {
-                public boolean accept(File pathname) {
-                    return pathname.isDirectory();
-                }
-            });
-            reformatFilesInDirectory(directory);
-            for (File dir : subDirs) {
-                reformatFilesInDirectoryRecursively(dir);
-            }
-        }
     }
 }

@@ -25,13 +25,13 @@ import java.io.File;
  * @author Esko Luontola
  * @since 4.12.2007
  */
-public class EclipseCodeFormatterFactory implements CodeFormatterFactory {
+public class EclipseCodeFormatterFactory implements CodeFormatterFactory<EclipseCodeFormatter> {
 
     @Nullable private File eclipseExecutable;
     @Nullable private File eclipsePrefs;
 
     @Nullable
-    public CodeFormatter newFormatter() {
+    public EclipseCodeFormatter newFormatter() {
         if (eclipseExecutable != null && eclipsePrefs != null) {
             return new EclipseCodeFormatter(eclipseExecutable, eclipsePrefs);
         } else {

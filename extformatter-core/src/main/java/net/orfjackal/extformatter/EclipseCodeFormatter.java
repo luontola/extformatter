@@ -43,12 +43,20 @@ public class EclipseCodeFormatter implements CodeFormatter {
         this(eclipseExecutable, eclipsePrefs, new ExecuterImpl());
     }
 
+    public boolean supportsReformatFile() {
+        return true;
+    }
+
     public void reformatFile(@NotNull File file) {
         try {
             executer.execute(commandFor(quoted(file.getCanonicalPath())));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean supportsReformatFiles() {
+        return true;
     }
 
     public void reformatFiles(@NotNull File... files) {
@@ -59,6 +67,10 @@ public class EclipseCodeFormatter implements CodeFormatter {
         }
     }
 
+    public boolean supportsReformatFilesInDirectory() {
+        return true;
+    }
+
     public void reformatFilesInDirectory(@NotNull File directory) {
         File[] files = directory.listFiles(new FileFilter() {
             public boolean accept(File file) {
@@ -66,6 +78,10 @@ public class EclipseCodeFormatter implements CodeFormatter {
             }
         });
         reformatFiles(files);
+    }
+
+    public boolean supportsReformatFilesInDirectoryRecursively() {
+        return true;
     }
 
     public void reformatFilesInDirectoryRecursively(@NotNull File directory) {

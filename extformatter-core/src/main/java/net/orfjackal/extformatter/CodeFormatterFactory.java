@@ -23,8 +23,8 @@ import org.jetbrains.annotations.Nullable;
  * @author Esko Luontola
  * @since 4.12.2007
  */
-public interface CodeFormatterFactory {
+public interface CodeFormatterFactory<T extends CodeFormatter> {
 
     @Nullable
-    CodeFormatter newFormatter();
+    T newFormatter();
 }

@@ -28,35 +28,85 @@ import java.io.File;
  * @since 4.12.2007
  */
 @RunWith(JDaveRunner.class)
-public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFormatterFactory> {
+public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFormatter> {
 
-    public class NonConfiguredFactory {
+    public class FactoryWithNothingConfigured {
 
-        private EclipseCodeFormatterFactory factory;
+        private EclipseCodeFormatter formatter;
 
-        public EclipseCodeFormatterFactory create() {
-            factory = new EclipseCodeFormatterFactory();
-            return factory;
+        public EclipseCodeFormatter create() {
+            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
+            formatter = factory.newFormatter();
+            return formatter;
         }
 
-        public void shouldNotCreateAFormatter() {
-            specify(factory.newFormatter(), should.equal(null));
+        public void formatterShouldNotBeCreated() {
+            specify(formatter, should.equal(null));
+        }
+    }
+
+    public class FactoryWithOnlyEclipseExecutableConfigured {
+
+        private EclipseCodeFormatter formatter;
+
+        public EclipseCodeFormatter create() {
+            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
+            factory.setEclipseExecutable(new File("somewhere/eclipse.exe"));
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void formatterShouldNotBeCreated() {
+            specify(formatter, should.equal(null));
+        }
+    }
+
+    public class FactoryWithOnlyEclipsePrefsConfigured {
+
+        private EclipseCodeFormatter formatter;
+
+        public EclipseCodeFormatter create() {
+            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
+            factory.setEclipsePrefs(new File("somewhere/org.eclipse.jdt.core.prefs"));
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void formatterShouldNotBeCreated() {
+            specify(formatter, should.equal(null));
         }
     }
 
     public class ProperlyConfiguredFactory {
 
-        private EclipseCodeFormatterFactory factory;
+        private EclipseCodeFormatter formatter;
 
-        public EclipseCodeFormatterFactory create() {
-            factory = new EclipseCodeFormatterFactory();
+        public EclipseCodeFormatter create() {
+            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
             factory.setEclipseExecutable(new File("somewhere/eclipse.exe"));
             factory.setEclipsePrefs(new File("somewhere/org.eclipse.jdt.core.prefs"));
-            return factory;
+            formatter = factory.newFormatter();
+            return formatter;
         }
 
         public void shouldCreateAFormatter() {
-            specify(factory.newFormatter(), should.not().equal(null));
+            specify(formatter, should.not().equal(null));
+        }
+
+        public void formatterShouldSupportReformatFile() {
+            specify(formatter.supportsReformatFile());
+        }
+
+        public void formatterShouldSupportReformatFiles() {
+            specify(formatter.supportsReformatFiles());
+        }
+
+        public void formatterShouldSupportReformatFilesInDirectory() {
+            specify(formatter.supportsReformatFilesInDirectory());
+        }
+
+        public void formatterShouldSupportReformatFilesInDirectoryRecursively() {
+            specify(formatter.supportsReformatFilesInDirectoryRecursively());
         }
     }
 }

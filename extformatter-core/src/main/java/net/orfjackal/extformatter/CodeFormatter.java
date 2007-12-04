@@ -27,11 +27,19 @@ import java.io.File;
  */
 public interface CodeFormatter {
 
+    boolean supportsReformatFile();
+
     void reformatFile(@NotNull File file);
+
+    boolean supportsReformatFiles();
 
     void reformatFiles(@NotNull File... files);
 
+    boolean supportsReformatFilesInDirectory();
+
     void reformatFilesInDirectory(@NotNull File directory);
+
+    boolean supportsReformatFilesInDirectoryRecursively();
 
     void reformatFilesInDirectoryRecursively(@NotNull File directory);
 }

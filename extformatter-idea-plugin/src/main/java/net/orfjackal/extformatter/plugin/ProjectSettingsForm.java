@@ -18,6 +18,10 @@
 package net.orfjackal.extformatter.plugin;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Esko Luontola
@@ -25,40 +29,91 @@ import javax.swing.*;
  */
 public class ProjectSettingsForm {
 
+    private JCheckBox pluginEnabled;
+    private JTextField eclipseExecutable;
+    private JTextField eclipsePrefs;
+
     private JPanel rootComponent;
+    private JButton eclipseExecutableBrowse;
+    private JButton eclipsePrefsBrowse;
+    private JLabel eclipseExecutableLabel;
+    private JLabel eclipsePrefsLabel;
 
-    private JCheckBox pluginEnabledCheckBox;
-    private JTextField eclipseExecutableField;
-    private JTextField eclipsePrefsField;
+    public ProjectSettingsForm() {
+        pluginEnabled.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateComponents();
+            }
+        });
+        eclipseExecutableBrowse.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                browseForFile(eclipseExecutable);
+            }
+        });
+        eclipsePrefsBrowse.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                browseForFile(eclipsePrefs);
+            }
+        });
+        updateComponents();
+    }
 
-    private JButton locateExecutableButton;
-    private JButton locatePrefsButton;
+    private void updateComponents() {
+        JComponent[] affectedByPluginEnabled = new JComponent[]{
+                eclipseExecutable,
+                eclipseExecutableBrowse,
+                eclipseExecutableLabel,
+                eclipsePrefs,
+                eclipsePrefsBrowse,
+                eclipsePrefsLabel,
+        };
+        for (JComponent component : affectedByPluginEnabled) {
+            component.setEnabled(pluginEnabled.isSelected());
+        }
+    }
+
+    private void browseForFile(JTextField target) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setFileHidingEnabled(false);    // Eclipse's prefs file is in a hidden ".settings" directory
+        chooser.setCurrentDirectory(new File(target.getText()));
+        int result = chooser.showOpenDialog(rootComponent);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                target.setText(chooser.getSelectedFile().getCanonicalPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public JPanel getRootComponent() {
         return rootComponent;
     }
 
     public void setData(ProjectSettings data) {
-        eclipseExecutableField.setText(data.getEclipseExecutable());
-        eclipsePrefsField.setText(data.getEclipsePrefs());
-        pluginEnabledCheckBox.setSelected(data.isPluginEnabled());
+        eclipseExecutable.setText(data.getEclipseExecutable());
+        eclipsePrefs.setText(data.getEclipsePrefs());
+        pluginEnabled.setSelected(data.isPluginEnabled());
+        updateComponents();
     }
 
     public void getData(ProjectSettings data) {
-        data.setEclipseExecutable(eclipseExecutableField.getText());
-        data.setEclipsePrefs(eclipsePrefsField.getText());
-        data.setPluginEnabled(pluginEnabledCheckBox.isSelected());
+        data.setEclipseExecutable(eclipseExecutable.getText());
+        data.setEclipsePrefs(eclipsePrefs.getText());
+        data.setPluginEnabled(pluginEnabled.isSelected());
     }
 
     @SuppressWarnings({"ConstantConditions", "RedundantIfStatement"})
     public boolean isModified(ProjectSettings data) {
-        if (eclipseExecutableField.getText() != null ? !eclipseExecutableField.getText().equals(data.getEclipseExecutable()) : data.getEclipseExecutable() != null) {
+        if (eclipseExecutable.getText() != null ? !eclipseExecutable.getText().equals(data.getEclipseExecutable()) : data.getEclipseExecutable() != null) {
             return true;
         }
-        if (eclipsePrefsField.getText() != null ? !eclipsePrefsField.getText().equals(data.getEclipsePrefs()) : data.getEclipsePrefs() != null) {
+        if (eclipsePrefs.getText() != null ? !eclipsePrefs.getText().equals(data.getEclipsePrefs()) : data.getEclipsePrefs() != null) {
             return true;
         }
-        if (pluginEnabledCheckBox.isSelected() != data.isPluginEnabled()) {
+        if (pluginEnabled.isSelected() != data.isPluginEnabled()) {
             return true;
         }
         return false;

@@ -25,7 +25,8 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import net.orfjackal.extformatter.settings.ProjectSettings;
+import net.orfjackal.extformatter.settings.Settings;
+import net.orfjackal.extformatter.settings.SettingsManager;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -44,17 +45,15 @@ import javax.swing.*;
                 file = "$PROJECT_FILE$"
         )}
 )
-public class ProjectSettingsComponent implements ProjectComponent, Configurable, PersistentStateComponent<ProjectSettings> {
+public class ProjectSettingsComponent implements ProjectComponent, Configurable, PersistentStateComponent<Settings> {
 
-    @NotNull private final Project project;
-    @NotNull private final ProjectCodeStyleInstaller installer;
+    @NotNull private final ProjectCodeStyleInstaller project;
 
-    @NotNull private ProjectSettings settings = new ProjectSettings();
+    @NotNull private final Settings settings = new Settings();
     @Nullable private ProjectSettingsForm form;
 
-    public ProjectSettingsComponent(@NotNull Project project, @NotNull ProjectCodeStyleInstaller installer) {
-        this.project = project;
-        this.installer = installer;
+    public ProjectSettingsComponent(@NotNull Project project) {
+        this.project = new ProjectCodeStyleInstaller(project);
     }
 
     public void initComponent() {
@@ -69,9 +68,19 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     }
 
     public void projectOpened() {
+        applySettings();
     }
 
     public void projectClosed() {
+        uninstall();
+    }
+
+    private void applySettings() {
+        project.changeFormatterTo(SettingsManager.newFormatter(settings));
+    }
+
+    private void uninstall() {
+        project.changeFormatterTo(null);
     }
 
     @Nls
@@ -81,13 +90,13 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
 
     @Nullable
     public Icon getIcon() {
-        return null;
+        return null; // TODO: add icon
     }
 
     @Nullable
     @NonNls
     public String getHelpTopic() {
-        return null;
+        return null; // TODO: add help
     }
 
     @NotNull
@@ -105,6 +114,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     public void apply() throws ConfigurationException {
         if (form != null) {
             form.getData(settings);
+            applySettings();
         }
     }
 
@@ -118,11 +128,12 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         form = null;
     }
 
-    public ProjectSettings getState() {
-        return settings;
+    public Settings getState() {
+        return settings.clone();
     }
 
-    public void loadState(ProjectSettings state) {
+    public void loadState(Settings state) {
         XmlSerializerUtil.copyBean(state, settings);
+        applySettings();
     }
 }

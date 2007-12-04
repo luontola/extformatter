@@ -17,23 +17,23 @@
 
 package net.orfjackal.extformatter.plugin;
 
-import com.intellij.openapi.components.ProjectComponent;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
-import net.orfjackal.extformatter.EclipseCodeFormatter;
+import net.orfjackal.extformatter.CodeFormatter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.picocontainer.MutablePicoContainer;
-
-import java.io.File;
 
 /**
  * @author Esko Luontola
  * @since 2.12.2007
  */
-public class ProjectCodeStyleInstaller implements ProjectComponent {
+public class ProjectCodeStyleInstaller {
 
     private static final String CODE_STYLE_MANAGER_KEY = CodeStyleManager.class.getName();
+    private static final Logger LOG = Logger.getInstance(ProjectCodeStyleInstaller.class.getName());
 
     @NotNull private final Project project;
 
@@ -41,57 +41,44 @@ public class ProjectCodeStyleInstaller implements ProjectComponent {
         this.project = project;
     }
 
-    public void initComponent() {
-    }
-
-    public void disposeComponent() {
-    }
-
     @NotNull
-    public String getComponentName() {
-        return "ProjectCodeStyleInstaller";
+    public Project getProject() {
+        return project;
     }
 
-    public void projectOpened() {
-        installExternalCodeFormatter(project);
-    }
-
-    public void projectClosed() {
-        uninstallExternalCodeFormatter(project);
+    public void changeFormatterTo(@Nullable CodeFormatter formatter) {
+        uninstallCodeFormatter();
+        if (formatter != null) {
+            installCodeFormatter(formatter);
+        }
     }
 
     /* NOTES:
 
-    from ReformatCodeProcessor:
-        CodeStyleManager.getInstance(myProject).reformatText(file, k.getStartOffset(), k.getEndOffset());else
-        CodeStyleManager.getInstance(myProject).reformatText(file, 0, file.getTextRange().getEndOffset());
-    - try to inject a custom com.intellij.psi.codeStyle.CodeStyleManager and replace it after the command exits
+   from ReformatCodeProcessor:
+       CodeStyleManager.getInstance(myProject).reformatText(file, k.getStartOffset(), k.getEndOffset());else
+       CodeStyleManager.getInstance(myProject).reformatText(file, 0, file.getTextRange().getEndOffset());
+   - try to inject a custom com.intellij.psi.codeStyle.CodeStyleManager and replace it after the command exits
 
-    from com.intellij.psi.codeStyle.CodeStyleManager:
-        public static CodeStyleManager getInstance(@NotNull Project project) {
-            return ServiceManager.getService(project, CodeStyleManager.class);
-        }
-    from com.intellij.openapi.components.ServiceManager
-        public static <T> T getService(Project project, Class<T> serviceClass) {
-            return (T)project.getPicoContainer().getComponentInstance(serviceClass.getName());
-        }
+   from com.intellij.psi.codeStyle.CodeStyleManager:
+       public static CodeStyleManager getInstance(@NotNull Project project) {
+           return ServiceManager.getService(project, CodeStyleManager.class);
+       }
+   from com.intellij.openapi.components.ServiceManager
+       public static <T> T getService(Project project, Class<T> serviceClass) {
+           return (T)project.getPicoContainer().getComponentInstance(serviceClass.getName());
+       }
 
-     */
+    */
 
-    public static void installExternalCodeFormatter(@NotNull Project project) {
+    private void installCodeFormatter(@NotNull CodeFormatter formatter) {
         CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
         if (!(manager instanceof DelegatingCodeStyleManager)) {
-//            registerCodeStyleManager(project, new DelegatingCodeStyleManager(manager));
-            // TODO: get formatter from some configuration manager
-            // TODO: reinstall formatter when configuration is changed
-            registerCodeStyleManager(project, new ExternalizedCodeStyleManager(manager,
-                    new EclipseCodeFormatter(
-                            new File("C:\\eclipse-SDK-3.3.1-win32\\eclipse\\eclipsec.exe"),
-                            new File("C:\\eclipse-SDK-3.3.1-win32\\workspace\\foo\\.settings\\org.eclipse.jdt.core.prefs"))));
+            registerCodeStyleManager(project, new ExternalizedCodeStyleManager(manager, formatter));
         }
     }
 
-    public static void uninstallExternalCodeFormatter(@NotNull Project project) {
+    private void uninstallCodeFormatter() {
         CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
         if (manager instanceof DelegatingCodeStyleManager) {
             while (manager instanceof DelegatingCodeStyleManager) {
@@ -101,9 +88,10 @@ public class ProjectCodeStyleInstaller implements ProjectComponent {
         }
     }
 
-    private static void registerCodeStyleManager(Project project, CodeStyleManagerEx codeStyleManager) {
+    private static void registerCodeStyleManager(@NotNull Project project, @NotNull CodeStyleManagerEx manager) {
+        LOG.info("Registering code style manager '" + manager + "' for project '" + project.getName() + "'");
         MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
         container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
-        container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, codeStyleManager);
+        container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, manager);
     }
 }

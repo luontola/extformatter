@@ -1,5 +1,5 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
-<idea-plugin>
+<idea-plugin url="http://plugins.intellij.net/plugin/?id=1605">
 
     <name>${plugin.name}</name>
     <id>${plugin.id}</id>

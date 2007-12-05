@@ -11,7 +11,7 @@
         <module>extformatter-idea-plugin</module>
     </modules>
     <properties>
-        <idea.version>7.0.1.7364</idea.version>
+        <idea.version>7.0.7361</idea.version>
         <plugin.name>External Code Formatter</plugin.name>
         <plugin.id>ExternalCodeFormatter</plugin.id>
     </properties>

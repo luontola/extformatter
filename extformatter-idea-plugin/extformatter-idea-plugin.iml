@@ -27,15 +27,15 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="com.intellij.idea:annotations:7.0.1.7364">
+      <library name="com.intellij.idea:annotations:7.0.7361">
         <CLASSES>
-          <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/com/intellij/idea/annotations/7.0.1.7364/annotations-7.0.1.7364.jar!/" />
+          <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/com/intellij/idea/annotations/7.0.7361/annotations-7.0.7361.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/com/intellij/idea/annotations/7.0.1.7364/annotations-7.0.1.7364-javadoc.jar!/" />
+          <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/com/intellij/idea/annotations/7.0.7361/annotations-7.0.7361-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/com/intellij/idea/annotations/7.0.1.7364/annotations-7.0.1.7364-sources.jar!/" />
+          <root url="jar://C:/Documents and Settings/ORFJackal/.m2/repository/com/intellij/idea/annotations/7.0.7361/annotations-7.0.7361-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

@@ -1,7 +1,7 @@
 @echo off
 rem complete your IDEA Home folder here
-set IDEA_HOME=C:\Program Files\JetBrains\IntelliJ IDEA 7.0.1
-set IDEA_VERSION=7.0.1.7364
+set IDEA_HOME=C:\Program Files\JetBrains\idea-7.0-jdk15
+set IDEA_VERSION=7.0.7361
 echo.
 echo Installing packages of IDEA version %IDEA_VERSION% from "%IDEA_HOME%" to the local Maven repository...
 echo.

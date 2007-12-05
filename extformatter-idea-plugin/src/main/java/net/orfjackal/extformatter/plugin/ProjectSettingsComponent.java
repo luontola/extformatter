@@ -35,6 +35,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Esko Luontola
@@ -100,8 +102,20 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
             }
         } catch (IllegalSettingsException e) {
             LOG.info(e);
-            throw new ConfigurationException("Error in field " + e.getField() + ": " + e.getExplanation());
+            throw new ConfigurationException("Error in the " + nameOf(e.getField()) + " field: " + e.getExplanation());
         }
+    }
+
+    private static String nameOf(String field) {
+        Map<String, String> fieldNames = new HashMap<String, String>();
+        fieldNames.put("eclipseExecutable", "Eclipse executable");
+        fieldNames.put("eclipsePrefs", "Eclipse preferences");
+        String name = fieldNames.get(field);
+        if (name == null) {
+            LOG.warn("Unknown field: " + field);
+            return field;
+        }
+        return name;
     }
 
     @Nls

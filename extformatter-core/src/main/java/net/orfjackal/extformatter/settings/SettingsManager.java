@@ -42,14 +42,14 @@ public class SettingsManager {
 
     @NotNull
     private static EclipseCodeFormatterFactory eclipseFactory(@NotNull Settings settings) throws IllegalSettingsException {
-        mustBeSet(settings.getEclipseExecutable(), "eclipseExecutable");
-        mustBeSet(settings.getEclipsePrefs(), "eclipsePrefs");
+        mustNotBeEmpty(settings.getEclipseExecutable(), "eclipseExecutable");
+        mustNotBeEmpty(settings.getEclipsePrefs(), "eclipsePrefs");
 
         File eclipsePrefs = new File(settings.getEclipsePrefs());
         File eclipseExecutable = new File(settings.getEclipseExecutable());
 
-        mustBeFile(eclipseExecutable, "eclipseExecutable");
-        mustBeFile(eclipsePrefs, "eclipsePrefs");
+        fileMustExist(eclipseExecutable, "eclipseExecutable");
+        fileMustExist(eclipsePrefs, "eclipsePrefs");
 
         EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
         factory.setEclipseExecutable(eclipseExecutable);
@@ -57,15 +57,15 @@ public class SettingsManager {
         return factory;
     }
 
-    private static void mustBeSet(String s, String field) throws IllegalSettingsException {
+    private static void mustNotBeEmpty(@NotNull String s, @NotNull String field) throws IllegalSettingsException {
         if (!notEmpty(s)) {
-            throw new IllegalSettingsException(field, "Not set");
+            throw new IllegalSettingsException(field, "Field is empty");
         }
     }
 
-    private static void mustBeFile(File file, String field) throws IllegalSettingsException {
+    private static void fileMustExist(@NotNull File file, @NotNull String field) throws IllegalSettingsException {
         if (!file.isFile()) {
-            throw new IllegalSettingsException(field, "Not a file: " + file);
+            throw new IllegalSettingsException(field, "File does not exist: " + file);
         }
     }
 

@@ -21,8 +21,6 @@ import jdave.Specification;
 import jdave.junit4.JDaveRunner;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-
 /**
  * @author Esko Luontola
  * @since 4.12.2007
@@ -51,7 +49,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
 
         public EclipseCodeFormatter create() {
             EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
-            factory.setEclipseExecutable(new File("somewhere/eclipse.exe"));
+            factory.setEclipseExecutable(TestResources.ECLIPSE_EXE_FILE);
             formatter = factory.newFormatter();
             return formatter;
         }
@@ -67,7 +65,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
 
         public EclipseCodeFormatter create() {
             EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
-            factory.setEclipsePrefs(new File("somewhere/org.eclipse.jdt.core.prefs"));
+            factory.setEclipsePrefs(TestResources.ECLIPSE_PREFS_FILE);
             formatter = factory.newFormatter();
             return formatter;
         }
@@ -83,8 +81,8 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
 
         public EclipseCodeFormatter create() {
             EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
-            factory.setEclipseExecutable(new File("somewhere/eclipse.exe"));
-            factory.setEclipsePrefs(new File("somewhere/org.eclipse.jdt.core.prefs"));
+            factory.setEclipseExecutable(TestResources.ECLIPSE_EXE_FILE);
+            factory.setEclipsePrefs(TestResources.ECLIPSE_PREFS_FILE);
             formatter = factory.newFormatter();
             return formatter;
         }

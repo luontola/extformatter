@@ -32,6 +32,7 @@ public class TestResources {
     public static final File BAR_FILE = file("/testfiles/Bar.java.txt");
     public static final File TESTFILES_SUBDIR = file("/testfiles/subdir");
     public static final File BAZ_FILE = file("/testfiles/subdir/Baz.java.txt");
+    public static final File ECLIPSE_EXE_FILE = file("/eclipse/eclipse.exe.txt");
     public static final File ECLIPSE_PREFS_FILE = file("/eclipse/org.eclipse.jdt.core.prefs.txt");
 
     private TestResources() {

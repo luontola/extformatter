@@ -58,7 +58,7 @@ public class SettingsManager {
     }
 
     private static void mustNotBeEmpty(@NotNull String s, @NotNull String field) throws IllegalSettingsException {
-        if (!notEmpty(s)) {
+        if (isEmpty(s)) {
             throw new IllegalSettingsException(field, "Field is empty");
         }
     }
@@ -69,7 +69,7 @@ public class SettingsManager {
         }
     }
 
-    private static boolean notEmpty(@NotNull String s) {
-        return s.trim().length() > 0;
+    private static boolean isEmpty(@NotNull String s) {
+        return s.trim().length() == 0;
     }
 }

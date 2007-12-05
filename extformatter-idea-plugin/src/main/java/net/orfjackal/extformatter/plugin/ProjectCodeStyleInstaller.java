@@ -55,17 +55,15 @@ public class ProjectCodeStyleInstaller {
 
     private void installCodeFormatter(@NotNull CodeFormatter formatter) {
         CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
-        if (!(manager instanceof DelegatingCodeStyleManager)) {
+        if (!(manager instanceof ExternalizedCodeStyleManager)) {
             registerCodeStyleManager(project, new ExternalizedCodeStyleManager(manager, formatter));
         }
     }
 
     private void uninstallCodeFormatter() {
         CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
-        if (manager instanceof DelegatingCodeStyleManager) {
-            while (manager instanceof DelegatingCodeStyleManager) {
-                manager = ((DelegatingCodeStyleManager) manager).getTarget();
-            }
+        while (manager instanceof ExternalizedCodeStyleManager) {
+            manager = ((ExternalizedCodeStyleManager) manager).getTarget();
             registerCodeStyleManager(project, manager);
         }
     }

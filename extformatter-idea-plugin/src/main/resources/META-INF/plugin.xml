@@ -17,8 +17,8 @@
     <idea-version since-build="7361"/>
 
     <change-notes><![CDATA[
-        <p>0.2.0 (2007-xx-xx)
-        <br>- Switched to developing on IDEA 7.0 and JDK 1.5 for maximum compatibility</p>
+        <p>0.1.1-SNAPSHOT (2007-xx-xx)
+        <br>- Switched development platform to IDEA 7.0 and JDK 1.5 for maximum compatibility</p>
         
         <p>0.1.0 (2007-12-05)
         <br>- Initial release</p>

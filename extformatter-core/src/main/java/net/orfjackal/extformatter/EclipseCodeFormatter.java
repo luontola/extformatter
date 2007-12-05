@@ -92,7 +92,8 @@ public class EclipseCodeFormatter implements CodeFormatter {
         }
     }
 
-    private String commandFor(String path) {
+    @NotNull
+    private String commandFor(@NotNull String path) {
         /*
          *  Usage: eclipse -application org.eclipse.jdt.core.JavaCodeFormatter [ OPTIONS ] -config <configFile> <files>
          *
@@ -125,7 +126,8 @@ public class EclipseCodeFormatter implements CodeFormatter {
         }
     }
 
-    private static String listOf(File... files) throws IOException {
+    @NotNull
+    private static String listOf(@NotNull File... files) throws IOException {
         if (files.length == 0) {
             throw new IllegalArgumentException("No files");
         }
@@ -139,7 +141,8 @@ public class EclipseCodeFormatter implements CodeFormatter {
         return paths;
     }
 
-    private static String quoted(String s) {
+    @NotNull
+    private static String quoted(@NotNull String s) {
         return '"' + s + '"';
     }
 }

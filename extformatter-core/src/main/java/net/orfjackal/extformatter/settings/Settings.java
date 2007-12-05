@@ -29,6 +29,7 @@ public class Settings implements Cloneable {
     @NotNull private String eclipseExecutable = "";
     @NotNull private String eclipsePrefs = "";
 
+    @NotNull
     public final Settings clone() {
         try {
             return (Settings) super.clone();

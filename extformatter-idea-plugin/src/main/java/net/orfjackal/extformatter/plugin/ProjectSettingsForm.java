@@ -19,6 +19,7 @@ package net.orfjackal.extformatter.plugin;
 
 import com.intellij.ui.DocumentAdapter;
 import net.orfjackal.extformatter.settings.Settings;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -42,8 +43,8 @@ public class ProjectSettingsForm {
 
     private JCheckBox pluginEnabled;
     private JTextField eclipseExecutable;
-
     private JTextField eclipsePrefs;
+
     private JPanel rootComponent;
     private JLabel titleLabel;
     private JButton eclipseExecutableBrowse;
@@ -51,7 +52,7 @@ public class ProjectSettingsForm {
     private JLabel eclipseExecutableLabel;
     private JLabel eclipsePrefsLabel;
 
-    private List<Popup> visiblePopups = new ArrayList<Popup>();
+    private final List<Popup> visiblePopups = new ArrayList<Popup>();
 
     public ProjectSettingsForm() {
         pluginEnabled.addActionListener(new ActionListener() {
@@ -82,7 +83,7 @@ public class ProjectSettingsForm {
         updateComponents();
     }
 
-    private void browseForFile(JTextField target) {
+    private void browseForFile(@NotNull JTextField target) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
@@ -112,39 +113,39 @@ public class ProjectSettingsForm {
         for (JComponent component : affectedByPluginEnabled) {
             component.setEnabled(pluginEnabled.isSelected());
         }
-        if (isNotEmpty(eclipseExecutable) && fileExists(eclipseExecutable)) {
+        if (notEmpty(eclipseExecutable) && fileExists(eclipseExecutable)) {
             ok(eclipseExecutable);
         }
-        if (isNotEmpty(eclipsePrefs) && fileExists(eclipsePrefs)) {
+        if (notEmpty(eclipsePrefs) && fileExists(eclipsePrefs)) {
             ok(eclipsePrefs);
         }
     }
 
-    private boolean isNotEmpty(JTextField field) {
+    private boolean notEmpty(@NotNull JTextField field) {
         if (field.getText().isEmpty()) {
             field.setBackground(WARNING);
-            showPopup(field, "Required field");
+            showPopup(field, "Required field"); // TODO: localize
             return false;
         }
         return true;
     }
 
-    private boolean fileExists(JTextField field) {
+    private boolean fileExists(@NotNull JTextField field) {
         if (!new File(field.getText()).isFile()) {
             field.setBackground(ERROR);
-            showPopup(field, "No such file");
+            showPopup(field, "No such file"); // TODO: localize
             return false;
         }
         return true;
     }
 
-    private void ok(JTextField field) {
+    private void ok(@NotNull JTextField field) {
         field.setBackground(NORMAL);
     }
 
-    private void showPopup(JTextField parent, String message) {
+    private void showPopup(@NotNull JTextField parent, @NotNull String message) {
         if (!parent.isShowing() || !parent.isEnabled()) {
-            return; // if getLocationOnScreen is called when the component is now showing, an exception is thrown
+            return; // if getLocationOnScreen is called when the component is not showing, an exception is thrown
         }
         JToolTip tip = new JToolTip();
         tip.setTipText(message);
@@ -167,25 +168,26 @@ public class ProjectSettingsForm {
         }
     }
 
+    @NotNull
     public JPanel getRootComponent() {
         return rootComponent;
     }
 
-    public void setData(Settings data) {
+    public void setData(@NotNull Settings data) {
         eclipseExecutable.setText(data.getEclipseExecutable());
         eclipsePrefs.setText(data.getEclipsePrefs());
         pluginEnabled.setSelected(data.isPluginEnabled());
         updateComponents();
     }
 
-    public void getData(Settings data) {
+    public void getData(@NotNull Settings data) {
         data.setEclipseExecutable(eclipseExecutable.getText());
         data.setEclipsePrefs(eclipsePrefs.getText());
         data.setPluginEnabled(pluginEnabled.isSelected());
     }
 
     @SuppressWarnings({"ConstantConditions", "RedundantIfStatement"})
-    public boolean isModified(Settings data) {
+    public boolean isModified(@NotNull Settings data) {
         if (eclipseExecutable.getText() != null ? !eclipseExecutable.getText().equals(data.getEclipseExecutable()) : data.getEclipseExecutable() != null) {
             return true;
         }

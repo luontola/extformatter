@@ -53,24 +53,6 @@ public class ProjectCodeStyleInstaller {
         }
     }
 
-    /* NOTES:
-
-   from ReformatCodeProcessor:
-       CodeStyleManager.getInstance(myProject).reformatText(file, k.getStartOffset(), k.getEndOffset());else
-       CodeStyleManager.getInstance(myProject).reformatText(file, 0, file.getTextRange().getEndOffset());
-   - try to inject a custom com.intellij.psi.codeStyle.CodeStyleManager and replace it after the command exits
-
-   from com.intellij.psi.codeStyle.CodeStyleManager:
-       public static CodeStyleManager getInstance(@NotNull Project project) {
-           return ServiceManager.getService(project, CodeStyleManager.class);
-       }
-   from com.intellij.openapi.components.ServiceManager
-       public static <T> T getService(Project project, Class<T> serviceClass) {
-           return (T)project.getPicoContainer().getComponentInstance(serviceClass.getName());
-       }
-
-    */
-
     private void installCodeFormatter(@NotNull CodeFormatter formatter) {
         CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
         if (!(manager instanceof DelegatingCodeStyleManager)) {
@@ -94,4 +76,22 @@ public class ProjectCodeStyleInstaller {
         container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
         container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, manager);
     }
+
+    /* NOTES:
+
+   from ReformatCodeProcessor:
+       CodeStyleManager.getInstance(myProject).reformatText(file, k.getStartOffset(), k.getEndOffset());else
+       CodeStyleManager.getInstance(myProject).reformatText(file, 0, file.getTextRange().getEndOffset());
+   - try to inject a custom com.intellij.psi.codeStyle.CodeStyleManager and replace it after the command exits
+
+   from com.intellij.psi.codeStyle.CodeStyleManager:
+       public static CodeStyleManager getInstance(@NotNull Project project) {
+           return ServiceManager.getService(project, CodeStyleManager.class);
+       }
+   from com.intellij.openapi.components.ServiceManager
+       public static <T> T getService(Project project, Class<T> serviceClass) {
+           return (T)project.getPicoContainer().getComponentInstance(serviceClass.getName());
+       }
+
+    */
 }

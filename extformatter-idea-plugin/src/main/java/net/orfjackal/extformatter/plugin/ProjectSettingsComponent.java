@@ -54,7 +54,6 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     private static final Logger LOG = Logger.getInstance(ProjectSettingsComponent.class.getName());
 
     @NotNull private final ProjectCodeStyleInstaller project;
-
     @NotNull private final Settings settings = new Settings();
     @Nullable private ProjectSettingsForm form;
 
@@ -107,6 +106,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     }
 
     private static String nameOf(String field) {
+        // TODO: put names and other texts to a resource bundle
         Map<String, String> fieldNames = new HashMap<String, String>();
         fieldNames.put("eclipseExecutable", "Eclipse executable");
         fieldNames.put("eclipsePrefs", "Eclipse preferences");
@@ -164,11 +164,12 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         form = null;
     }
 
+    @NotNull
     public Settings getState() {
         return settings.clone();
     }
 
-    public void loadState(Settings state) {
+    public void loadState(@NotNull Settings state) {
         XmlSerializerUtil.copyBean(state, settings);
         applySettings();
     }

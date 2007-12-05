@@ -43,7 +43,7 @@ public class ExecuterImpl implements Executer {
         }
     }
 
-    private void redirect(final InputStream from, final PrintStream to) {
+    private void redirect(@NotNull final InputStream from, @NotNull final PrintStream to) {
         Thread t = new Thread() {
             public void run() {
                 byte[] buf = new byte[1024];

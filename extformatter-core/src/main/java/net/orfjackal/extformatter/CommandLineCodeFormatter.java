@@ -125,7 +125,8 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         }
     }
 
-    private static String quoted(String s) {
+    @NotNull
+    private static String quoted(@NotNull String s) {
         return '"' + s + '"';
     }
 }

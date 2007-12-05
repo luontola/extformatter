@@ -29,10 +29,11 @@ public class ExecuterDummy implements Executer {
 
     public void execute(@NotNull String command) {
         System.out.println(ExecuterDummy.class.getName() + ".execute(), command:");
-        System.out.print(wrap(command));
+        System.out.print(lineWrap(command));
     }
 
-    private static String wrap(String text) {
+    @NotNull
+    private static String lineWrap(@NotNull String text) {
         StringBuilder wrapped = new StringBuilder();
         for (int begin = 0; begin < text.length(); begin += LINE_LENGTH) {
             int end = Math.min(begin + LINE_LENGTH, text.length());

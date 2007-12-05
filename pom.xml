@@ -37,8 +37,8 @@
     </developers>
 
     <scm>
-        <connection>scm:svn:svn+ssh://orfjackal@tux/var/svn/orfjackal/extformatter/trunk</connection>
-        <developerConnection>scm:svn:svn+ssh://orfjackal@tux/var/svn/orfjackal/extformatter/trunk</developerConnection>
+        <connection>scm:svn:svn+ssh://tux/var/svn/orfjackal/extformatter/trunk</connection>
+        <developerConnection>scm:svn:svn+ssh://tux/var/svn/orfjackal/extformatter/trunk</developerConnection>
         <tag>HEAD</tag>
     </scm>
 

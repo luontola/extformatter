@@ -12,7 +12,7 @@
     </description>
     <category>Formatting</category>
 
-    <vendor url="http://www.orfjackal.net">Esko Luontola</vendor>
+    <vendor url="http://www.orfjackal.net" logo="/net/orfjackal/extformatter/icons/logo-16.png">Esko Luontola</vendor>
 
     <idea-version since-build="7364"/>
 

@@ -26,6 +26,7 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import net.orfjackal.extformatter.Resources;
 import net.orfjackal.extformatter.settings.IllegalSettingsException;
 import net.orfjackal.extformatter.settings.Settings;
 import net.orfjackal.extformatter.settings.SettingsManager;
@@ -125,7 +126,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
 
     @Nullable
     public Icon getIcon() {
-        return null; // TODO: add icon
+        return new ImageIcon(Resources.PROGRAM_LOGO_32);
     }
 
     @Nullable

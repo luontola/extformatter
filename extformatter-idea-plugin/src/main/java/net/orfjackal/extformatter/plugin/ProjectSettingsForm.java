@@ -122,7 +122,7 @@ public class ProjectSettingsForm {
     }
 
     private boolean notEmpty(@NotNull JTextField field) {
-        if (field.getText().isEmpty()) {
+        if (field.getText().trim().length() == 0) {
             field.setBackground(WARNING);
             showPopup(field, "Required field"); // TODO: localize
             return false;

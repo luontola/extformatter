@@ -69,7 +69,9 @@
     <build>
         <plugins>
 
-            <!-- TODO: does not process @NotNull. try using http://maven.apache.org/plugins/maven-antrun-plugin/ -->
+            <!-- TODO: does not process @NotNull. try using http://maven.apache.org/plugins/maven-antrun-plugin/
+                http://www.intellij.net/forums/thread.jspa?messageID=5181425
+                -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>ideauidesigner-maven-plugin</artifactId>

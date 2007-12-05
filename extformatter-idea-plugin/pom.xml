@@ -39,6 +39,15 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.intellij.idea</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>${idea.version}</version>
+            <!--<scope>provided</scope>-->
+            <scope>compile</scope>
+            <!-- 'ideauidesigner-maven-plugin' does not support using 'provided' scope -->
+        </dependency>
+
         <!-- Used by IDEA, not sure that which version -->
         <dependency>
             <groupId>org.picocontainer</groupId>
@@ -58,4 +67,26 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>ideauidesigner-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>javac2</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <fork>true</fork>
+                    <debug>true</debug>
+                    <failOnError>true</failOnError>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>

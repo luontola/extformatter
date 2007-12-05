@@ -17,6 +17,9 @@
     <idea-version since-build="7364"/>
 
     <change-notes><![CDATA[
+        <p><b>0.2.0</b> (2007-xx-xx)
+        <br>- xx</p>
+        
         <p><b>0.1.0</b> (2007-12-05)
         <br>- Initial release</p>
 
@@ -24,6 +27,7 @@
         <br>- No help documentation, especially on how to get the "org.eclipse.jdt.core.prefs" file from Eclipse.
         <br>- Reformatting many files is slower than it could be, because for now Eclipse is started once for each individual file.
         <br>- No support for a generic command line formatter.
+        <br>- Does not support reformatting a selection within a file.
         </p>
     ]]></change-notes>
 

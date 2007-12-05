@@ -61,7 +61,7 @@
             <artifactId>idea</artifactId>
             <version>${idea.version}</version>
             <scope>system</scope>
-            <systemPath>C:\Program Files\JetBrains\IntelliJ IDEA 7.0.1\lib\idea.jar</systemPath>
+            <systemPath>C:\Program Files\JetBrains\idea-7.0-jdk15\lib\idea.jar</systemPath>
         </dependency>
 
     </dependencies>

@@ -17,12 +17,18 @@
 
 package net.orfjackal.extformatter.plugin;
 
+import com.intellij.ui.DocumentAdapter;
 import net.orfjackal.extformatter.settings.Settings;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Esko Luontola
@@ -30,10 +36,14 @@ import java.io.File;
  */
 public class ProjectSettingsForm {
 
+    private static final Color NORMAL = Color.WHITE;
+    private static final Color WARNING = new Color(255, 255, 204);
+    private static final Color ERROR = new Color(255, 204, 204);
+
     private JCheckBox pluginEnabled;
     private JTextField eclipseExecutable;
-    private JTextField eclipsePrefs;
 
+    private JTextField eclipsePrefs;
     private JPanel rootComponent;
     private JLabel titleLabel;
     private JButton eclipseExecutableBrowse;
@@ -41,9 +51,21 @@ public class ProjectSettingsForm {
     private JLabel eclipseExecutableLabel;
     private JLabel eclipsePrefsLabel;
 
+    private List<Popup> visiblePopups = new ArrayList<Popup>();
+
     public ProjectSettingsForm() {
         pluginEnabled.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                updateComponents();
+            }
+        });
+        eclipseExecutable.getDocument().addDocumentListener(new DocumentAdapter() {
+            protected void textChanged(DocumentEvent e) {
+                updateComponents();
+            }
+        });
+        eclipsePrefs.getDocument().addDocumentListener(new DocumentAdapter() {
+            protected void textChanged(DocumentEvent e) {
                 updateComponents();
             }
         });
@@ -60,21 +82,6 @@ public class ProjectSettingsForm {
         updateComponents();
     }
 
-    private void updateComponents() {
-        JComponent[] affectedByPluginEnabled = new JComponent[]{
-                titleLabel,
-                eclipseExecutable,
-                eclipseExecutableBrowse,
-                eclipseExecutableLabel,
-                eclipsePrefs,
-                eclipsePrefsBrowse,
-                eclipsePrefsLabel,
-        };
-        for (JComponent component : affectedByPluginEnabled) {
-            component.setEnabled(pluginEnabled.isSelected());
-        }
-    }
-
     private void browseForFile(JTextField target) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -88,6 +95,75 @@ public class ProjectSettingsForm {
         int result = chooser.showOpenDialog(rootComponent);
         if (result == JFileChooser.APPROVE_OPTION) {
             target.setText(chooser.getSelectedFile().getAbsolutePath());
+        }
+    }
+
+    private void updateComponents() {
+        hidePopups();
+        JComponent[] affectedByPluginEnabled = new JComponent[]{
+                titleLabel,
+                eclipseExecutable,
+                eclipseExecutableBrowse,
+                eclipseExecutableLabel,
+                eclipsePrefs,
+                eclipsePrefsBrowse,
+                eclipsePrefsLabel,
+        };
+        for (JComponent component : affectedByPluginEnabled) {
+            component.setEnabled(pluginEnabled.isSelected());
+        }
+        if (isNotEmpty(eclipseExecutable) && fileExists(eclipseExecutable)) {
+            ok(eclipseExecutable);
+        }
+        if (isNotEmpty(eclipsePrefs) && fileExists(eclipsePrefs)) {
+            ok(eclipsePrefs);
+        }
+    }
+
+    private boolean isNotEmpty(JTextField field) {
+        if (field.getText().isEmpty()) {
+            field.setBackground(WARNING);
+            showPopup(field, "Required field");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean fileExists(JTextField field) {
+        if (!new File(field.getText()).isFile()) {
+            field.setBackground(ERROR);
+            showPopup(field, "No such file");
+            return false;
+        }
+        return true;
+    }
+
+    private void ok(JTextField field) {
+        field.setBackground(NORMAL);
+    }
+
+    private void showPopup(JTextField parent, String message) {
+        if (!parent.isShowing() || !parent.isEnabled()) {
+            return; // if getLocationOnScreen is called when the component is now showing, an exception is thrown
+        }
+        JToolTip tip = new JToolTip();
+        tip.setTipText(message);
+        Dimension tipSize = tip.getPreferredSize();
+
+        Point location = parent.getLocationOnScreen();
+        int x = (int) location.getX();
+        int y = (int) (location.getY() - tipSize.getHeight());
+
+        Popup popup = PopupFactory.getSharedInstance().getPopup(parent, tip, x, y);
+        popup.show();
+        visiblePopups.add(popup);
+    }
+
+    private void hidePopups() {
+        for (Iterator<Popup> it = visiblePopups.iterator(); it.hasNext();) {
+            Popup popup = it.next();
+            popup.hide();
+            it.remove();
         }
     }
 

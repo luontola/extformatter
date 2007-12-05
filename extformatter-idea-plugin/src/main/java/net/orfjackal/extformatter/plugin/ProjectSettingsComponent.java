@@ -57,6 +57,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     @NotNull private final ProjectCodeStyleInstaller project;
     @NotNull private final Settings settings = new Settings();
     @Nullable private ProjectSettingsForm form;
+    @Nullable private ImageIcon icon;
 
     public ProjectSettingsComponent(@NotNull Project project) {
         this.project = new ProjectCodeStyleInstaller(project);
@@ -106,7 +107,8 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         }
     }
 
-    private static String nameOf(String field) {
+    @NotNull
+    private static String nameOf(@NotNull String field) {
         // TODO: put names and other texts to a resource bundle
         Map<String, String> fieldNames = new HashMap<String, String>();
         fieldNames.put("eclipseExecutable", "Eclipse executable");
@@ -124,9 +126,12 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         return "External\nCode Formatter";
     }
 
-    @Nullable
+    @NotNull
     public Icon getIcon() {
-        return new ImageIcon(Resources.PROGRAM_LOGO_32);
+        if (icon == null) {
+            icon = new ImageIcon(Resources.PROGRAM_LOGO_32);
+        }
+        return icon;
     }
 
     @Nullable

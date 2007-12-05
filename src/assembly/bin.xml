@@ -16,6 +16,9 @@
             <binaries>
                 <outputDirectory>lib</outputDirectory>
                 <unpack>false</unpack>
+                <excludes>
+                    <exclude>com.intellij.idea:forms_rt</exclude>
+                </excludes>
             </binaries>
         </moduleSet>
     </moduleSets>

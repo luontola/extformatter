@@ -162,7 +162,7 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
         }
     }
 
-    public class FullyConfiguredFactory {
+    public class FactoryWithEverythingConfigured {
 
         private CommandLineCodeFormatter formatter;
 

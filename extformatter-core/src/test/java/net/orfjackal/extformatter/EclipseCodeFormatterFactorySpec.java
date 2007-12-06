@@ -43,7 +43,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
         }
     }
 
-    public class FactoryWithOnlyEclipseExecutableConfigured {
+    public class FactoryWithNoEclipsePrefsConfigured {
 
         private EclipseCodeFormatter formatter;
 
@@ -59,7 +59,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
         }
     }
 
-    public class FactoryWithOnlyEclipsePrefsConfigured {
+    public class FactoryWithNoEclipseExecutableConfigured {
 
         private EclipseCodeFormatter formatter;
 
@@ -75,7 +75,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
         }
     }
 
-    public class ProperlyConfiguredFactory {
+    public class FactoryWithEverythingConfigured {
 
         private EclipseCodeFormatter formatter;
 

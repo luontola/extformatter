@@ -111,6 +111,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
     }
 
     private static boolean isOneDirectory(@NotNull VirtualFile[] selection) {
+        // TODO: is this code dead? - move directory optimizations to a CodeFormatter wrapper/optimizer/queue
         return selection.length == 1
                 && selection[0].isDirectory();
     }

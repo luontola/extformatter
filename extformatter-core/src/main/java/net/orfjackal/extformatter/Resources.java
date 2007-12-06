@@ -32,4 +32,7 @@ public class Resources {
         assert PROGRAM_LOGO_16 != null;
         assert PROGRAM_LOGO_32 != null;
     }
+
+    private Resources() {
+    }
 }

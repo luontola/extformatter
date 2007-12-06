@@ -79,7 +79,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         try {
             if (form != null) {
                 Settings test = settings.clone();
-                form.getData(test);
+                form.exportTo(test);
                 SettingsManager.newFormatter(test);
             }
         } catch (IllegalSettingsException e) {
@@ -159,14 +159,14 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     public void apply() throws ConfigurationException {
         verifySettingsOf(form);
         if (form != null) {
-            form.getData(settings);
+            form.exportTo(settings);
             install(settings);
         }
     }
 
     public void reset() {
         if (form != null) {
-            form.setData(settings);
+            form.importFrom(settings);
         }
     }
 

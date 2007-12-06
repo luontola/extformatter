@@ -173,14 +173,14 @@ public class ProjectSettingsForm {
         return rootComponent;
     }
 
-    public void setData(@NotNull Settings data) {
+    public void importFrom(@NotNull Settings data) {
         eclipseExecutable.setText(data.getEclipseExecutable());
         eclipsePrefs.setText(data.getEclipsePrefs());
         pluginEnabled.setSelected(data.isPluginEnabled());
         updateComponents();
     }
 
-    public void getData(@NotNull Settings data) {
+    public void exportTo(@NotNull Settings data) {
         data.setEclipseExecutable(eclipseExecutable.getText());
         data.setEclipsePrefs(eclipsePrefs.getText());
         data.setPluginEnabled(pluginEnabled.isSelected());

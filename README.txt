@@ -6,6 +6,14 @@ formatter, such as the one Eclipse has, in addition to the one which is built
 into IDEA.
 
 
+    INSTALLING
+
+1. Unpack the binary release to %HOMEPATH%\.IntelliJIdea70\config\plugins
+   or use IDEA's plugin manager to install it automatically.
+
+2. Follow the instructions in the plugin's configuration dialog.
+
+
     BUILDING
 
 0. You will need have Maven (http://maven.apache.org/), IntelliJ IDEA 
@@ -16,18 +24,32 @@ into IDEA.
    installation of version IDEA_VERSION. Run the file to add the necessary jars 
    to your local maven repository. You need to do this only once.
 
-2. Run the following command in the root source directory
-        mvn clean package assembly:assembly
+2. Run the following command "mvn clean package assembly:assembly" in the root 
+   source directory. On successive calls you may use the "mvn-assemble.bat" 
+   script which works in offline mode.
 
 3. Collect the *-bin.zip and *-src.zip files from the /target directory.
 
 
-    INSTALLING
+    RELEASING A NEW VERSION
 
-1. Unpack the binary release to %HOMEPATH%\.IntelliJIdea70\config\plugins
-   or use IDEA's plugin manager to install it automatically.
+1. Commands for releasing a new version:
 
-2. Follow the instructions in the plugin's configuration dialog.
+      mvn release:prepare -DdryRun=true
+      mvn release:clean
+      mvn release:prepare
+     (mvn release:perform)
+
+2. Afterwards, export the new tag from SVN and build the artifacts as explained 
+   in the preceding section.
+
+
+    CODE DOCUMENTATION
+
+When you build the project with Maven, a more readable plain text summary of the 
+tests will be generated in each module's "/target/jdave" directory. Start your 
+reading from there. For more details and usage examples, read the *Spec.java 
+files in the "/src/test/java" directories. 
 
 
     LICENSE

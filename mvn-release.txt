@@ -1,9 +1,0 @@
-
-Commands for releasing a new version:
-
-mvn release:prepare -DdryRun=true
-mvn release:clean
-mvn release:prepare
-(mvn release:perform)
-
-Afterwards, export the new tag from SVN and use mvn-assemble.bat to build the artifacts.

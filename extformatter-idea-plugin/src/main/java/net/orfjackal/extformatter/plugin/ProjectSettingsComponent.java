@@ -54,13 +54,13 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
 
     private static final Logger LOG = Logger.getInstance(ProjectSettingsComponent.class.getName());
 
-    @NotNull private final ProjectCodeStyleInstaller project;
+    @NotNull private final ProjectCodeStyleInstaller projectCodeStyle;
     @NotNull private final Settings settings = new Settings();
     @Nullable private ProjectSettingsForm form;
     @Nullable private ImageIcon icon;
 
     public ProjectSettingsComponent(@NotNull Project project) {
-        this.project = new ProjectCodeStyleInstaller(project);
+        this.projectCodeStyle = new ProjectCodeStyleInstaller(project);
     }
 
     public void initComponent() {
@@ -75,31 +75,31 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     }
 
     public void projectOpened() {
-        applySettings();
+        install(settings);
     }
 
     public void projectClosed() {
         uninstall();
     }
 
-    private void applySettings() {
+    private void install(@NotNull Settings settings) {
         try {
-            project.changeFormatterTo(SettingsManager.newFormatter(settings));
+            projectCodeStyle.changeFormatterTo(SettingsManager.newFormatter(settings));
         } catch (IllegalSettingsException e) {
             LOG.error(e);
         }
     }
 
     private void uninstall() {
-        project.changeFormatterTo(null);
+        projectCodeStyle.changeFormatterTo(null);
     }
 
     private void verifySettingsOf(@Nullable ProjectSettingsForm form) throws ConfigurationException {
         try {
             if (form != null) {
-                Settings copy = settings.clone();
-                form.getData(copy);
-                SettingsManager.newFormatter(copy);
+                Settings test = settings.clone();
+                form.getData(test);
+                SettingsManager.newFormatter(test);
             }
         } catch (IllegalSettingsException e) {
             LOG.info(e);
@@ -156,7 +156,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         verifySettingsOf(form);
         if (form != null) {
             form.getData(settings);
-            applySettings();
+            install(settings);
         }
     }
 
@@ -177,6 +177,6 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
 
     public void loadState(@NotNull Settings state) {
         XmlSerializerUtil.copyBean(state, settings);
-        applySettings();
+        install(settings);
     }
 }

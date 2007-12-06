@@ -63,25 +63,6 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         this.projectCodeStyle = new ProjectCodeStyleInstaller(project);
     }
 
-    public void initComponent() {
-    }
-
-    public void disposeComponent() {
-    }
-
-    @NotNull
-    public String getComponentName() {
-        return "ProjectSettingsComponent";
-    }
-
-    public void projectOpened() {
-        install(settings);
-    }
-
-    public void projectClosed() {
-        uninstall();
-    }
-
     private void install(@NotNull Settings settings) {
         try {
             projectCodeStyle.changeFormatterTo(SettingsManager.newFormatter(settings));
@@ -121,12 +102,35 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         return name;
     }
 
+    // implements ProjectComponent
+
+    public void initComponent() {
+    }
+
+    public void disposeComponent() {
+    }
+
+    @NotNull
+    public String getComponentName() {
+        return "ProjectSettingsComponent";
+    }
+
+    public void projectOpened() {
+        install(settings);
+    }
+
+    public void projectClosed() {
+        uninstall();
+    }
+
+    // implements Configurable
+
     @Nls
     public String getDisplayName() {
         return "External\nCode Formatter";
     }
 
-    @NotNull
+    @Nullable
     public Icon getIcon() {
         if (icon == null) {
             icon = new ImageIcon(Resources.PROGRAM_LOGO_32);
@@ -169,6 +173,8 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     public void disposeUIResources() {
         form = null;
     }
+
+    // implements PersistentStateComponent
 
     @NotNull
     public Settings getState() {

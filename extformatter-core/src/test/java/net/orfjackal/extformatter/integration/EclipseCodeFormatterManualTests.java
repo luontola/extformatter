@@ -42,7 +42,7 @@ public class EclipseCodeFormatterManualTests {
     private static File eclipsePrefsFile;
     private static File fooFile;
     private static File barFile;
-    private static File bazFile;
+    private static File gazonkFile;
 
     private static EclipseCodeFormatter newFormatter() {
         return new EclipseCodeFormatter(ECLIPSE_EXECUTABLE, eclipsePrefsFile, EXECUTER);
@@ -61,9 +61,9 @@ public class EclipseCodeFormatterManualTests {
     public static class ReformatManyFilesTest {
 
         public static void main(String[] args) {
-            showCurrentTest(ReformatManyFilesTest.class, "Foo.java (1), Baz.java (3)");
+            showCurrentTest(ReformatManyFilesTest.class, "Foo.java (1), Gazonk.java (3)");
             prepareTestFiles();
-            newFormatter().reformatFiles(fooFile, bazFile);
+            newFormatter().reformatFiles(fooFile, gazonkFile);
             showResultingFiles();
         }
     }
@@ -81,7 +81,7 @@ public class EclipseCodeFormatterManualTests {
     public static class ReformatFilesInDirectoryRecursivelyTest {
 
         public static void main(String[] args) {
-            showCurrentTest(ReformatFilesInDirectoryRecursivelyTest.class, "Foo.java (1), Bar.java (2), Baz.java (3)");
+            showCurrentTest(ReformatFilesInDirectoryRecursivelyTest.class, "Foo.java (1), Bar.java (2), Gazonk.java (3)");
             prepareTestFiles();
             newFormatter().reformatFilesInDirectoryRecursively(testfilesDir);
             showResultingFiles();
@@ -99,13 +99,13 @@ public class EclipseCodeFormatterManualTests {
         eclipsePrefsFile = new File(tempDir, "org.eclipse.jdt.core.prefs");
         fooFile = new File(testfilesDir, "Foo.java");
         barFile = new File(testfilesDir, "Bar.java");
-        bazFile = new File(testfilesSubdir, "Baz.java");
+        gazonkFile = new File(testfilesSubdir, "Gazonk.java");
         copy(TestResources.ECLIPSE_PREFS_FILE, eclipsePrefsFile);
         copy(TestResources.FOO_FILE, fooFile);
         copy(TestResources.BAR_FILE, barFile);
-        copy(TestResources.BAZ_FILE, bazFile);
+        copy(TestResources.GAZONK_FILE, gazonkFile);
 
-        deleteOnExit(tempDir, testfilesDir, testfilesSubdir, eclipsePrefsFile, fooFile, barFile, bazFile);
+        deleteOnExit(tempDir, testfilesDir, testfilesSubdir, eclipsePrefsFile, fooFile, barFile, gazonkFile);
     }
 
     private static void showCurrentTest(Class<?> clazz, String expected) {
@@ -132,8 +132,8 @@ public class EclipseCodeFormatterManualTests {
         System.out.println(contentsOf(fooFile));
         System.out.println("--- testfiles/Bar.java (2) ---");
         System.out.println(contentsOf(barFile));
-        System.out.println("--- testfiles/subdir/Baz.java (3) ---");
-        System.out.println(contentsOf(bazFile));
+        System.out.println("--- testfiles/subdir/Gazonk.java (3) ---");
+        System.out.println(contentsOf(gazonkFile));
         System.out.println("--- END ---");
     }
 

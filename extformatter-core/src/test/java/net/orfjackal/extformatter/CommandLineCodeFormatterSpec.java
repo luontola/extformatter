@@ -57,9 +57,9 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         public void shouldExecuteCommandForManyFiles() throws IOException {
             checking(new Expectations() {{
                 one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
-                one(executer).execute("format \"" + BAZ_FILE.getAbsolutePath() + "\"");
+                one(executer).execute("format \"" + GAZONK_FILE.getAbsolutePath() + "\"");
             }});
-            formatter.reformatFiles(FOO_FILE, BAZ_FILE);
+            formatter.reformatFiles(FOO_FILE, GAZONK_FILE);
         }
 
         public void shouldExecuteCommandForFilesInDirectory() throws IOException {
@@ -152,7 +152,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             checking(new Expectations() {{
                 one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
                 one(executer).execute("format \"" + BAR_FILE.getAbsolutePath() + "\"");
-                one(executer).execute("format \"" + BAZ_FILE.getAbsolutePath() + "\"");
+                one(executer).execute("format \"" + GAZONK_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
         }

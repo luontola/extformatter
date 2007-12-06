@@ -1,0 +1,4 @@
+package testfiles.subdir;
+public class Gazonk {
+public static void main(String[] args) { System.out.println("Gazonk"); }
+}

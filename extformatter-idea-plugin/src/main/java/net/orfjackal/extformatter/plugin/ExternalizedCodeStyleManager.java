@@ -56,6 +56,17 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         }
     }
 
+    private static boolean canReformat(@NotNull VirtualFile file) {
+        return file.isInLocalFileSystem()
+                && file.isWritable()
+                && fileTypeIsSupported(file);
+    }
+
+    private static boolean fileTypeIsSupported(@NotNull VirtualFile file) {
+        // TODO: ask the formatter if it supports the file type
+        return file.getFileType().equals(StdFileTypes.JAVA);
+    }
+
     private static boolean wholeFile(@NotNull PsiFile file, int startOffset, int endOffset) {
         return startOffset == 0
                 && endOffset == file.getTextRange().getEndOffset();
@@ -69,50 +80,5 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
     @NotNull
     private static File ioFile(@NotNull VirtualFile file) {
         return new File(file.getPath());
-    }
-
-    private static boolean canReformat(@NotNull VirtualFile... selection) {
-        return notEmpty(selection)
-                && allAreInLocalFileSystem(selection)
-                && allAreWritable(selection)
-                && (allFileTypesAreSupported(selection) || isOneDirectory(selection));
-    }
-
-    private static boolean notEmpty(@NotNull VirtualFile[] selection) {
-        return selection.length > 0;
-    }
-
-    private static boolean allAreInLocalFileSystem(@NotNull VirtualFile[] selection) {
-        for (VirtualFile file : selection) {
-            if (!file.isInLocalFileSystem()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean allAreWritable(@NotNull VirtualFile[] selection) {
-        for (VirtualFile file : selection) {
-            if (!file.isWritable()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean allFileTypesAreSupported(@NotNull VirtualFile[] selection) {
-        for (VirtualFile file : selection) {
-            // TODO: ask the formatter if it supports the file type
-            if (!file.getFileType().equals(StdFileTypes.JAVA)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean isOneDirectory(@NotNull VirtualFile[] selection) {
-        // TODO: is this code dead? - move directory optimizations to a CodeFormatter wrapper/optimizer/queue
-        return selection.length == 1
-                && selection[0].isDirectory();
     }
 }

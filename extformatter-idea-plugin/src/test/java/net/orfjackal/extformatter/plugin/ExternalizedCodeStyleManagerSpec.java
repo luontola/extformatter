@@ -45,7 +45,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
      */
     private static boolean TEST_DISABLED = true;
 
-    public class ASupportedFileType {
+    public class WhenTheFileIsInLocalFileSystemAndItsTypeIsSupported {
 
         private PsiFile file;
         private CodeStyleManagerEx original;
@@ -61,7 +61,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
             return manager;
         }
 
-        public void wholeFileShouldBeReformattedByTheReplacement() throws IncorrectOperationException {
+        public void reformattingWholeFileShouldUseTheReplacementFormatter() throws IncorrectOperationException {
             if (TEST_DISABLED) return;
             checking(new Expectations() {{
                 one(replacement).reformatFile(new File("Foo.java"));
@@ -69,7 +69,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
             manager.reformatText(file, 0, 100);
         }
 
-        public void selectedTextShouldBeReformattedByTheOriginal() throws IncorrectOperationException {
+        public void reformattingSelectedTextShouldFallBackToTheOriginalCodeStyleManager() throws IncorrectOperationException {
             if (TEST_DISABLED) return;
             checking(new Expectations() {{
                 one(original).reformatText(file, 30, 40);
@@ -78,7 +78,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
         }
     }
 
-    public class AnUnsupportedFileType {
+    public class WhenTheFileIsNotSupported {
 
         private PsiFile file;
         private CodeStyleManagerEx original;
@@ -93,7 +93,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
             return manager;
         }
 
-        public void shouldAlwaysBeReformattedByTheOriginal() throws IncorrectOperationException {
+        public void shouldFallBackToTheOriginalCodeStyleManager() throws IncorrectOperationException {
             if (TEST_DISABLED) return;
             checking(new Expectations() {{
                 one(original).reformatText(file, 0, 100);

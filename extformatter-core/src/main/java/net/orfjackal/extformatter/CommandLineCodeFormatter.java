@@ -31,33 +31,34 @@ import java.util.regex.Matcher;
  */
 public class CommandLineCodeFormatter implements CodeFormatter {
 
-    // TODO: more descriptive names, also in factory?
-    @Nullable private final String singleFileCommand;
+    private static final String FILE_TAG = "%FILE%";
+    private static final String DIRECTORY_TAG = "%DIRECTORY%";
+
+    @Nullable private final String fileCommand;
     @Nullable private final String directoryCommand;
     @Nullable private final String recursiveDirectoryCommand;
-
     @NotNull private final Executer executer;
 
-    public CommandLineCodeFormatter(@Nullable String singleFileCommand, @Nullable String directoryCommand,
+    public CommandLineCodeFormatter(@Nullable String fileCommand, @Nullable String directoryCommand,
                                     @Nullable String recursiveDirectoryCommand, @NotNull Executer executer) {
-        this.singleFileCommand = singleFileCommand;
+        this.fileCommand = fileCommand;
         this.directoryCommand = directoryCommand;
         this.recursiveDirectoryCommand = recursiveDirectoryCommand;
         this.executer = executer;
     }
 
-    public CommandLineCodeFormatter(@Nullable String singleFileCommand, @Nullable String directoryCommand,
+    public CommandLineCodeFormatter(@Nullable String fileCommand, @Nullable String directoryCommand,
                                     @Nullable String recursiveDirectoryCommand) {
-        this(singleFileCommand, directoryCommand, recursiveDirectoryCommand, new ExecuterImpl());
+        this(fileCommand, directoryCommand, recursiveDirectoryCommand, new ExecuterImpl());
     }
 
     public boolean supportsReformatFile() {
-        return singleFileCommand != null;
+        return fileCommand != null;
     }
 
     public void reformatFile(@NotNull File file) {
-        if (singleFileCommand != null) {
-            executer.execute(parsed(singleFileCommand, file));
+        if (fileCommand != null) {
+            executer.execute(parsed(fileCommand, file));
         } else {
             throw new IllegalStateException("Reformatting a single file is not supported");
         }
@@ -112,12 +113,12 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     private static String parsed(@NotNull String command, @NotNull File file) {
         try {
-            if (file.isFile()) {
-                command = command.replaceAll("%FILE%", Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
-            } else if (file.isDirectory()) {
-                command = command.replaceAll("%DIRECTORY%", Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
+            if (command.contains(FILE_TAG) && file.isFile()) {
+                command = command.replaceAll(FILE_TAG, Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
+            } else if (command.contains(DIRECTORY_TAG) && file.isDirectory()) {
+                command = command.replaceAll(DIRECTORY_TAG, Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
             } else {
-                throw new IllegalArgumentException("Not a file nor a directory: " + file);
+                throw new IllegalArgumentException("command '" + command + "',  file '" + file + "'");
             }
             return command;
         } catch (IOException e) {

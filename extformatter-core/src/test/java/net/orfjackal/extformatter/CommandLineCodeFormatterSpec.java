@@ -24,6 +24,7 @@ import static net.orfjackal.extformatter.TestResources.*;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -73,6 +74,38 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
                 one(executer).execute("formatDirRec \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
             formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+        }
+
+        public void shouldNotAllowFormattingANonExistingFile() {
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatFile(new File("doesNotExist"));
+                }
+            }, should.raise(IllegalArgumentException.class));
+        }
+
+        public void shouldNotAllowFormattingANonExistingDirectory() {
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatFilesInDirectory(new File("doesNotExist"));
+                }
+            }, should.raise(IllegalArgumentException.class));
+        }
+
+        public void shouldNotAcceptADirectoryAsAFile() {
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatFile(TESTFILES_DIR);
+                }
+            }, should.raise(IllegalArgumentException.class));
+        }
+
+        public void shouldNotAcceptAFileAsADirectory() {
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatFilesInDirectory(FOO_FILE);
+                }
+            }, should.raise(IllegalArgumentException.class));
         }
     }
 

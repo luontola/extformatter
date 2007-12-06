@@ -29,6 +29,8 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JDaveRunner.class)
 public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatter> {
+    
+    // TODO: improve the readability of the tests
 
     public class WhenFormatterSupportsReformatFile {
 

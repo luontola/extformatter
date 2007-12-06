@@ -109,11 +109,11 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldSupportTheSpecifiedCommand() {
+        public void shouldSupportReformatFile() {
             specify(formatter.supportsReformatFile());
         }
 
-        public void shouldNotSupportOtherCommands() {
+        public void shouldNotSupportTheOthers() {
             specify(should.not().be.supportsReformatFiles());
             specify(should.not().be.supportsReformatFilesInDirectory());
             specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
@@ -129,11 +129,11 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldSupportTheSpecifiedCommand() {
+        public void shouldSupportReformatFilesInDirectory() {
             specify(formatter.supportsReformatFilesInDirectory());
         }
 
-        public void shouldNotSupportOtherCommands() {
+        public void shouldNotSupportTheOthers() {
             specify(should.not().be.supportsReformatFile());
             specify(should.not().be.supportsReformatFiles());
             specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
@@ -149,11 +149,11 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldSupportTheSpecifiedCommand() {
+        public void shouldSupportReformatFilesInDirectoryRecursively() {
             specify(formatter.supportsReformatFilesInDirectoryRecursively());
         }
 
-        public void shouldNotSupportOtherCommands() {
+        public void shouldNotSupportTheOthers() {
             specify(should.not().be.supportsReformatFile());
             specify(should.not().be.supportsReformatFiles());
             specify(should.not().be.supportsReformatFilesInDirectory());

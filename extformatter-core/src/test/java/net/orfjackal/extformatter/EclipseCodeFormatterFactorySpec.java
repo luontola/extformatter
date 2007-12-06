@@ -28,54 +28,7 @@ import org.junit.runner.RunWith;
 @RunWith(JDaveRunner.class)
 public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFormatter> {
 
-    public class FactoryWithNothingConfigured {
-
-        private EclipseCodeFormatter formatter;
-
-        public EclipseCodeFormatter create() {
-            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
-            formatter = factory.newFormatter();
-            return formatter;
-        }
-
-        public void shouldNotCreateAFormatter() {
-            specify(formatter, should.equal(null));
-        }
-    }
-
-    public class FactoryWithNoEclipsePrefsConfigured {
-
-        private EclipseCodeFormatter formatter;
-
-        public EclipseCodeFormatter create() {
-            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
-            factory.setEclipseExecutable(TestResources.ECLIPSE_EXE_FILE);
-            formatter = factory.newFormatter();
-            return formatter;
-        }
-
-        public void shouldNotCreateAFormatter() {
-            specify(formatter, should.equal(null));
-        }
-    }
-
-    public class FactoryWithNoEclipseExecutableConfigured {
-
-        private EclipseCodeFormatter formatter;
-
-        public EclipseCodeFormatter create() {
-            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
-            factory.setEclipsePrefs(TestResources.ECLIPSE_PREFS_FILE);
-            formatter = factory.newFormatter();
-            return formatter;
-        }
-
-        public void shouldNotCreateAFormatter() {
-            specify(formatter, should.equal(null));
-        }
-    }
-
-    public class FactoryWithEverythingConfigured {
+    public class AnEclipseCodeFormatterFactory {
 
         private EclipseCodeFormatter formatter;
 
@@ -105,6 +58,53 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
 
         public void formatterShouldSupportReformatFilesInDirectoryRecursively() {
             specify(formatter.supportsReformatFilesInDirectoryRecursively());
+        }
+    }
+
+    public class WhenOnlyEclipseExecutableIsConfigured {
+
+        private EclipseCodeFormatter formatter;
+
+        public EclipseCodeFormatter create() {
+            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
+            factory.setEclipseExecutable(TestResources.ECLIPSE_EXE_FILE);
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void shouldNotCreateAFormatter() {
+            specify(formatter, should.equal(null));
+        }
+    }
+
+    public class WhenOnlyEclipsePrefsIsConfigured {
+
+        private EclipseCodeFormatter formatter;
+
+        public EclipseCodeFormatter create() {
+            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
+            factory.setEclipsePrefs(TestResources.ECLIPSE_PREFS_FILE);
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void shouldNotCreateAFormatter() {
+            specify(formatter, should.equal(null));
+        }
+    }
+
+    public class WhenNothingIsConfigured {
+
+        private EclipseCodeFormatter formatter;
+
+        public EclipseCodeFormatter create() {
+            EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void shouldNotCreateAFormatter() {
+            specify(formatter, should.equal(null));
         }
     }
 }

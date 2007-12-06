@@ -31,7 +31,7 @@ import java.io.File;
 @RunWith(JDaveRunner.class)
 public class ResourcesSpec extends Specification<Object> {
 
-    public class InvariantsOfTheResources {
+    public class ConcerningTheResources {
 
         public Object create() {
             return null;

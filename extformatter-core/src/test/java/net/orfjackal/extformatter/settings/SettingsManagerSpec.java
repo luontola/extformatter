@@ -31,7 +31,7 @@ import java.io.IOException;
  * @since 6.12.2007
  */
 @RunWith(JDaveRunner.class)
-public class SettingsSpec extends Specification<Settings> {
+public class SettingsManagerSpec extends Specification<Settings> {
 
     public class WhenPluginIsDisabled {
 

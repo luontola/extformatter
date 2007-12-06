@@ -28,91 +28,7 @@ import org.junit.runner.RunWith;
 @RunWith(JDaveRunner.class)
 public class CommandLineCodeFormatterFactorySpec extends Specification<CodeFormatter> {
 
-    public class FactoryWithNothingConfigured {
-
-        private CodeFormatter formatter;
-
-        public CodeFormatter create() {
-            CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
-            formatter = factory.newFormatter();
-            return formatter;
-        }
-
-        public void shouldNotCreateAFormatter() {
-            specify(formatter, should.equal(null));
-        }
-    }
-
-    public class FactoryWithOnlyReformatFileConfigured {
-
-        private CodeFormatter formatter;
-
-        public CodeFormatter create() {
-            CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
-            factory.setFileCommand("command");
-            formatter = factory.newFormatter();
-            return formatter;
-        }
-
-        public void shouldCreateAFormatter() {
-            specify(formatter, should.not().equal(null));
-        }
-
-        public void formatterShouldSupportOnlyReformatFile() {
-            specify(formatter.supportsReformatFile());
-            specify(should.not().be.supportsReformatFiles());
-            specify(should.not().be.supportsReformatFilesInDirectory());
-            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
-        }
-    }
-
-    public class FactoryWithOnlyReformatDirectoryConfigured {
-
-        private CodeFormatter formatter;
-
-        public CodeFormatter create() {
-            CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
-            factory.setDirectoryCommand("command");
-            formatter = factory.newFormatter();
-            return formatter;
-        }
-
-        public void shouldCreateAFormatter() {
-            specify(formatter, should.not().equal(null));
-        }
-
-        public void formatterShouldSupportOnlyReformatFilesInDirectory() {
-            specify(should.not().be.supportsReformatFile());
-            specify(should.not().be.supportsReformatFiles());
-            specify(formatter.supportsReformatFilesInDirectory());
-            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
-        }
-    }
-
-    public class FactoryWithOnlyReformatDirectoryRecursivelyConfigured {
-
-        private CodeFormatter formatter;
-
-        public CodeFormatter create() {
-            CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
-            factory.setRecursiveDirectoryCommand("command");
-            formatter = factory.newFormatter();
-            return formatter;
-        }
-
-        public void shouldCreateAFormatter() {
-            specify(formatter, should.not().equal(null));
-        }
-
-        public void formatterShouldSupportOnlyReformatFilesInDirectoryRecursively() {
-            specify(should.not().be.supportsReformatFile());
-            specify(should.not().be.supportsReformatFiles());
-            specify(should.not().be.supportsReformatFilesInDirectory());
-            specify(formatter.supportsReformatFilesInDirectoryRecursively());
-        }
-    }
-
-    public class FactoryWithEverythingConfigured {
+    public class ACommandLineCodeFormatterFactory {
 
         private CodeFormatter formatter;
 
@@ -143,6 +59,100 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CodeForma
 
         public void formatterShouldSupportReformatFilesInDirectoryRecursively() {
             specify(formatter.supportsReformatFilesInDirectoryRecursively());
+        }
+    }
+
+    public class WhenOnlyReformatFileIsConfigured {
+
+        private CodeFormatter formatter;
+
+        public CodeFormatter create() {
+            CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
+            factory.setFileCommand("command");
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void shouldCreateAFormatter() {
+            specify(formatter, should.not().equal(null));
+        }
+
+        public void formatterShouldSupportReformatFile() {
+            specify(formatter.supportsReformatFile());
+        }
+
+        public void formatterShouldNotSupportTheOthers() {
+            specify(formatter.supportsReformatFile());
+            specify(should.not().be.supportsReformatFiles());
+            specify(should.not().be.supportsReformatFilesInDirectory());
+            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
+        }
+    }
+
+    public class WhenOnlyReformatDirectoryIsConfigured {
+
+        private CodeFormatter formatter;
+
+        public CodeFormatter create() {
+            CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
+            factory.setDirectoryCommand("command");
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void shouldCreateAFormatter() {
+            specify(formatter, should.not().equal(null));
+        }
+
+        public void formatterShouldSupportReformatFilesInDirectory() {
+            specify(formatter.supportsReformatFilesInDirectory());
+        }
+
+        public void formatterShouldNotSupportTheOthers() {
+            specify(should.not().be.supportsReformatFile());
+            specify(should.not().be.supportsReformatFiles());
+            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
+        }
+    }
+
+    public class WhenOnlyReformatDirectoryRecursivelyIsConfigured {
+
+        private CodeFormatter formatter;
+
+        public CodeFormatter create() {
+            CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
+            factory.setRecursiveDirectoryCommand("command");
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void shouldCreateAFormatter() {
+            specify(formatter, should.not().equal(null));
+        }
+
+        public void formatterShouldSupportReformatFilesInDirectoryRecursively() {
+            specify(formatter.supportsReformatFilesInDirectoryRecursively());
+        }
+
+        public void formatterShouldNotSupportTheOthers() {
+            specify(should.not().be.supportsReformatFile());
+            specify(should.not().be.supportsReformatFiles());
+            specify(should.not().be.supportsReformatFilesInDirectory());
+        }
+    }
+
+    public class WhenNothingIsConfigured {
+
+        private CodeFormatter formatter;
+
+        public CodeFormatter create() {
+            CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
+            formatter = factory.newFormatter();
+            return formatter;
+        }
+
+        public void shouldNotCreateAFormatter() {
+            specify(formatter, should.equal(null));
         }
     }
 }

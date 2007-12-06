@@ -26,13 +26,13 @@ import org.junit.runner.RunWith;
  * @since 4.12.2007
  */
 @RunWith(JDaveRunner.class)
-public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLineCodeFormatter> {
+public class CommandLineCodeFormatterFactorySpec extends Specification<CodeFormatter> {
 
     public class FactoryWithNothingConfigured {
 
-        private CommandLineCodeFormatter formatter;
+        private CodeFormatter formatter;
 
-        public CommandLineCodeFormatter create() {
+        public CodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
             formatter = factory.newFormatter();
             return formatter;
@@ -43,34 +43,11 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
         }
     }
 
-    public class NonConfiguredFormatter {
-
-        public CommandLineCodeFormatter create() {
-            return new CommandLineCodeFormatter(null, null, null);
-        }
-
-        public void shouldNotSupportReformatFile() {
-            specify(should.not().be.supportsReformatFile());
-        }
-
-        public void shouldNotSupportReformatFiles() {
-            specify(should.not().be.supportsReformatFiles());
-        }
-
-        public void shouldNotSupportReformatFilesInDirectory() {
-            specify(should.not().be.supportsReformatFilesInDirectory());
-        }
-
-        public void shouldNotSupportReformatFilesInDirectoryRecursively() {
-            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
-        }
-    }
-
     public class FactoryWithOnlyReformatFileConfigured {
 
-        private CommandLineCodeFormatter formatter;
+        private CodeFormatter formatter;
 
-        public CommandLineCodeFormatter create() {
+        public CodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
             factory.setFileCommand("command");
             formatter = factory.newFormatter();
@@ -81,28 +58,19 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
             specify(formatter, should.not().equal(null));
         }
 
-        public void formatterShouldSupportReformatFile() {
+        public void formatterShouldSupportOnlyReformatFile() {
             specify(formatter.supportsReformatFile());
-        }
-
-        public void formatterShouldSupportReformatFiles() {
-            specify(formatter.supportsReformatFiles());
-        }
-
-        public void formatterShouldSupportReformatFilesInDirectory() {
-            specify(formatter.supportsReformatFilesInDirectory());
-        }
-
-        public void formatterShouldSupportReformatFilesInDirectoryRecursively() {
-            specify(formatter.supportsReformatFilesInDirectoryRecursively());
+            specify(should.not().be.supportsReformatFiles());
+            specify(should.not().be.supportsReformatFilesInDirectory());
+            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
         }
     }
 
     public class FactoryWithOnlyReformatDirectoryConfigured {
 
-        private CommandLineCodeFormatter formatter;
+        private CodeFormatter formatter;
 
-        public CommandLineCodeFormatter create() {
+        public CodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
             factory.setDirectoryCommand("command");
             formatter = factory.newFormatter();
@@ -113,28 +81,19 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
             specify(formatter, should.not().equal(null));
         }
 
-        public void formatterShouldNotSupportReformatFile() {
+        public void formatterShouldSupportOnlyReformatFilesInDirectory() {
             specify(should.not().be.supportsReformatFile());
-        }
-
-        public void formatterShouldNotSupportReformatFiles() {
             specify(should.not().be.supportsReformatFiles());
-        }
-
-        public void formatterShouldSupportReformatFilesInDirectory() {
             specify(formatter.supportsReformatFilesInDirectory());
-        }
-
-        public void formatterShouldSupportReformatFilesInDirectoryRecursively() {
-            specify(formatter.supportsReformatFilesInDirectoryRecursively());
+            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
         }
     }
 
     public class FactoryWithOnlyReformatDirectoryRecursivelyConfigured {
 
-        private CommandLineCodeFormatter formatter;
+        private CodeFormatter formatter;
 
-        public CommandLineCodeFormatter create() {
+        public CodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
             factory.setRecursiveDirectoryCommand("command");
             formatter = factory.newFormatter();
@@ -145,28 +104,19 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
             specify(formatter, should.not().equal(null));
         }
 
-        public void formatterShouldNotSupportReformatFile() {
+        public void formatterShouldSupportOnlyReformatFilesInDirectoryRecursively() {
             specify(should.not().be.supportsReformatFile());
-        }
-
-        public void formatterShouldNotSupportReformatFiles() {
             specify(should.not().be.supportsReformatFiles());
-        }
-
-        public void formatterShouldNotSupportReformatFilesInDirectory() {
             specify(should.not().be.supportsReformatFilesInDirectory());
-        }
-
-        public void formatterShouldSupportReformatFilesInDirectoryRecursively() {
             specify(formatter.supportsReformatFilesInDirectoryRecursively());
         }
     }
 
     public class FactoryWithEverythingConfigured {
 
-        private CommandLineCodeFormatter formatter;
+        private CodeFormatter formatter;
 
-        public CommandLineCodeFormatter create() {
+        public CodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
             factory.setFileCommand("command");
             factory.setDirectoryCommand("command");
@@ -183,8 +133,8 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
             specify(formatter.supportsReformatFile());
         }
 
-        public void formatterShouldSupportReformatFiles() {
-            specify(formatter.supportsReformatFiles());
+        public void formatterShouldNotSupportReformatFiles() {
+            specify(should.not().be.supportsReformatFiles());
         }
 
         public void formatterShouldSupportReformatFilesInDirectory() {

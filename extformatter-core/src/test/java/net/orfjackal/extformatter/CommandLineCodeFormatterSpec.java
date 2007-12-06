@@ -20,7 +20,8 @@ package net.orfjackal.extformatter;
 import jdave.Block;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
-import static net.orfjackal.extformatter.TestResources.*;
+import static net.orfjackal.extformatter.TestResources.FOO_FILE;
+import static net.orfjackal.extformatter.TestResources.TESTFILES_DIR;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
@@ -34,9 +35,7 @@ import java.io.IOException;
 @RunWith(JDaveRunner.class)
 public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
 
-    // TODO: move adaptation to the available commands to its own class
-
-    public class FormatterWithAllCommandsSpecified {
+    public class ACommandLineCodeFormatter {
 
         private Executer executer;
         private CodeFormatter formatter;
@@ -47,19 +46,11 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldExecuteCommandForSingleFile() throws IOException {
+        public void shouldExecuteCommandForASingleFile() throws IOException {
             checking(new Expectations() {{
                 one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatFile(FOO_FILE);
-        }
-
-        public void shouldExecuteCommandForManyFiles() throws IOException {
-            checking(new Expectations() {{
-                one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
-                one(executer).execute("format \"" + GAZONK_FILE.getAbsolutePath() + "\"");
-            }});
-            formatter.reformatFiles(FOO_FILE, GAZONK_FILE);
         }
 
         public void shouldExecuteCommandForFilesInDirectory() throws IOException {
@@ -109,87 +100,63 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         }
     }
 
-    public class FormatterWithNoRecursiveCommandSpecified {
+    public class WhenOnlyReformatFileCommandIsSpecified {
 
-        private Executer executer;
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter("format %FILE%", "formatDir %DIRECTORY%", null, executer);
+            formatter = new CommandLineCodeFormatter("format %FILE%", null, null);
             return formatter;
         }
 
-        public void shouldUseDirectoryCommandInsteadOfRecursiveDirectoryCommand() throws IOException {
-            checking(new Expectations() {{
-                one(executer).execute("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
-                one(executer).execute("formatDir \"" + TESTFILES_SUBDIR.getAbsolutePath() + "\"");
-            }});
-            formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+        public void shouldSupportTheSpecifiedCommand() {
+            specify(formatter.supportsReformatFile());
+        }
+
+        public void shouldNotSupportOtherCommands() {
+            specify(should.not().be.supportsReformatFiles());
+            specify(should.not().be.supportsReformatFilesInDirectory());
+            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
         }
     }
 
-    public class FormatterWithNoDirectoryCommandSpecified {
+    public class WhenOnlyReformatFilesInDirectoryCommandIsSpecified {
 
-        private Executer executer;
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter("format %FILE%", null, null, executer);
+            formatter = new CommandLineCodeFormatter(null, "formatDir %DIRECTORY%", null);
             return formatter;
         }
 
-        public void shouldUseSingleFileCommandInsteadOfDirectoryCommand() throws IOException {
-            checking(new Expectations() {{
-                one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
-                one(executer).execute("format \"" + BAR_FILE.getAbsolutePath() + "\"");
-            }});
-            formatter.reformatFilesInDirectory(TESTFILES_DIR);
+        public void shouldSupportTheSpecifiedCommand() {
+            specify(formatter.supportsReformatFilesInDirectory());
         }
 
-        public void shouldUseSingleFileCommandInsteadOfRecursiveDirectoryCommand() throws IOException {
-            checking(new Expectations() {{
-                one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
-                one(executer).execute("format \"" + BAR_FILE.getAbsolutePath() + "\"");
-                one(executer).execute("format \"" + GAZONK_FILE.getAbsolutePath() + "\"");
-            }});
-            formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+        public void shouldNotSupportOtherCommands() {
+            specify(should.not().be.supportsReformatFile());
+            specify(should.not().be.supportsReformatFiles());
+            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
         }
     }
 
-    public class FormatterWithNoSingleFileCommandSpecified {
+    public class WhenOnlyReformatFilesInDirectoryRecursivelyCommandIsSpecified {
 
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            Executer executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter(null, null, null, executer);
+            formatter = new CommandLineCodeFormatter(null, null, "formatDirRec %DIRECTORY%");
             return formatter;
         }
 
-        public void shouldNotFormatSingleFile() {
-            specify(new Block() {
-                public void run() throws Throwable {
-                    formatter.reformatFile(TESTFILES_DIR);
-                }
-            }, should.raise(IllegalStateException.class));
+        public void shouldSupportTheSpecifiedCommand() {
+            specify(formatter.supportsReformatFilesInDirectoryRecursively());
         }
 
-        public void shouldNotFormatDirectory() {
-            specify(new Block() {
-                public void run() throws Throwable {
-                    formatter.reformatFile(TESTFILES_DIR);
-                }
-            }, should.raise(IllegalStateException.class));
-        }
-
-        public void shouldNotFormatDirectoryRecursively() {
-            specify(new Block() {
-                public void run() throws Throwable {
-                    formatter.reformatFile(TESTFILES_DIR);
-                }
-            }, should.raise(IllegalStateException.class));
+        public void shouldNotSupportOtherCommands() {
+            specify(should.not().be.supportsReformatFile());
+            specify(should.not().be.supportsReformatFiles());
+            specify(should.not().be.supportsReformatFilesInDirectory());
         }
     }
 }

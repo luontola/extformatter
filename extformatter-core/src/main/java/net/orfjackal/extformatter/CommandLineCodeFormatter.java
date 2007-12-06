@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
@@ -59,55 +58,33 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     public void reformatFile(@NotNull File file) {
         if (fileCommand != null) {
             executer.execute(parsed(fileCommand, file));
-        } else {
-            throw new IllegalStateException("Reformatting a single file is not supported");
         }
     }
 
     public boolean supportsReformatFiles() {
-        return supportsReformatFile();
+        return false;
     }
 
     public void reformatFiles(@NotNull File... files) {
-        for (File file : files) {
-            reformatFile(file);
-        }
     }
 
     public boolean supportsReformatFilesInDirectory() {
-        return directoryCommand != null || supportsReformatFile();
+        return directoryCommand != null;
     }
 
     public void reformatFilesInDirectory(@NotNull File directory) {
         if (directoryCommand != null) {
             executer.execute(parsed(directoryCommand, directory));
-        } else {
-            File[] files = directory.listFiles(new FileFilter() {
-                public boolean accept(File pathname) {
-                    return pathname.isFile();
-                }
-            });
-            reformatFiles(files);
         }
     }
 
     public boolean supportsReformatFilesInDirectoryRecursively() {
-        return recursiveDirectoryCommand != null || supportsReformatFilesInDirectory();
+        return recursiveDirectoryCommand != null;
     }
 
     public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
         if (recursiveDirectoryCommand != null) {
             executer.execute(parsed(recursiveDirectoryCommand, directory));
-        } else {
-            File[] subDirs = directory.listFiles(new FileFilter() {
-                public boolean accept(File pathname) {
-                    return pathname.isDirectory();
-                }
-            });
-            reformatFilesInDirectory(directory);
-            for (File dir : subDirs) {
-                reformatFilesInDirectoryRecursively(dir);
-            }
         }
     }
 

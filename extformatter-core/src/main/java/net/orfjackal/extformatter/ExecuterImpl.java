@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.OutputStream;
 
 /**
  * @author Esko Luontola
@@ -29,11 +29,23 @@ import java.io.PrintStream;
  */
 public class ExecuterImpl implements Executer {
 
+    @NotNull private final OutputStream stdout;
+    @NotNull private final OutputStream stderr;
+
+    public ExecuterImpl() {
+        this(System.out, System.err);
+    }
+
+    public ExecuterImpl(@NotNull OutputStream redirectStdout, @NotNull OutputStream redirectStderr) {
+        this.stdout = redirectStdout;
+        this.stderr = redirectStderr;
+    }
+
     public void execute(@NotNull String command) {
         try {
             Process process = Runtime.getRuntime().exec(command);
-            redirect(process.getErrorStream(), System.err);
-            redirect(process.getInputStream(), System.out);
+            redirect(process.getInputStream(), stdout);
+            redirect(process.getErrorStream(), stderr);
             process.waitFor();
 
         } catch (IOException e) {
@@ -43,7 +55,7 @@ public class ExecuterImpl implements Executer {
         }
     }
 
-    private void redirect(@NotNull final InputStream from, @NotNull final PrintStream to) {
+    private static void redirect(@NotNull final InputStream from, @NotNull final OutputStream to) {
         Thread t = new Thread() {
             public void run() {
                 byte[] buf = new byte[1024];

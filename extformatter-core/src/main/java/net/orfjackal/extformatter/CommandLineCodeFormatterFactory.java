@@ -25,40 +25,25 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CommandLineCodeFormatterFactory implements CodeFormatterFactory<CommandLineCodeFormatter> {
 
-    @Nullable private String singleFileCommand;
+    @Nullable private String fileCommand;
     @Nullable private String directoryCommand;
     @Nullable private String recursiveDirectoryCommand;
 
     @Nullable
     public CommandLineCodeFormatter newFormatter() {
-        if (singleFileCommand != null || directoryCommand != null || recursiveDirectoryCommand != null) {
-            return new CommandLineCodeFormatter(singleFileCommand, directoryCommand, recursiveDirectoryCommand);
+        if (fileCommand != null || directoryCommand != null || recursiveDirectoryCommand != null) {
+            return new CommandLineCodeFormatter(fileCommand, directoryCommand, recursiveDirectoryCommand);
         } else {
             return null;
         }
     }
 
-    @Nullable
-    public String getSingleFileCommand() {
-        return singleFileCommand;
-    }
-
-    public void setSingleFileCommand(@Nullable String singleFileCommand) {
-        this.singleFileCommand = singleFileCommand;
-    }
-
-    @Nullable
-    public String getDirectoryCommand() {
-        return directoryCommand;
+    public void setFileCommand(@Nullable String fileCommand) {
+        this.fileCommand = fileCommand;
     }
 
     public void setDirectoryCommand(@Nullable String directoryCommand) {
         this.directoryCommand = directoryCommand;
-    }
-
-    @Nullable
-    public String getRecursiveDirectoryCommand() {
-        return recursiveDirectoryCommand;
     }
 
     public void setRecursiveDirectoryCommand(@Nullable String recursiveDirectoryCommand) {

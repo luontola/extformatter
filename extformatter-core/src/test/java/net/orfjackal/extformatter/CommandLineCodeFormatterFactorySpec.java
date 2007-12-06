@@ -72,7 +72,7 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
 
         public CommandLineCodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
-            factory.setSingleFileCommand("command");
+            factory.setFileCommand("command");
             formatter = factory.newFormatter();
             return formatter;
         }
@@ -168,7 +168,7 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CommandLi
 
         public CommandLineCodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
-            factory.setSingleFileCommand("command");
+            factory.setFileCommand("command");
             factory.setDirectoryCommand("command");
             factory.setRecursiveDirectoryCommand("command");
             formatter = factory.newFormatter();

@@ -40,19 +40,9 @@ public class EclipseCodeFormatterFactory implements CodeFormatterFactory<Eclipse
         }
     }
 
-    @Nullable
-    public File getEclipseExecutable() {
-        return eclipseExecutable;
-    }
-
     public void setEclipseExecutable(@NotNull File eclipseExecutable) {
         assert eclipseExecutable.isFile() : "Not a file: " + eclipseExecutable;
         this.eclipseExecutable = eclipseExecutable;
-    }
-
-    @Nullable
-    public File getEclipsePrefs() {
-        return eclipsePrefs;
     }
 
     public void setEclipsePrefs(@NotNull File eclipsePrefs) {

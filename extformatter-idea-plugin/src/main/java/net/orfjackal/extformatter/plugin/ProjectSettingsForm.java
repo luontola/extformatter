@@ -21,6 +21,7 @@ import com.intellij.ui.DocumentAdapter;
 import net.orfjackal.extformatter.EclipseCodeFormatter;
 import net.orfjackal.extformatter.settings.Settings;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -56,6 +57,7 @@ public class ProjectSettingsForm {
     private JLabel eclipseSupportedFileTypesLabel;
 
     private final List<Popup> visiblePopups = new ArrayList<Popup>();
+    @Nullable private File lastDirectory;
 
     public ProjectSettingsForm() {
         pluginEnabled.addActionListener(new ActionListener() {
@@ -93,14 +95,19 @@ public class ProjectSettingsForm {
         chooser.setMultiSelectionEnabled(false);
         chooser.setFileHidingEnabled(false);    // Eclipse's prefs file is in a hidden ".settings" directory
 
-        File currentSelection = new File(target.getText());
-        chooser.setCurrentDirectory(currentSelection);
-        chooser.setSelectedFile(currentSelection);
+        if (target.getText().equals("") && lastDirectory != null) {
+            chooser.setCurrentDirectory(lastDirectory);
+        } else {
+            File currentSelection = new File(target.getText());
+            chooser.setCurrentDirectory(currentSelection);
+            chooser.setSelectedFile(currentSelection);
+        }
 
         int result = chooser.showOpenDialog(rootComponent);
         if (result == JFileChooser.APPROVE_OPTION) {
             target.setText(chooser.getSelectedFile().getAbsolutePath());
         }
+        lastDirectory = chooser.getCurrentDirectory();
     }
 
     private void updateComponents() {

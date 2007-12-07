@@ -26,7 +26,7 @@ into IDEA.
 
 2. Run the following command "mvn clean package assembly:assembly" in the root 
    source directory. On successive calls you may use the "mvn-assemble.bat" 
-   script which works in offline mode.
+   script which operates in offline mode.
 
 3. Collect the *-bin.zip and *-src.zip files from the /target directory.
 

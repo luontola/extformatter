@@ -150,7 +150,7 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             return queue;
         }
 
-        public void whenAllFilesAreInTheSameDirectoryShouldReformatDirectory() {
+        public void whenAllFilesAreInTheSameDirectoryShouldReformatThatDirectory() {
             checking(new Expectations() {{
                 one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
             }});
@@ -172,7 +172,7 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             specify(queue.isEmpty());
         }
 
-        public void whenThereAreAlsoOtherFilesInTheDirectoryShouldRaiseAndError() {
+        public void whenThereAreAlsoOtherFilesInTheSameDirectoryShouldNotReformatThatDirectory() {
             checking(new Expectations() {{
             }});
             queue.reformatFile(FOO_FILE);

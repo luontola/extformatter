@@ -18,6 +18,7 @@
 package net.orfjackal.extformatter.plugin;
 
 import com.intellij.ui.DocumentAdapter;
+import net.orfjackal.extformatter.EclipseCodeFormatter;
 import net.orfjackal.extformatter.settings.Settings;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,6 +45,7 @@ public class ProjectSettingsForm {
     private JCheckBox pluginEnabled;
     private JTextField eclipseExecutable;
     private JTextField eclipsePrefs;
+    private JTextField eclipseSupportedFileTypes;
 
     private JPanel rootComponent;
     private JLabel titleLabel;
@@ -51,6 +53,7 @@ public class ProjectSettingsForm {
     private JButton eclipsePrefsBrowse;
     private JLabel eclipseExecutableLabel;
     private JLabel eclipsePrefsLabel;
+    private JLabel eclipseSupportedFileTypesLabel;
 
     private final List<Popup> visiblePopups = new ArrayList<Popup>();
 
@@ -80,6 +83,7 @@ public class ProjectSettingsForm {
                 browseForFile(eclipsePrefs);
             }
         });
+        eclipseSupportedFileTypes.setText(EclipseCodeFormatter.SUPPORTED_FILE_TYPES);
         updateComponents();
     }
 
@@ -103,6 +107,7 @@ public class ProjectSettingsForm {
         hidePopups();
         JComponent[] affectedByPluginEnabled = new JComponent[]{
                 titleLabel,
+                eclipseSupportedFileTypesLabel,
                 eclipseExecutable,
                 eclipseExecutableBrowse,
                 eclipseExecutableLabel,

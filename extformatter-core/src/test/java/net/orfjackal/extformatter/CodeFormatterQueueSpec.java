@@ -23,6 +23,8 @@ import static net.orfjackal.extformatter.TestResources.*;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
+import java.io.File;
+
 /**
  * @author Esko Luontola
  * @since 7.12.2007
@@ -73,15 +75,11 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             queue.flush();
         }
 
-        public void shouldSupportTheSameOperationsAsTheFormatter() {
-            specify(queue.supportsReformatFile(),
-                    should.equal(formatter.supportsReformatFile()));
-            specify(queue.supportsReformatFiles(),
-                    should.equal(formatter.supportsReformatFiles()));
-            specify(queue.supportsReformatFilesInDirectory(),
-                    should.equal(formatter.supportsReformatFilesInDirectory()));
-            specify(queue.supportsReformatFilesInDirectoryRecursively(),
-                    should.equal(formatter.supportsReformatFilesInDirectoryRecursively()));
+        public void shouldSupportOnlyReformatFile() {
+            specify(queue.supportsReformatFile());
+            specify(should.not().be.supportsReformatFiles());
+            specify(should.not().be.supportsReformatFilesInDirectory());
+            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
         }
 
         public void shouldSupportTheSameFileTypesAsTheFormatter() {
@@ -89,6 +87,62 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             specify(queue.supportsFileType(XML_FILE), should.equal(formatter.supportsFileType(XML_FILE)));
         }
     }
+
+    public class WhenFormatterSupportsReformatFiles {
+
+        private CodeFormatter formatter;
+        private CodeFormatterQueue queue;
+
+        public CodeFormatterQueue create() {
+            formatter = mock(CodeFormatter.class);
+            queue = new CodeFormatterQueue(formatter);
+            checking(new Expectations() {{
+                allowing(formatter).supportsReformatFile(); will(returnValue(true));
+                allowing(formatter).supportsReformatFiles(); will(returnValue(true));
+                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
+                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+            }});
+            return queue;
+        }
+
+        public void shouldUseReformatFilesWhenAskedToFormatManyIndividualFiles() {
+            checking(new Expectations() {{
+                one(formatter).reformatFiles(FOO_FILE, GAZONK_FILE);
+            }});
+            queue.reformatFile(FOO_FILE);
+            queue.reformatFile(GAZONK_FILE);
+            queue.flush();
+        }
+    }
+
+    public class WhenFormatterSupportsReformatDirectory {
+
+        private CodeFormatter formatter;
+        private CodeFormatterQueue queue;
+
+        public CodeFormatterQueue create() {
+            formatter = mock(CodeFormatter.class);
+            queue = new CodeFormatterQueue(formatter);
+            checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing(formatter).supportsReformatFile(); will(returnValue(false));
+                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
+                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(true));
+                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+            }});
+            return queue;
+        }
+
+        public void shouldUseReformatDirectoryWhenAllFilesAreInTheSameDirectory() {
+//            checking(new Expectations() {{
+//                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
+//            }});
+//            queue.reformatFile(FOO_FILE);
+//            queue.reformatFile(BAR_FILE);
+//            queue.flush();
+        }
+    }
+
 
 
 }

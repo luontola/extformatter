@@ -31,50 +31,56 @@ public class CodeFormatterQueue implements CodeFormatter {
 
     private final CodeFormatter formatter;
 
-    private final List<File> reformatFile = new ArrayList<File>();
+    private final List<File> queue = new ArrayList<File>();
 
     public CodeFormatterQueue(@NotNull CodeFormatter formatter) {
         this.formatter = formatter;
     }
 
     public void flush() {
-        for (File file : reformatFile) {
-            formatter.reformatFile(file);
+        if (formatter.supportsReformatFiles()) {
+            File[] files = queue.toArray(new File[queue.size()]);
+            formatter.reformatFiles(files);
+        } else {
+            for (File file : queue) {
+                formatter.reformatFile(file);
+            }
         }
     }
-
-    public void reformatFile(@NotNull File file) {
-        reformatFile.add(file);
-    }
-
-    public void reformatFiles(@NotNull File... files) {
-    }
-
-    public void reformatFilesInDirectory(@NotNull File directory) {
-    }
-
-    public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
-    }
-
-    // Generated delegate methods
 
     public boolean supportsFileType(@NotNull File file) {
         return formatter.supportsFileType(file);
     }
 
     public boolean supportsReformatFile() {
-        return formatter.supportsReformatFile();
+        return true;
+    }
+
+    public void reformatFile(@NotNull File file) {
+        queue.add(file);
     }
 
     public boolean supportsReformatFiles() {
-        return formatter.supportsReformatFiles();
+        return false;
+    }
+
+    public void reformatFiles(@NotNull File... files) {
+        throw new UnsupportedOperationException();
     }
 
     public boolean supportsReformatFilesInDirectory() {
-        return formatter.supportsReformatFilesInDirectory();
+        return false;
+    }
+
+    public void reformatFilesInDirectory(@NotNull File directory) {
+        throw new UnsupportedOperationException();
     }
 
     public boolean supportsReformatFilesInDirectoryRecursively() {
-        return formatter.supportsReformatFilesInDirectoryRecursively();
+        return false;
+    }
+
+    public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
+        throw new UnsupportedOperationException();
     }
 }

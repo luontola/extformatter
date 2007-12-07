@@ -32,6 +32,8 @@
         </p>
     ]]></change-notes>
 
+    <helpset file="extformatter-help.jar" path="/Help.hs"/>
+
     <project-components>
         <component>
             <implementation-class>net.orfjackal.extformatter.plugin.ProjectSettingsComponent</implementation-class>

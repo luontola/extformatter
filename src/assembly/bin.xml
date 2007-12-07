@@ -28,6 +28,7 @@
             <binaries>
                 <outputDirectory>help</outputDirectory>
                 <unpack>false</unpack>
+                <outputFileNameMapping>${artifactId}.${extension}</outputFileNameMapping>
             </binaries>
         </moduleSet>
     </moduleSets>

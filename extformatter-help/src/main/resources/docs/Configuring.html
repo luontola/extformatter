@@ -1,0 +1,192 @@
+<!--
+  ~ External Code Formatter
+  ~ Copyright (c) 2007 Esko Luontola, www.orfjackal.net
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-store, no-cache, must-revalidate">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" lang="en">
+    <meta name="robots" content="none">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" type="text/css" media="all" href="../DefaultCSS/s.css">
+    <title>Configuring External Code Formatter</title>
+
+</head>
+<body id="IJ_help" class="template">
+<div id="container">
+
+    <div id="header" style="background:url(../DefaultCSS/img/bg_idea_big.jpg)">
+        <h1>Configuring External Code Formatter</h1>
+    </div>
+
+    <div id="content">
+
+        <div class="introduction">
+            <p><b>External Code Formatter</b> is a plugin for integrating <b>Eclipse</b>'s code formatter and any
+                command line code formatters into <b>IntelliJ IDEA</b>. When the plugin has been enabled, it will
+                transparently replace IDEA's built-in code formatter. You can reformat your code as before, by pressing
+                <span class="shortcut">Ctrl+Alt+L</span>, or when committing files to VCS. If the external code
+                formatter does not support a file type, or you try to reformat a selected text, the plugin will
+                automatically fall back to using IDEA's code formatter that time.</p>
+        </div>
+
+        <div class="section">
+            <div class="ijProcedureSteps">
+                <p class="procHeader">Using Eclipse's code formatter</p>
+
+                <p>
+                <ol>
+                    <li>In your <span class="ijControl">Project Settings</span>, open <b>External Code Formatter</b>'s
+                        configuration and tick <span class="ijControl">Enable for current project</span></li>
+
+                    <li>Browse for the location of the <span class="ijControl">Eclipse executable</span>. You will need
+                        to have <b>Eclipse 3.2</b> or later installed.
+                    </li>
+                </ol>
+
+                <table cellpadding="4" cellspacing="0" class="ijTip">
+                    <tr>
+                        <td class="noteIcon"><img src="../DefaultCSS/img/tip.gif" alt="Note">&nbsp;</td>
+                        <td><p>On Windows, it is better to select <b>eclipsec.exe</b> instead of <b>eclipse.exe</b>,
+                            because the latter one would pop up a black command line dialog during reformatting.
+                            However, in both cases Eclipse's startup logo will show up momentarily.</p></td>
+                    </tr>
+                </table>
+
+                <ol start="3">
+                    <li>TODO</li>
+                    <!-- TODO -->
+                </ol>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="ijProcedureSteps">
+                <p class="procHeader">Create Your First Project</p>
+
+                <p>
+                <ol>
+
+                    <li>On the <span class="ijControl">File</span> menu select <span class="ijControl">New Project</span> to start
+                        the <b>New Project</b> wizard.
+
+                    <li>Walk through the wizard steps to create and configure your project to use a single <b>Java
+                        Module</b>. Note that here we're creating the project from scratch, though you can import any other existing sources (<a href="../Procedures/WorkingWithProjects/CreatingProjects/importingAnEclipseProject.html">Eclipse</a>,
+                        <a href="../Procedures/WorkingWithProjects/CreatingProjects/importingMavenProject.html">Maven</a>,
+                        <a href="../Procedures/WorkingWithProjects/CreatingProjects/importingAJBuilderProject.html">JBuilder</a>, or <a href="../Procedures/WorkingWithProjects/CreatingProjects/creatingANewProjectFromExistingCode.html">other code</a>)
+
+                        via this wizard.<br>
+                        <a href="../Procedures/WorkingWithProjects/CreatingProjects/creatingANewProject.html">More info about creating projects</a>
+                    <li>Right-click the <span class="ijControl">src</span> directory in the <b>Project</b> view and
+                        select <span class="ijControl">New</span>, <span class="ijControl">Class</span>
+                    <li>Type <b>main</b> in the appeared dialog and click <span class="ijControl">OK</span>.
+                        <span class="intelliJIDEA">IntelliJ IDEA</span> will create the stub file for you.
+
+                    <li>Type this sample code:
+                </ol>
+
+
+        <pre class="codeExpre">
+
+            
+        <span class="keyword">import</span> java.io.BufferedReader;
+        <span class="keyword">import</span> java.io.IOException;
+        <span class="keyword">import</span> java.io.InputStreamReader;
+
+        <span class="keyword">public class</span> Main {
+
+            <span class="keyword">public static void</span> main(String[] argv) <span class="keyword">throws</span> IOException {
+                BufferedReader buff = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));
+
+                System.out.print(<span class="string">"What's your name? "</span>);
+
+                System.out.flush();
+
+                String s = buff.readLine();
+
+                System.out.printf(<span class="string">"Hello, %s!"</span>, s);
+
+            }
+        }
+
+    </pre>
+
+                <table cellpadding="4" cellspacing="0" class="ijTip">
+                    <tr>
+                        <td class="noteIcon"><img src="../DefaultCSS/img/tip.gif" alt="Note">&nbsp;</td>
+                        <td>
+                            <p>Do not copy-paste this code. Try typing it live to experience <b>InteliJ IDEA</b>'s
+                                advanced code
+                                editing features.</td>
+                    </tr>
+                </table>
+
+                <ol start="6">
+
+                    <li>On the <span class="ijControl">Run</span> menu click <span
+                            class="ijControl">Edit Configurations</span>.
+                        Click <img src="../CommonImages/add.gif" align="absmiddle" alt="add">&nbsp;and select
+                        <b>Application</b> to create
+                        the run configuration for your project. Specify the <b>Main Class</b> and click <span
+                            class="ijControl">OK</span>.<br><a href="../Procedures/Running/CreatingRunDebugConfiguration/creatingAndEditingRunDebugConfiguration.html">More about run configurations</a>
+                    <li>Now Press <span class="shortcut">Shift+F10</span> to run the your project. <span class="intelliJIDEA">IntelliJ IDEA</span>
+                        brings up
+                        the console, asking for your name:<br>
+                        <br>
+                        <img src="../img/firstRun.png" alt="First Run">&nbsp;
+
+                </ol>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div id="seealso">
+    <h2>See also:</h2>
+
+    <p><img src="../DefaultCSS/img/seealso_blt.gif" alt="Icon">&nbsp;&nbsp;<a href="../Procedures/Building/index.html">Compiling
+        and building applications</a></p>
+
+    <p><img src="../DefaultCSS/img/seealso_blt.gif" alt="Icon">&nbsp;&nbsp;<a
+            href="../Procedures/Debugging/debugging.html">Debugging applications</a></p>
+
+    <p><img src="../DefaultCSS/img/seealso_blt.gif" alt="Icon">&nbsp;&nbsp;<a href="../Procedures/Running/index.html">Running
+        applications</a></p>
+
+    <p><img src="../DefaultCSS/img/seealso_blt.gif" alt="Icon">&nbsp;&nbsp;<a href="../Procedures/Testing/testingPart.html">Performing
+        tests</a></p><br>
+
+
+</div>
+
+<div id="footer">
+    <p>
+
+        Comments, questions, suggestions? See the <a href="../feedback.html">Feedback</a> page to contact
+        <b>JetBrains</b><br><br>
+
+        <b>Copyright &copy; 2000-2007 JetBrains s.r.o. All rights reserved</b>
+
+    </p>
+</div>
+</body>
+</html>

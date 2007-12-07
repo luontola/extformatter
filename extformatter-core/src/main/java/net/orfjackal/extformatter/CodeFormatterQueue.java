@@ -58,6 +58,7 @@ public class CodeFormatterQueue implements CodeFormatter {
 
     public void flush() {
         // TODO: slice into smaller methods
+        // TODO: formatter.supportsReformatFilesInDirectoryRecursively()
         if (fileQueue.isEmpty()) {
             return;
         }

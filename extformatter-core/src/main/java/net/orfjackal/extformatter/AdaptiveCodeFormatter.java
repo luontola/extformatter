@@ -82,9 +82,7 @@ public class AdaptiveCodeFormatter implements CodeFormatter {
         } else {
             File[] files = directory.listFiles(new FileFilter() {
                 public boolean accept(File pathname) {
-                    // TODO: get to this using TDD
-//                    return pathname.isFile() && formatter.supportsFileType(pathname);
-                    return pathname.isFile();
+                    return pathname.isFile() && formatter.supportsFileType(pathname);
                 }
             });
             reformatFiles(files);

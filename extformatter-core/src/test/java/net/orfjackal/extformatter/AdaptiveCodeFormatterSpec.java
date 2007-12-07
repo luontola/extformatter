@@ -20,6 +20,7 @@ package net.orfjackal.extformatter;
 import jdave.Block;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
+import static net.orfjackal.extformatter.TestResources.*;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
@@ -70,34 +71,34 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
 
         public void theSupportedCommandShouldBeUsedForReformatFile() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(TestResources.FOO_FILE);
+                one(formatter).reformatFile(FOO_FILE);
             }});
-            adapter.reformatFile(TestResources.FOO_FILE);
+            adapter.reformatFile(FOO_FILE);
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFiles() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(TestResources.FOO_FILE);
-                one(formatter).reformatFile(TestResources.GAZONK_FILE);
+                one(formatter).reformatFile(FOO_FILE);
+                one(formatter).reformatFile(GAZONK_FILE);
             }});
-            adapter.reformatFiles(TestResources.FOO_FILE, TestResources.GAZONK_FILE);
+            adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFilesInDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(TestResources.FOO_FILE);
-                one(formatter).reformatFile(TestResources.BAR_FILE);
+                one(formatter).reformatFile(FOO_FILE);
+                one(formatter).reformatFile(BAR_FILE);
             }});
-            adapter.reformatFilesInDirectory(TestResources.TESTFILES_DIR);
+            adapter.reformatFilesInDirectory(TESTFILES_DIR);
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFilesInDirectoryRecursively() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(TestResources.FOO_FILE);
-                one(formatter).reformatFile(TestResources.BAR_FILE);
-                one(formatter).reformatFile(TestResources.GAZONK_FILE);
+                one(formatter).reformatFile(FOO_FILE);
+                one(formatter).reformatFile(BAR_FILE);
+                one(formatter).reformatFile(GAZONK_FILE);
             }});
-            adapter.reformatFilesInDirectoryRecursively(TestResources.TESTFILES_DIR);
+            adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
         }
     }
 
@@ -137,31 +138,31 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
 
         public void theSupportedCommandShouldBeUsedForReformatFile() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(TestResources.FOO_FILE);
+                one(formatter).reformatFiles(FOO_FILE);
             }});
-            adapter.reformatFile(TestResources.FOO_FILE);
+            adapter.reformatFile(FOO_FILE);
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFiles() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(TestResources.FOO_FILE, TestResources.GAZONK_FILE);
+                one(formatter).reformatFiles(FOO_FILE, GAZONK_FILE);
             }});
-            adapter.reformatFiles(TestResources.FOO_FILE, TestResources.GAZONK_FILE);
+            adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFilesInDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(TestResources.BAR_FILE, TestResources.FOO_FILE);
+                one(formatter).reformatFiles(BAR_FILE, FOO_FILE);
             }});
-            adapter.reformatFilesInDirectory(TestResources.TESTFILES_DIR);
+            adapter.reformatFilesInDirectory(TESTFILES_DIR);
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFilesInDirectoryRecursively() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(TestResources.BAR_FILE, TestResources.FOO_FILE);
-                one(formatter).reformatFiles(TestResources.GAZONK_FILE);
+                one(formatter).reformatFiles(BAR_FILE, FOO_FILE);
+                one(formatter).reformatFiles(GAZONK_FILE);
             }});
-            adapter.reformatFilesInDirectoryRecursively(TestResources.TESTFILES_DIR);
+            adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
         }
     }
 
@@ -201,7 +202,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFile() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFile(TestResources.FOO_FILE);
+                    adapter.reformatFile(FOO_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
@@ -209,24 +210,24 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFiles() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFiles(TestResources.FOO_FILE, TestResources.GAZONK_FILE);
+                    adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFilesInDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectory(TestResources.TESTFILES_DIR);
+                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
             }});
-            adapter.reformatFilesInDirectory(TestResources.TESTFILES_DIR);
+            adapter.reformatFilesInDirectory(TESTFILES_DIR);
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFilesInDirectoryRecursively() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectory(TestResources.TESTFILES_DIR);
-                one(formatter).reformatFilesInDirectory(TestResources.TESTFILES_SUBDIR);
+                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
+                one(formatter).reformatFilesInDirectory(TESTFILES_SUBDIR);
             }});
-            adapter.reformatFilesInDirectoryRecursively(TestResources.TESTFILES_DIR);
+            adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
         }
     }
 
@@ -267,7 +268,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFile() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFile(TestResources.FOO_FILE);
+                    adapter.reformatFile(FOO_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
@@ -275,7 +276,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFiles() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFiles(TestResources.FOO_FILE, TestResources.GAZONK_FILE);
+                    adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
@@ -283,16 +284,16 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFilesInDirectory() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFilesInDirectory(TestResources.TESTFILES_DIR);
+                    adapter.reformatFilesInDirectory(TESTFILES_DIR);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
         public void theSupportedCommandShouldBeUsedForReformatFilesInDirectoryRecursively() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectoryRecursively(TestResources.TESTFILES_DIR);
+                one(formatter).reformatFilesInDirectoryRecursively(TESTFILES_DIR);
             }});
-            adapter.reformatFilesInDirectoryRecursively(TestResources.TESTFILES_DIR);
+            adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
         }
     }
 
@@ -333,7 +334,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFile() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFile(TestResources.FOO_FILE);
+                    adapter.reformatFile(FOO_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
@@ -341,7 +342,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFiles() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFiles(TestResources.FOO_FILE, TestResources.GAZONK_FILE);
+                    adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
@@ -349,7 +350,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFilesInDirectory() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFilesInDirectory(TestResources.TESTFILES_DIR);
+                    adapter.reformatFilesInDirectory(TESTFILES_DIR);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
@@ -357,9 +358,36 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         public void itShouldBeAnErrorToUseReformatFilesInDirectoryRecursively() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFilesInDirectoryRecursively(TestResources.TESTFILES_DIR);
+                    adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
                 }
             }, should.raise(UnsupportedOperationException.class));
+        }
+    }
+
+    public class WhenDirectoryContainsAlsoUnsupportedFileTypes {
+
+        private CodeFormatter formatter;
+        private AdaptiveCodeFormatter adapter;
+
+        public AdaptiveCodeFormatter create() {
+            formatter = mock(CodeFormatter.class);
+            adapter = new AdaptiveCodeFormatter(formatter);
+            checking(new Expectations() {{
+                allowing(formatter).supportsFileType(FOO_FILE); will(returnValue(false));
+                allowing(formatter).supportsFileType(BAR_FILE); will(returnValue(true));
+                allowing(formatter).supportsReformatFile(); will(returnValue(true));
+                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
+                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
+                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+            }});
+            return adapter;
+        }
+
+        public void shouldReformatOnlyTheSupportedFiles() {
+            checking(new Expectations() {{
+                one(formatter).reformatFile(BAR_FILE);
+            }});
+            adapter.reformatFilesInDirectory(TESTFILES_DIR);
         }
     }
 }

@@ -9,6 +9,7 @@
     <modules>
         <module>extformatter-core</module>
         <module>extformatter-idea-plugin</module>
+        <module>extformatter-help</module>
     </modules>
     <properties>
         <idea.version>7.0.7361</idea.version>

@@ -34,6 +34,7 @@
     <option name="DEFAULT_COMPILER" value="Javac" />
     <option name="DEPLOY_AFTER_MAKE" value="0" />
     <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/extformatter-help/src/main/resources" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/extformatter-idea-plugin/src/test/resources" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/extformatter-idea-plugin/src/main/resources" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/extformatter-core/src/test/resources" includeSubdirectories="true" />
@@ -290,6 +291,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/extformatter.iml" filepath="$PROJECT_DIR$/extformatter.iml" />
       <module fileurl="file://$PROJECT_DIR$/extformatter-core/extformatter-core.iml" filepath="$PROJECT_DIR$/extformatter-core/extformatter-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/extformatter-help/extformatter-help.iml" filepath="$PROJECT_DIR$/extformatter-help/extformatter-help.iml" />
       <module fileurl="file://$PROJECT_DIR$/extformatter-idea-plugin/extformatter-idea-plugin.iml" filepath="$PROJECT_DIR$/extformatter-idea-plugin/extformatter-idea-plugin.iml" />
     </modules>
   </component>

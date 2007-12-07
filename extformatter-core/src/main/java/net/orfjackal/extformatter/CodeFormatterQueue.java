@@ -18,7 +18,6 @@
 package net.orfjackal.extformatter;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -40,11 +39,25 @@ public class CodeFormatterQueue implements CodeFormatter {
         this.formatter = formatter;
     }
 
+    public boolean supportsFileType(@NotNull File file) {
+        return formatter.supportsFileType(file);
+    }
+
+    public boolean supportsReformatFile() {
+        return true;
+    }
+
+    public void reformatFile(@NotNull File file) {
+        assert supportsFileType(file);
+        fileQueue.add(file);
+    }
+
     public boolean isEmpty() {
         return fileQueue.isEmpty();
     }
 
     public void flush() {
+        // TODO: slice into smaller methods
         if (fileQueue.isEmpty()) {
             return;
         }
@@ -58,14 +71,6 @@ public class CodeFormatterQueue implements CodeFormatter {
                     fileQueue.removeAll(files);
                 }
             }
-        }
-        if (formatter.supportsReformatFilesInDirectory()
-                && allInTheSameDirectory(fileQueue)
-                && noOthersInTheSameDirectory(fileQueue)) {
-            File directory = commonDirectory(fileQueue);
-            assert directory != null;
-            formatter.reformatFilesInDirectory(directory);
-            fileQueue.clear();
         }
         if (formatter.supportsReformatFiles()) {
             File[] files = fileQueue.toArray(new File[fileQueue.size()]);
@@ -89,7 +94,7 @@ public class CodeFormatterQueue implements CodeFormatter {
     }
 
     @NotNull
-    private Map<File, List<File>> groupByCommonDirectory(@NotNull List<File> fileList) {
+    private static Map<File, List<File>> groupByCommonDirectory(@NotNull List<File> fileList) {
         Map<File, List<File>> groups = new HashMap<File, List<File>>();
         for (File file : fileList) {
             File directory = file.getParentFile();
@@ -101,10 +106,6 @@ public class CodeFormatterQueue implements CodeFormatter {
             files.add(file);
         }
         return groups;
-    }
-
-    private boolean allInTheSameDirectory(@NotNull List<File> files) {
-        return commonDirectory(files) != null;
     }
 
     private boolean noOthersInTheSameDirectory(@NotNull List<File> files) {
@@ -122,34 +123,7 @@ public class CodeFormatterQueue implements CodeFormatter {
         return true;
     }
 
-    @Nullable
-    private File commonDirectory(@NotNull List<File> files) {
-        File commonDirectory = null;
-        for (File file : files) {
-            File directory = file.getParentFile();
-            if (commonDirectory == null) {
-                commonDirectory = directory;
-            }
-            if (!directory.equals(commonDirectory)) {
-                return null;
-            }
-        }
-        return commonDirectory;
-    }
-
-
-    public boolean supportsFileType(@NotNull File file) {
-        return formatter.supportsFileType(file);
-    }
-
-    public boolean supportsReformatFile() {
-        return true;
-    }
-
-    public void reformatFile(@NotNull File file) {
-        assert supportsFileType(file);
-        fileQueue.add(file);
-    }
+    // Unsupported operations
 
     public boolean supportsReformatFiles() {
         return false;

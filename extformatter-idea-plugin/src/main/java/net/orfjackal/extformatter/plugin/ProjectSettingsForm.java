@@ -173,28 +173,28 @@ public class ProjectSettingsForm {
         return rootComponent;
     }
 
-    public void importFrom(@NotNull Settings data) {
-        eclipseExecutable.setText(data.getEclipseExecutable());
-        eclipsePrefs.setText(data.getEclipsePrefs());
-        pluginEnabled.setSelected(data.isPluginEnabled());
+    public void importFrom(@NotNull Settings settings) {
+        eclipseExecutable.setText(settings.getEclipseExecutable());
+        eclipsePrefs.setText(settings.getEclipsePrefs());
+        pluginEnabled.setSelected(settings.isPluginEnabled());
         updateComponents();
     }
 
-    public void exportTo(@NotNull Settings data) {
-        data.setEclipseExecutable(eclipseExecutable.getText());
-        data.setEclipsePrefs(eclipsePrefs.getText());
-        data.setPluginEnabled(pluginEnabled.isSelected());
+    public void exportTo(@NotNull Settings settings) {
+        settings.setEclipseExecutable(eclipseExecutable.getText());
+        settings.setEclipsePrefs(eclipsePrefs.getText());
+        settings.setPluginEnabled(pluginEnabled.isSelected());
     }
 
     @SuppressWarnings({"ConstantConditions", "RedundantIfStatement"})
-    public boolean isModified(@NotNull Settings data) {
-        if (eclipseExecutable.getText() != null ? !eclipseExecutable.getText().equals(data.getEclipseExecutable()) : data.getEclipseExecutable() != null) {
+    public boolean isModified(@NotNull Settings previous) {
+        if (eclipseExecutable.getText() != null ? !eclipseExecutable.getText().equals(previous.getEclipseExecutable()) : previous.getEclipseExecutable() != null) {
             return true;
         }
-        if (eclipsePrefs.getText() != null ? !eclipsePrefs.getText().equals(data.getEclipsePrefs()) : data.getEclipsePrefs() != null) {
+        if (eclipsePrefs.getText() != null ? !eclipsePrefs.getText().equals(previous.getEclipsePrefs()) : previous.getEclipsePrefs() != null) {
             return true;
         }
-        if (pluginEnabled.isSelected() != data.isPluginEnabled()) {
+        if (pluginEnabled.isSelected() != previous.isPluginEnabled()) {
             return true;
         }
         return false;

@@ -21,6 +21,15 @@
                 </excludes>
             </binaries>
         </moduleSet>
+        <moduleSet>
+            <includes>
+                <include>net.orfjackal.extformatter:extformatter-help</include>
+            </includes>
+            <binaries>
+                <outputDirectory>help</outputDirectory>
+                <unpack>false</unpack>
+            </binaries>
+        </moduleSet>
     </moduleSets>
     <fileSets>
         <fileSet>

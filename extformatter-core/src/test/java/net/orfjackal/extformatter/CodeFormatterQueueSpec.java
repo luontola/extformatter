@@ -17,6 +17,7 @@
 
 package net.orfjackal.extformatter;
 
+import jdave.Block;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
 import static net.orfjackal.extformatter.TestResources.*;
@@ -46,7 +47,7 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
                 allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(true));
                 allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(true));
+                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
                 allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
             }});
             return queue;
@@ -70,9 +71,13 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             checking(new Expectations() {{
                 one(formatter).reformatFile(FOO_FILE);
             }});
+            specify(queue.isEmpty());
             queue.reformatFile(FOO_FILE);
+            specify(should.not().be.isEmpty());
             queue.flush();
+            specify(queue.isEmpty());
             queue.flush();
+            specify(queue.isEmpty());
         }
 
         public void shouldExecuteAllQueuedCommandsWhenFlushed() {
@@ -123,6 +128,7 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             queue.reformatFile(FOO_FILE);
             queue.reformatFile(GAZONK_FILE);
             queue.flush();
+            specify(queue.isEmpty());
         }
     }
 
@@ -151,6 +157,31 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             queue.reformatFile(FOO_FILE);
             queue.reformatFile(BAR_FILE);
             queue.flush();
+            specify(queue.isEmpty());
+        }
+
+        public void whenAllFilesAreInDifferentDirectoriesShouldReformatEachDirectory() {
+            checking(new Expectations() {{
+                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
+                one(formatter).reformatFilesInDirectory(TESTFILES_SUBDIR);
+            }});
+            queue.reformatFile(FOO_FILE);
+            queue.reformatFile(BAR_FILE);
+            queue.reformatFile(GAZONK_FILE);
+            queue.flush();
+            specify(queue.isEmpty());
+        }
+
+        public void whenThereAreAlsoOtherFilesInTheDirectoryShouldRaiseAndError() {
+            checking(new Expectations() {{
+            }});
+            queue.reformatFile(FOO_FILE);
+            specify(new Block() {
+                public void run() throws Throwable {
+                    queue.flush();
+                }
+            }, should.raise(IllegalStateException.class));
+            specify(queue.isEmpty());
         }
     }
 
@@ -175,7 +206,9 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
         public void flushingShouldDoNothing() {
             checking(new Expectations() {{
             }});
+            specify(queue.isEmpty());
             queue.flush();
+            specify(queue.isEmpty());
         }
     }
 }

@@ -23,7 +23,9 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Esko Luontola
@@ -32,33 +34,73 @@ import java.util.List;
 public class CodeFormatterQueue implements CodeFormatter {
 
     @NotNull private final CodeFormatter formatter;
-    @NotNull private final List<File> queue = new ArrayList<File>();
+    @NotNull private final List<File> fileQueue = new ArrayList<File>();
 
     public CodeFormatterQueue(@NotNull CodeFormatter formatter) {
         this.formatter = formatter;
     }
 
+    public boolean isEmpty() {
+        return fileQueue.isEmpty();
+    }
+
     public void flush() {
-        if (queue.isEmpty()) {
+        if (fileQueue.isEmpty()) {
             return;
         }
-        if (formatter.supportsReformatFilesInDirectory()
-                && allInTheSameDirectory(queue)
-                && noOthersInTheSameDirectory(queue)) {
-            File directory = commonDirectory(queue);
-            assert directory != null;
-            formatter.reformatFilesInDirectory(directory);
-
-        } else if (formatter.supportsReformatFiles()) {
-            File[] files = queue.toArray(new File[queue.size()]);
-            formatter.reformatFiles(files);
-
-        } else {
-            for (File file : queue) {
-                formatter.reformatFile(file);
+        if (formatter.supportsReformatFilesInDirectory()) {
+            Map<File, List<File>> groups = groupByCommonDirectory(fileQueue);
+            for (Map.Entry<File, List<File>> group : groups.entrySet()) {
+                File directory = group.getKey();
+                List<File> files = group.getValue();
+                if (noOthersInTheSameDirectory(files)) {
+                    formatter.reformatFilesInDirectory(directory);
+                    fileQueue.removeAll(files);
+                }
             }
         }
-        queue.clear();
+        if (formatter.supportsReformatFilesInDirectory()
+                && allInTheSameDirectory(fileQueue)
+                && noOthersInTheSameDirectory(fileQueue)) {
+            File directory = commonDirectory(fileQueue);
+            assert directory != null;
+            formatter.reformatFilesInDirectory(directory);
+            fileQueue.clear();
+        }
+        if (formatter.supportsReformatFiles()) {
+            File[] files = fileQueue.toArray(new File[fileQueue.size()]);
+            formatter.reformatFiles(files);
+            fileQueue.clear();
+        }
+        if (formatter.supportsReformatFile()) {
+            for (File file : fileQueue) {
+                formatter.reformatFile(file);
+            }
+            fileQueue.clear();
+        }
+        if (!fileQueue.isEmpty()) {
+            String notReformatted = "";
+            for (File file : fileQueue) {
+                notReformatted += "\n" + file;
+            }
+            fileQueue.clear();
+            throw new IllegalStateException("The following files could not be reformatted: " + notReformatted);
+        }
+    }
+
+    @NotNull
+    private Map<File, List<File>> groupByCommonDirectory(@NotNull List<File> fileList) {
+        Map<File, List<File>> groups = new HashMap<File, List<File>>();
+        for (File file : fileList) {
+            File directory = file.getParentFile();
+            List<File> files = groups.get(directory);
+            if (files == null) {
+                files = new ArrayList<File>();
+                groups.put(directory, files);
+            }
+            files.add(file);
+        }
+        return groups;
     }
 
     private boolean allInTheSameDirectory(@NotNull List<File> files) {
@@ -106,7 +148,7 @@ public class CodeFormatterQueue implements CodeFormatter {
 
     public void reformatFile(@NotNull File file) {
         assert supportsFileType(file);
-        queue.add(file);
+        fileQueue.add(file);
     }
 
     public boolean supportsReformatFiles() {

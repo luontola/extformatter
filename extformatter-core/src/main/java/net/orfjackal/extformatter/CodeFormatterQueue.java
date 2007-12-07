@@ -20,6 +20,7 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +30,23 @@ import java.util.List;
  */
 public class CodeFormatterQueue implements CodeFormatter {
 
-    private final CodeFormatter formatter;
-
-    private final List<File> queue = new ArrayList<File>();
+    @NotNull private final CodeFormatter formatter;
+    @NotNull private final List<File> queue = new ArrayList<File>();
 
     public CodeFormatterQueue(@NotNull CodeFormatter formatter) {
         this.formatter = formatter;
     }
 
     public void flush() {
-        if (formatter.supportsReformatFiles()) {
+        if (queue.isEmpty()) {
+            return;
+        }
+        if (formatter.supportsReformatFilesInDirectory()
+                && allInTheSameDirectory(queue)
+                && noOthersInTheSameDirectory(queue)) {
+//            File directory = commonDirectory(queue);
+
+        } else if (formatter.supportsReformatFiles()) {
             File[] files = queue.toArray(new File[queue.size()]);
             formatter.reformatFiles(files);
         } else {
@@ -46,6 +54,36 @@ public class CodeFormatterQueue implements CodeFormatter {
                 formatter.reformatFile(file);
             }
         }
+        queue.clear();
+    }
+
+    private boolean allInTheSameDirectory(@NotNull List<File> files) {
+        File commonDirectory = null;
+        for (File file : files) {
+            File directory = file.getParentFile();
+            if (commonDirectory == null) {
+                commonDirectory = directory;
+            }
+            if (!directory.equals(commonDirectory)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean noOthersInTheSameDirectory(@NotNull List<File> files) {
+        File directory = files.get(0).getParentFile();
+        File[] allFilesInDir = directory.listFiles(new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.isFile() && supportsFileType(pathname);
+            }
+        });
+        for (File fileInDir : allFilesInDir) {
+            if (!files.contains(fileInDir)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean supportsFileType(@NotNull File file) {

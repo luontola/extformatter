@@ -66,6 +66,15 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             queue.flush();
         }
 
+        public void afterFlushingTheQueueShouldBeEmpty() {
+            checking(new Expectations() {{
+                one(formatter).reformatFile(FOO_FILE);
+            }});
+            queue.reformatFile(FOO_FILE);
+            queue.flush();
+            queue.flush();
+        }
+
         public void shouldExecuteAllQueuedCommandsWhenFlushed() {
             checking(new Expectations() {{
                 one(formatter).reformatFile(FOO_FILE);
@@ -145,6 +154,28 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
         }
     }
 
+    public class WhenQueueIsEmpty {
 
+        private CodeFormatter formatter;
+        private CodeFormatterQueue queue;
 
+        public CodeFormatterQueue create() {
+            formatter = mock(CodeFormatter.class);
+            queue = new CodeFormatterQueue(formatter);
+            checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing(formatter).supportsReformatFile(); will(returnValue(true));
+                allowing(formatter).supportsReformatFiles(); will(returnValue(true));
+                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(true));
+                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(true));
+            }});
+            return queue;
+        }
+
+        public void flushingShouldDoNothing() {
+            checking(new Expectations() {{
+            }});
+            queue.flush();
+        }
+    }
 }

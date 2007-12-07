@@ -173,17 +173,17 @@ public class ProjectSettingsForm {
         return rootComponent;
     }
 
-    public void importFrom(@NotNull Settings settings) {
-        eclipseExecutable.setText(settings.getEclipseExecutable());
-        eclipsePrefs.setText(settings.getEclipsePrefs());
-        pluginEnabled.setSelected(settings.isPluginEnabled());
+    public void importFrom(@NotNull Settings in) {
+        eclipseExecutable.setText(in.getEclipseExecutable());
+        eclipsePrefs.setText(in.getEclipsePrefs());
+        pluginEnabled.setSelected(in.isPluginEnabled());
         updateComponents();
     }
 
-    public void exportTo(@NotNull Settings settings) {
-        settings.setEclipseExecutable(eclipseExecutable.getText());
-        settings.setEclipsePrefs(eclipsePrefs.getText());
-        settings.setPluginEnabled(pluginEnabled.isSelected());
+    public void exportTo(@NotNull Settings out) {
+        out.setEclipseExecutable(eclipseExecutable.getText());
+        out.setEclipsePrefs(eclipsePrefs.getText());
+        out.setPluginEnabled(pluginEnabled.isSelected());
     }
 
     @SuppressWarnings({"ConstantConditions", "RedundantIfStatement"})

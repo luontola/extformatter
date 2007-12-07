@@ -18,6 +18,7 @@
 package net.orfjackal.extformatter;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -44,11 +45,14 @@ public class CodeFormatterQueue implements CodeFormatter {
         if (formatter.supportsReformatFilesInDirectory()
                 && allInTheSameDirectory(queue)
                 && noOthersInTheSameDirectory(queue)) {
-//            File directory = commonDirectory(queue);
+            File directory = commonDirectory(queue);
+            assert directory != null;
+            formatter.reformatFilesInDirectory(directory);
 
         } else if (formatter.supportsReformatFiles()) {
             File[] files = queue.toArray(new File[queue.size()]);
             formatter.reformatFiles(files);
+
         } else {
             for (File file : queue) {
                 formatter.reformatFile(file);
@@ -58,17 +62,7 @@ public class CodeFormatterQueue implements CodeFormatter {
     }
 
     private boolean allInTheSameDirectory(@NotNull List<File> files) {
-        File commonDirectory = null;
-        for (File file : files) {
-            File directory = file.getParentFile();
-            if (commonDirectory == null) {
-                commonDirectory = directory;
-            }
-            if (!directory.equals(commonDirectory)) {
-                return false;
-            }
-        }
-        return true;
+        return commonDirectory(files) != null;
     }
 
     private boolean noOthersInTheSameDirectory(@NotNull List<File> files) {
@@ -85,6 +79,22 @@ public class CodeFormatterQueue implements CodeFormatter {
         }
         return true;
     }
+
+    @Nullable
+    private File commonDirectory(@NotNull List<File> files) {
+        File commonDirectory = null;
+        for (File file : files) {
+            File directory = file.getParentFile();
+            if (commonDirectory == null) {
+                commonDirectory = directory;
+            }
+            if (!directory.equals(commonDirectory)) {
+                return null;
+            }
+        }
+        return commonDirectory;
+    }
+
 
     public boolean supportsFileType(@NotNull File file) {
         return formatter.supportsFileType(file);

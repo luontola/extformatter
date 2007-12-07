@@ -144,13 +144,13 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             return queue;
         }
 
-        public void shouldUseReformatDirectoryWhenAllFilesAreInTheSameDirectory() {
-//            checking(new Expectations() {{
-//                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
-//            }});
-//            queue.reformatFile(FOO_FILE);
-//            queue.reformatFile(BAR_FILE);
-//            queue.flush();
+        public void whenAllFilesAreInTheSameDirectoryShouldReformatDirectory() {
+            checking(new Expectations() {{
+                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
+            }});
+            queue.reformatFile(FOO_FILE);
+            queue.reformatFile(BAR_FILE);
+            queue.flush();
         }
     }
 

@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN" "http://java.sun.com/products/javahelp/map_2_0.dtd">
+
+<map version="1.0">
+    <mapID target="mavanprojecthelper" url="docs/Intro.html"/>
+    <mapID target="mavanprojecthelper.MvnProjectWizard" url="docs/MavenProjectHelperUserGuide.html"/>
+
+    <mapID target="doc" url="images/secondary/list_shadow.gif"/>
+    <mapID target="folder" url="images/secondary/bookClosedGreen.gif"/>
+</map>

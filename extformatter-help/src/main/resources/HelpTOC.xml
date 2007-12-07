@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+  "http://java.sun.com/products/javahelp/toc_2_0.dtd">
+<toc version="1.0">
+  <tocitem text="MavenProjectHelper" target="mavanprojecthelper" image="folder">
+    <tocitem text="Generating Maven 2 Project skeleton from archetype" target="mavanprojecthelper.MvnProjectWizard" image="doc"/>
+  </tocitem>
+</toc>

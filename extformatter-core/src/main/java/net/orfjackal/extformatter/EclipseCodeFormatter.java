@@ -29,6 +29,8 @@ import java.io.IOException;
  */
 public class EclipseCodeFormatter implements CodeFormatter {
 
+    public static final String SUPPORTED_FILE_TYPES = "*.java";
+
     @NotNull private final File eclipseExecutable;
     @NotNull private final File eclipsePrefs;
     @NotNull private final Executer executer;

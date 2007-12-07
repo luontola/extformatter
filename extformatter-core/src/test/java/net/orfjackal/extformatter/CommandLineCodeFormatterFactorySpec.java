@@ -19,6 +19,7 @@ package net.orfjackal.extformatter;
 
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
+import static net.orfjackal.extformatter.TestResources.*;
 import org.junit.runner.RunWith;
 
 /**
@@ -34,6 +35,7 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CodeForma
 
         public CodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
+            factory.setSupportedFileTypes(JAVA_AND_XML);
             factory.setFileCommand("command");
             factory.setDirectoryCommand("command");
             factory.setRecursiveDirectoryCommand("command");
@@ -43,6 +45,15 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CodeForma
 
         public void shouldCreateAFormatter() {
             specify(formatter, should.not().equal(null));
+        }
+
+        public void formatterShouldSupportTheSpecifiedFileTypes() {
+            specify(formatter.supportsFileType(JAVA_FILE));
+            specify(formatter.supportsFileType(XML_FILE));
+        }
+
+        public void formatterShouldNotSupportOtherFiles() {
+            specify(should.not().be.supportsFileType(TXT_FILE));
         }
 
         public void formatterShouldSupportReformatFile() {

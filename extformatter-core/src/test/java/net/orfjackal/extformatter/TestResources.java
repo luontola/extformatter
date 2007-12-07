@@ -35,7 +35,7 @@ public class TestResources {
     public static final File ECLIPSE_EXE_FILE = file("/eclipse/eclipse.exe.txt");
     public static final File ECLIPSE_PREFS_FILE = file("/eclipse/org.eclipse.jdt.core.prefs.txt");
 
-    public static final String[] SUPPORTED_FILE_TYPES = new String[]{".java", ".xml"};
+    public static final String[] JAVA_AND_XML = new String[]{"*.java", "*.xml"};
     public static final File JAVA_FILE = new File("Foo.java");
     public static final File XML_FILE = new File("Bar.xml");
     public static final File TXT_FILE = new File("Gazonk.txt");

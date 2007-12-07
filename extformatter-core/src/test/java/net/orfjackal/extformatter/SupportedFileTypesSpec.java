@@ -29,12 +29,28 @@ import org.junit.runner.RunWith;
 @RunWith(JDaveRunner.class)
 public class SupportedFileTypesSpec extends Specification<SupportedFileTypes> {
 
+    public class WhenAllFilesAreSupported {
+
+        private SupportedFileTypes supported;
+
+        public SupportedFileTypes create() {
+            supported = new SupportedFileTypes("*.*");
+            return supported;
+        }
+
+        public void shouldMatchAllFiles() {
+            specify(supported.matches(JAVA_FILE));
+            specify(supported.matches(XML_FILE));
+            specify(supported.matches(TXT_FILE));
+        }
+    }
+
     public class WhenManyFileTypesAreSupported {
 
         private SupportedFileTypes supported;
 
         public SupportedFileTypes create() {
-            supported = new SupportedFileTypes(".java", ".xml");
+            supported = new SupportedFileTypes("*.java", "*.xml");
             return supported;
         }
 
@@ -53,7 +69,7 @@ public class SupportedFileTypesSpec extends Specification<SupportedFileTypes> {
         private SupportedFileTypes supported;
 
         public SupportedFileTypes create() {
-            supported = new SupportedFileTypes(".java");
+            supported = new SupportedFileTypes("*.java");
             return supported;
         }
 

@@ -41,7 +41,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
 
         public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter(SUPPORTED_FILE_TYPES,
+            formatter = new CommandLineCodeFormatter(JAVA_AND_XML,
                     "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
             return formatter;
         }
@@ -111,7 +111,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(SUPPORTED_FILE_TYPES, "format %FILE%", null, null);
+            formatter = new CommandLineCodeFormatter(JAVA_AND_XML, "format %FILE%", null, null);
             return formatter;
         }
 
@@ -131,7 +131,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(SUPPORTED_FILE_TYPES, null, "formatDir %DIRECTORY%", null);
+            formatter = new CommandLineCodeFormatter(JAVA_AND_XML, null, "formatDir %DIRECTORY%", null);
             return formatter;
         }
 
@@ -151,7 +151,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(SUPPORTED_FILE_TYPES, null, null, "formatDirRec %DIRECTORY%");
+            formatter = new CommandLineCodeFormatter(JAVA_AND_XML, null, null, "formatDirRec %DIRECTORY%");
             return formatter;
         }
 

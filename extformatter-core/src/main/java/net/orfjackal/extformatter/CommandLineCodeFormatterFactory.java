@@ -40,7 +40,7 @@ public class CommandLineCodeFormatterFactory implements CodeFormatterFactory<Com
         }
     }
 
-    public void setSupportedFileTypes(@NotNull String[] supportedFileTypes) {
+    public void setSupportedFileTypes(@NotNull String... supportedFileTypes) {
         this.supportedFileTypes = supportedFileTypes;
     }
 

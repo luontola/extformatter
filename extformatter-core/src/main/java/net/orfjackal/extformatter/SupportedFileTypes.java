@@ -20,6 +20,8 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Esko Luontola
@@ -27,18 +29,41 @@ import java.io.File;
  */
 public class SupportedFileTypes {
 
-    private final String[] fileTypes;
+    @NotNull private final Pattern[] patterns;
 
-    public SupportedFileTypes(String... fileTypes) {
-        this.fileTypes = fileTypes;
+    public SupportedFileTypes(@NotNull String... fileMasks) {
+        this.patterns = toRegex(fileMasks);
     }
 
     public boolean matches(@NotNull File file) {
-        for (String fileType : fileTypes) {
-            if (file.getName().endsWith(fileType)) {
+        for (Pattern p : patterns) {
+            if (p.matcher(file.getName()).matches()) {
                 return true;
             }
         }
         return false;
+    }
+
+    @NotNull
+    private static Pattern[] toRegex(@NotNull String[] fileMasks) {
+        Pattern[] patterns = new Pattern[fileMasks.length];
+        for (int i = 0; i < fileMasks.length; i++) {
+            patterns[i] = toRegex(fileMasks[i]);
+        }
+        return patterns;
+    }
+
+    @NotNull
+    private static Pattern toRegex(@NotNull String fileMask) {
+        StringBuilder regex = new StringBuilder();
+        for (int i = 0; i < fileMask.length(); i++) {
+            char c = fileMask.charAt(i);
+            if (c == '*') {
+                regex.append(".*");
+            } else {
+                regex.append(Matcher.quoteReplacement(String.valueOf(c)));
+            }
+        }
+        return Pattern.compile(regex.toString(), Pattern.CASE_INSENSITIVE);
     }
 }

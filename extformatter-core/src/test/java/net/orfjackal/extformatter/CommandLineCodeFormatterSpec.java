@@ -20,8 +20,7 @@ package net.orfjackal.extformatter;
 import jdave.Block;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
-import static net.orfjackal.extformatter.TestResources.FOO_FILE;
-import static net.orfjackal.extformatter.TestResources.TESTFILES_DIR;
+import static net.orfjackal.extformatter.TestResources.*;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
@@ -42,7 +41,8 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
 
         public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter("format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
+            formatter = new CommandLineCodeFormatter(SUPPORTED_FILE_TYPES,
+                    "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
             return formatter;
         }
 
@@ -98,6 +98,12 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
                 }
             }, should.raise(IllegalArgumentException.class));
         }
+
+        public void shouldSupportOnlyTheSpecifiedFileTypes() {
+            specify(formatter.supportsFileType(JAVA_FILE));
+            specify(formatter.supportsFileType(XML_FILE));
+            specify(should.not().be.supportsFileType(TXT_FILE));
+        }
     }
 
     public class WhenOnlyReformatFileCommandIsSpecified {
@@ -105,7 +111,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter("format %FILE%", null, null);
+            formatter = new CommandLineCodeFormatter(SUPPORTED_FILE_TYPES, "format %FILE%", null, null);
             return formatter;
         }
 
@@ -125,7 +131,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(null, "formatDir %DIRECTORY%", null);
+            formatter = new CommandLineCodeFormatter(SUPPORTED_FILE_TYPES, null, "formatDir %DIRECTORY%", null);
             return formatter;
         }
 
@@ -145,7 +151,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(null, null, "formatDirRec %DIRECTORY%");
+            formatter = new CommandLineCodeFormatter(SUPPORTED_FILE_TYPES, null, null, "formatDirRec %DIRECTORY%");
             return formatter;
         }
 

@@ -23,25 +23,22 @@ import java.io.File;
 
 /**
  * @author Esko Luontola
- * @since 30.11.2007
+ * @since 7.12.2007
  */
-public interface CodeFormatter {
+public class SupportedFileTypes {
 
-    boolean supportsFileType(@NotNull File file);
+    private final String[] fileTypes;
 
-    boolean supportsReformatFile();
+    public SupportedFileTypes(String... fileTypes) {
+        this.fileTypes = fileTypes;
+    }
 
-    void reformatFile(@NotNull File file);
-
-    boolean supportsReformatFiles();
-
-    void reformatFiles(@NotNull File... files);
-
-    boolean supportsReformatFilesInDirectory();
-
-    void reformatFilesInDirectory(@NotNull File directory);
-
-    boolean supportsReformatFilesInDirectoryRecursively();
-
-    void reformatFilesInDirectoryRecursively(@NotNull File directory);
+    public boolean matches(@NotNull File file) {
+        for (String fileType : fileTypes) {
+            if (file.getName().endsWith(fileType)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -33,22 +33,33 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     private static final String FILE_TAG = "%FILE%";
     private static final String DIRECTORY_TAG = "%DIRECTORY%";
 
+    @NotNull private final SupportedFileTypes supportedFileTypes;
     @Nullable private final String fileCommand;
     @Nullable private final String directoryCommand;
     @Nullable private final String recursiveDirectoryCommand;
     @NotNull private final Executer executer;
 
-    public CommandLineCodeFormatter(@Nullable String fileCommand, @Nullable String directoryCommand,
-                                    @Nullable String recursiveDirectoryCommand, @NotNull Executer executer) {
+    public CommandLineCodeFormatter(@NotNull String[] supportedFileTypes,
+                                    @Nullable String fileCommand,
+                                    @Nullable String directoryCommand,
+                                    @Nullable String recursiveDirectoryCommand,
+                                    @NotNull Executer executer) {
+        this.supportedFileTypes = new SupportedFileTypes(supportedFileTypes);
         this.fileCommand = fileCommand;
         this.directoryCommand = directoryCommand;
         this.recursiveDirectoryCommand = recursiveDirectoryCommand;
         this.executer = executer;
     }
 
-    public CommandLineCodeFormatter(@Nullable String fileCommand, @Nullable String directoryCommand,
+    public CommandLineCodeFormatter(@NotNull String[] supportedFileTypes,
+                                    @Nullable String fileCommand,
+                                    @Nullable String directoryCommand,
                                     @Nullable String recursiveDirectoryCommand) {
-        this(fileCommand, directoryCommand, recursiveDirectoryCommand, new ExecuterImpl());
+        this(supportedFileTypes, fileCommand, directoryCommand, recursiveDirectoryCommand, new ExecuterImpl());
+    }
+
+    public boolean supportsFileType(@NotNull File file) {
+        return supportedFileTypes.matches(file);
     }
 
     public boolean supportsReformatFile() {

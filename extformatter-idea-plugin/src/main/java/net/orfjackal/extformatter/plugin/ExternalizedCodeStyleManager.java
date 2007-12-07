@@ -18,7 +18,6 @@
 package net.orfjackal.extformatter.plugin;
 
 import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
@@ -56,15 +55,14 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         }
     }
 
-    private static boolean canReformat(@NotNull VirtualFile file) {
+    private boolean canReformat(@NotNull VirtualFile file) {
         return file.isInLocalFileSystem()
                 && file.isWritable()
                 && fileTypeIsSupported(file);
     }
 
-    private static boolean fileTypeIsSupported(@NotNull VirtualFile file) {
-        // TODO: ask the formatter if it supports the file type
-        return file.getFileType().equals(StdFileTypes.JAVA);
+    private boolean fileTypeIsSupported(@NotNull VirtualFile file) {
+        return replacement.supportsFileType(ioFile(file));
     }
 
     private static boolean wholeFile(@NotNull PsiFile file, int startOffset, int endOffset) {

@@ -34,6 +34,10 @@ public class AdaptiveCodeFormatter implements CodeFormatter {
         this.formatter = formatter;
     }
 
+    public boolean supportsFileType(@NotNull File file) {
+        return formatter.supportsFileType(file);
+    }
+
     public boolean supportsReformatFile() {
         return formatter.supportsReformatFile()
                 || formatter.supportsReformatFiles();

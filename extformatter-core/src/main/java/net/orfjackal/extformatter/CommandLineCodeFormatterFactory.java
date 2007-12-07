@@ -17,6 +17,7 @@
 
 package net.orfjackal.extformatter;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -25,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CommandLineCodeFormatterFactory implements CodeFormatterFactory<CommandLineCodeFormatter> {
 
+    @NotNull private String[] supportedFileTypes = new String[0];
     @Nullable private String fileCommand;
     @Nullable private String directoryCommand;
     @Nullable private String recursiveDirectoryCommand;
@@ -32,10 +34,14 @@ public class CommandLineCodeFormatterFactory implements CodeFormatterFactory<Com
     @Nullable
     public CommandLineCodeFormatter newFormatter() {
         if (fileCommand != null || directoryCommand != null || recursiveDirectoryCommand != null) {
-            return new CommandLineCodeFormatter(fileCommand, directoryCommand, recursiveDirectoryCommand);
+            return new CommandLineCodeFormatter(supportedFileTypes, fileCommand, directoryCommand, recursiveDirectoryCommand);
         } else {
             return null;
         }
+    }
+
+    public void setSupportedFileTypes(@NotNull String[] supportedFileTypes) {
+        this.supportedFileTypes = supportedFileTypes;
     }
 
     public void setFileCommand(@Nullable String fileCommand) {

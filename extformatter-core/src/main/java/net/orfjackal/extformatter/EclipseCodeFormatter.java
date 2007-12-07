@@ -43,6 +43,10 @@ public class EclipseCodeFormatter implements CodeFormatter {
         this(eclipseExecutable, eclipsePrefs, new ExecuterImpl());
     }
 
+    public boolean supportsFileType(@NotNull File file) {
+        return file.getName().endsWith(".java");
+    }
+
     public boolean supportsReformatFile() {
         return true;
     }

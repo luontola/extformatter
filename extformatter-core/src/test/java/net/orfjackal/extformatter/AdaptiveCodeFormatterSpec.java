@@ -23,6 +23,8 @@ import jdave.junit4.JDaveRunner;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
+import java.io.File;
+
 /**
  * @author Esko Luontola
  * @since 6.12.2007
@@ -41,6 +43,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(true));
                 allowing(formatter).supportsReformatFiles(); will(returnValue(false));
                 allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
@@ -107,6 +110,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(false));
                 allowing(formatter).supportsReformatFiles(); will(returnValue(true));
                 allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
@@ -235,6 +239,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(false));
                 allowing(formatter).supportsReformatFiles(); will(returnValue(false));
                 allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
@@ -300,6 +305,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(false));
                 allowing(formatter).supportsReformatFiles(); will(returnValue(false));
                 allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));

@@ -77,6 +77,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     }
 
     public void reformatFiles(@NotNull File... files) {
+        throw new UnsupportedOperationException();
     }
 
     public boolean supportsReformatFilesInDirectory() {

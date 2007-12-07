@@ -78,6 +78,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public void reformatFilesInDirectory(@NotNull File directory) {
+        // TODO: remove this, duplicate code, throw new UnsupportedOperationException();
         File[] files = directory.listFiles(new FileFilter() {
             public boolean accept(File file) {
                 return file.isFile() && file.getName().endsWith(".java");

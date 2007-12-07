@@ -35,7 +35,7 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CodeForma
 
         public CodeFormatter create() {
             CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
-            factory.setSupportedFileTypes(JAVA_AND_XML);
+            factory.setSupportedFileTypes(SUPPORTS_JAVA_AND_XML);
             factory.setFileCommand("command");
             factory.setDirectoryCommand("command");
             factory.setRecursiveDirectoryCommand("command");

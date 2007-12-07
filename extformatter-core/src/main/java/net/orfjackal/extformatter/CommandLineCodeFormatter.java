@@ -100,9 +100,10 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         }
     }
 
-    private static String parsed(@NotNull String command, @NotNull File file) {
+    private String parsed(@NotNull String command, @NotNull File file) {
         try {
             if (command.contains(FILE_TAG) && file.isFile()) {
+                assert supportsFileType(file);
                 command = command.replaceAll(FILE_TAG, Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
             } else if (command.contains(DIRECTORY_TAG) && file.isDirectory()) {
                 command = command.replaceAll(DIRECTORY_TAG, Matcher.quoteReplacement(quoted(file.getCanonicalPath())));

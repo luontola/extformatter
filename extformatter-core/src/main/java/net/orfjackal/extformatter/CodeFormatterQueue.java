@@ -57,6 +57,7 @@ public class CodeFormatterQueue implements CodeFormatter {
     }
 
     public void reformatFile(@NotNull File file) {
+        assert supportsFileType(file);
         queue.add(file);
     }
 

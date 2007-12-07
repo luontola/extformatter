@@ -41,8 +41,8 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
 
         public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter(JAVA_AND_XML,
-                    "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
+            formatter = new CommandLineCodeFormatter(
+                    SUPPORTS_TXT, "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
             return formatter;
         }
 
@@ -100,9 +100,8 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         }
 
         public void shouldSupportOnlyTheSpecifiedFileTypes() {
-            specify(formatter.supportsFileType(JAVA_FILE));
-            specify(formatter.supportsFileType(XML_FILE));
-            specify(should.not().be.supportsFileType(TXT_FILE));
+            specify(formatter.supportsFileType(TXT_FILE));
+            specify(should.not().be.supportsFileType(XML_FILE));
         }
     }
 
@@ -111,7 +110,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(JAVA_AND_XML, "format %FILE%", null, null);
+            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, "format %FILE%", null, null);
             return formatter;
         }
 
@@ -131,7 +130,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(JAVA_AND_XML, null, "formatDir %DIRECTORY%", null);
+            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, null, "formatDir %DIRECTORY%", null);
             return formatter;
         }
 
@@ -151,7 +150,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(JAVA_AND_XML, null, null, "formatDirRec %DIRECTORY%");
+            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, null, null, "formatDirRec %DIRECTORY%");
             return formatter;
         }
 

@@ -175,6 +175,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(false));
                 allowing(formatter).supportsReformatFiles(); will(returnValue(false));
                 allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(true));

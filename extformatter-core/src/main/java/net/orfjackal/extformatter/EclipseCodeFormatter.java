@@ -20,7 +20,6 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 
 /**
@@ -54,6 +53,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public void reformatFile(@NotNull File file) {
+        assert supportsFileType(file);
         try {
             executer.execute(commandFor(quoted(file.getCanonicalPath())));
         } catch (IOException e) {
@@ -66,6 +66,9 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public void reformatFiles(@NotNull File... files) {
+        for (File file : files) {
+            assert supportsFileType(file);
+        }
         try {
             executer.execute(commandFor(listOf(files)));
         } catch (IOException e) {
@@ -74,17 +77,11 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public boolean supportsReformatFilesInDirectory() {
-        return true;
+        return false;
     }
 
     public void reformatFilesInDirectory(@NotNull File directory) {
-        // TODO: remove this, duplicate code, throw new UnsupportedOperationException();
-        File[] files = directory.listFiles(new FileFilter() {
-            public boolean accept(File file) {
-                return file.isFile() && file.getName().endsWith(".java");
-            }
-        });
-        reformatFiles(files);
+        throw new UnsupportedOperationException();
     }
 
     public boolean supportsReformatFilesInDirectoryRecursively() {

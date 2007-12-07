@@ -43,6 +43,7 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             checking(new Expectations() {{
                 allowing(formatter).supportsFileType(JAVA_FILE); will(returnValue(true));
                 allowing(formatter).supportsFileType(XML_FILE); will(returnValue(false));
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(true));
                 allowing(formatter).supportsReformatFiles(); will(returnValue(false));
                 allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(true));
@@ -83,8 +84,8 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
         }
 
         public void shouldSupportTheSameFileTypesAsTheFormatter() {
-            specify(queue.supportsFileType(JAVA_FILE), should.equal(formatter.supportsFileType(JAVA_FILE)));
-            specify(queue.supportsFileType(XML_FILE), should.equal(formatter.supportsFileType(XML_FILE)));
+            specify(queue.supportsFileType(JAVA_FILE), should.equal(true));
+            specify(queue.supportsFileType(XML_FILE), should.equal(false));
         }
     }
 
@@ -97,6 +98,7 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             formatter = mock(CodeFormatter.class);
             queue = new CodeFormatterQueue(formatter);
             checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(true));
                 allowing(formatter).supportsReformatFiles(); will(returnValue(true));
                 allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));

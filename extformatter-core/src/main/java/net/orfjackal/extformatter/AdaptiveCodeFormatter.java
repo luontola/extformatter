@@ -44,6 +44,7 @@ public class AdaptiveCodeFormatter implements CodeFormatter {
     }
 
     public void reformatFile(@NotNull File file) {
+        assert supportsFileType(file);
         if (formatter.supportsReformatFile()) {
             formatter.reformatFile(file);
         } else if (formatter.supportsReformatFiles()) {
@@ -59,6 +60,9 @@ public class AdaptiveCodeFormatter implements CodeFormatter {
     }
 
     public void reformatFiles(@NotNull File... files) {
+        for (File file : files) {
+            assert supportsFileType(file);
+        }
         if (formatter.supportsReformatFiles()) {
             formatter.reformatFiles(files);
         } else if (formatter.supportsReformatFile()) {

@@ -26,6 +26,8 @@ import java.io.File;
  * @since 30.11.2007
  */
 public interface CodeFormatter {
+    
+    // TODO: too long method names, make shorter
 
     boolean supportsFileType(@NotNull File file);
 

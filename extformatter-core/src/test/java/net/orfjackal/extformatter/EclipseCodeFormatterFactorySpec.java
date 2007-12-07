@@ -52,8 +52,8 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
             specify(formatter.supportsReformatFiles());
         }
 
-        public void formatterShouldSupportReformatFilesInDirectory() {
-            specify(formatter.supportsReformatFilesInDirectory());
+        public void formatterShouldNotSupportReformatFilesInDirectory() {
+            specify(should.not().be.supportsReformatFilesInDirectory());
         }
 
         public void formatterShouldSupportReformatFilesInDirectoryRecursively() {

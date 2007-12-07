@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 
 import javax.swing.*;
 import java.io.File;
+import java.net.URISyntaxException;
 
 /**
  * @author Esko Luontola
@@ -37,9 +38,9 @@ public class ResourcesSpec extends Specification<Object> {
             return null;
         }
 
-        public void allFilesShouldExist() {
-            specify(new File(Resources.PROGRAM_LOGO_16.getPath()).isFile());
-            specify(new File(Resources.PROGRAM_LOGO_32.getPath()).isFile());
+        public void allFilesShouldExist() throws URISyntaxException {
+            specify(new File(Resources.PROGRAM_LOGO_16.toURI()).isFile());
+            specify(new File(Resources.PROGRAM_LOGO_32.toURI()).isFile());
         }
 
         public void allIconsShouldHaveTheSpecifiedSize() {

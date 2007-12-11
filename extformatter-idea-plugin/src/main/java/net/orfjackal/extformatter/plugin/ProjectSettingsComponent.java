@@ -141,7 +141,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
     @Nullable
     @NonNls
     public String getHelpTopic() {
-        return null; // TODO: add help
+        return "ExternalCodeFormatter.Configuration";
     }
 
     @NotNull

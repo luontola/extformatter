@@ -3,6 +3,6 @@
         "http://java.sun.com/products/javahelp/toc_2_0.dtd">
 <toc version="1.0">
     <tocitem text="External Code Formatter" target="ExternalCodeFormatter" image="folder">
-        <tocitem text="Configuring External Code Formatter" target="ExternalCodeFormatter.Configuring" image="doc"/>
+        <tocitem text="Configuring External Code Formatter" target="ExternalCodeFormatter.Configuration" image="doc"/>
     </tocitem>
 </toc>

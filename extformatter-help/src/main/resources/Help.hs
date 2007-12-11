@@ -4,16 +4,13 @@
         "http://java.sun.com/products/javahelp/helpset_2_0.dtd">
 
 <helpset version="1.0">
-    <!-- title -->
-    <title>Maven Project Helper Help</title>
 
-    <!-- maps -->
+    <title>External Code Formatter</title>
+
     <maps>
-        <homeID>mavanprojecthelper</homeID>
+        <homeID>ExternalCodeFormatter</homeID>
         <mapref location="Map.xml"/>
     </maps>
-
-    <!-- views -->
 
     <view>
         <name>TOC</name>

@@ -1,3 +1,20 @@
+<!--
+  ~ External Code Formatter
+  ~ Copyright (c) 2007 Esko Luontola, www.orfjackal.net
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -5,44 +22,44 @@
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" lang="en">
     <meta name="robots" content="none">
-    <meta name="copyright" content="JetBrains, Inc., http://www.jetbrains.com">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link rel="stylesheet" type="text/css" media="all" href="../DefaultCSS/s.css">
-    <title>Maven Project Helper</title>
+    <title>External Code Formatter</title>
+
 </head>
 <body id="IJ_help" class="template">
 <div id="container">
 
-    <div id="header" style="background:url(../../DefaultCSS/img/bg_idea_big.jpg)">
-        <h1>Maven Project Helper</h1>
+    <div id="header" style="background:url(../DefaultCSS/img/bg_idea_big.jpg)">
+        <h1>External Code Formatter</h1>
     </div>
-          <div class="introduction">
-          Maven Project Helper plugin for <b>IntelliJ IDEA</b>.
-          <br>Feature:<br>
-              <ul>
-                  <li>genarate maven project skeleton from various maven archetype.</li>
-                  <li>search maven archetype from centerl and local repository.</li>
-                  <li>add dependency supported.</li>
-              </ul>
-          </div>
+
     <div id="content">
 
+        <div class="introduction">
+            <p><b>External Code Formatter</b> is a plugin for integrating <b>Eclipse</b>'s code formatter and any
+                other command line code formatters into <b>IntelliJ IDEA</b>. This solves the problem of maintaining a
+                common code style in a team, where both IDEA and Eclipse are used.</p>
+
+            <p>When the plugin has been enabled, it will transparently replace IDEA's built-in code formatter. You can
+                reformat your code as before, by pressing <span class="shortcut">Ctrl+Alt+L</span>, or when committing
+                files to VCS. If the external code formatter does not support a file type, or you try to reformat a
+                selected text, the plugin will automatically fall back to using IDEA's built-in code formatter.</p>
+        </div>
 
         <div class="section">
-
-            <ul style="list-style-image:url(../../DefaultCSS/img/blue_romb_blt.png)">
-                <li><a href="MavenProjectHelperUserGuide.html">User Guide</a></li>
+            <ul>
+                <li><a href="Configuring.html">Configuring External Code Formatter</a></li>
             </ul>
-       </div>
+        </div>
     </div>
+
 </div>
+
 <div id="footer">
-    <p>
-
-        <b>Copyright &copy; 2007 Fanhuagang. All rights reserved</b>
-
-    </p>
+    <p><b>Copyright &copy; 2007 Esko Luontola. All rights reserved</b></p>
 </div>
 </body>
 </html>
+        

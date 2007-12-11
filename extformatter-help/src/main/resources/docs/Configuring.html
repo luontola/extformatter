@@ -48,7 +48,7 @@
 
         <div class="section">
             <div class="ijProcedureSteps">
-                <p class="procHeader">Using Eclipse's code formatter</p>
+                <p class="procHeader">Configuring Eclipse's code formatter</p>
 
                 <p>
                 <ol>
@@ -70,121 +70,41 @@
                 </table>
 
                 <ol start="3">
-                    <li>TODO</li>
-                    <!-- TODO -->
+                    <li>If you have not already done it, you will need to enable project specific formatter settings in
+                        Eclipse. With your project open in <b>Eclipse</b>'s workspace, right-click the project and
+                        choose <span class="ijControl">Properties</span>. Go to <span class="ijControl">Java Code Style | Formatter</span>
+                        and select <span class="ijControl">Enable project specific settings</span> (see the image).
+
+                        <p><img src="img/eclipseFormatter.png" alt=""/></p>
+
+                        <p>Also in the <b>project properties</b>, go to <span class="ijControl">Java Compiler</span> and
+                            select <span class="ijControl">Enable project specific settings</span> (see the image). Make
+                            sure that the <span class="ijControl">Compiler compliance level</span> is set right.</p>
+
+                        <p><img src="img/eclipseCompiler.png" alt=""/></p>
+
+                        <p>Click <span class="ijControl">OK</span> to save the settings. Go to the directory where your
+                            project is and navigate to the <b>.settings</b> subdirectory. There you will find a <b>org.eclipse.jdt.core.prefs</b>
+                            file which contains the Eclipse formatter settings.</p>
+                    </li>
+
+                    <li>In <b>External Code Formatter</b>'s configuration, point <span class="ijControl">Eclipse preferences</span>
+                        to the <b>org.eclipse.jdt.core.prefs</b> files which was created in the previous step.
+                    </li>
+
+                    <li>Click <span class="ijControl">OK</span> to save the settings.</li>
                 </ol>
             </div>
-        </div>
-
-        <div class="section">
-            <div class="ijProcedureSteps">
-                <p class="procHeader">Create Your First Project</p>
-
-                <p>
-                <ol>
-
-                    <li>On the <span class="ijControl">File</span> menu select <span class="ijControl">New Project</span> to start
-                        the <b>New Project</b> wizard.
-
-                    <li>Walk through the wizard steps to create and configure your project to use a single <b>Java
-                        Module</b>. Note that here we're creating the project from scratch, though you can import any other existing sources (<a href="../Procedures/WorkingWithProjects/CreatingProjects/importingAnEclipseProject.html">Eclipse</a>,
-                        <a href="../Procedures/WorkingWithProjects/CreatingProjects/importingMavenProject.html">Maven</a>,
-                        <a href="../Procedures/WorkingWithProjects/CreatingProjects/importingAJBuilderProject.html">JBuilder</a>, or <a href="../Procedures/WorkingWithProjects/CreatingProjects/creatingANewProjectFromExistingCode.html">other code</a>)
-
-                        via this wizard.<br>
-                        <a href="../Procedures/WorkingWithProjects/CreatingProjects/creatingANewProject.html">More info about creating projects</a>
-                    <li>Right-click the <span class="ijControl">src</span> directory in the <b>Project</b> view and
-                        select <span class="ijControl">New</span>, <span class="ijControl">Class</span>
-                    <li>Type <b>main</b> in the appeared dialog and click <span class="ijControl">OK</span>.
-                        <span class="intelliJIDEA">IntelliJ IDEA</span> will create the stub file for you.
-
-                    <li>Type this sample code:
-                </ol>
-
-
-        <pre class="codeExpre">
-
-            
-        <span class="keyword">import</span> java.io.BufferedReader;
-        <span class="keyword">import</span> java.io.IOException;
-        <span class="keyword">import</span> java.io.InputStreamReader;
-
-        <span class="keyword">public class</span> Main {
-
-            <span class="keyword">public static void</span> main(String[] argv) <span class="keyword">throws</span> IOException {
-                BufferedReader buff = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));
-
-                System.out.print(<span class="string">"What's your name? "</span>);
-
-                System.out.flush();
-
-                String s = buff.readLine();
-
-                System.out.printf(<span class="string">"Hello, %s!"</span>, s);
-
-            }
-        }
-
-    </pre>
-
-                <table cellpadding="4" cellspacing="0" class="ijTip">
-                    <tr>
-                        <td class="noteIcon"><img src="../DefaultCSS/img/tip.gif" alt="Note">&nbsp;</td>
-                        <td>
-                            <p>Do not copy-paste this code. Try typing it live to experience <b>InteliJ IDEA</b>'s
-                                advanced code
-                                editing features.</td>
-                    </tr>
-                </table>
-
-                <ol start="6">
-
-                    <li>On the <span class="ijControl">Run</span> menu click <span
-                            class="ijControl">Edit Configurations</span>.
-                        Click <img src="../CommonImages/add.gif" align="absmiddle" alt="add">&nbsp;and select
-                        <b>Application</b> to create
-                        the run configuration for your project. Specify the <b>Main Class</b> and click <span
-                            class="ijControl">OK</span>.<br><a href="../Procedures/Running/CreatingRunDebugConfiguration/creatingAndEditingRunDebugConfiguration.html">More about run configurations</a>
-                    <li>Now Press <span class="shortcut">Shift+F10</span> to run the your project. <span class="intelliJIDEA">IntelliJ IDEA</span>
-                        brings up
-                        the console, asking for your name:<br>
-                        <br>
-                        <img src="../img/firstRun.png" alt="First Run">&nbsp;
-
-                </ol>
-
-            </div>
-
         </div>
     </div>
 
 </div>
 
-<div id="seealso">
-    <h2>See also:</h2>
-
-    <p><img src="../DefaultCSS/img/seealso_blt.gif" alt="Icon">&nbsp;&nbsp;<a href="../Procedures/Building/index.html">Compiling
-        and building applications</a></p>
-
-    <p><img src="../DefaultCSS/img/seealso_blt.gif" alt="Icon">&nbsp;&nbsp;<a
-            href="../Procedures/Debugging/debugging.html">Debugging applications</a></p>
-
-    <p><img src="../DefaultCSS/img/seealso_blt.gif" alt="Icon">&nbsp;&nbsp;<a href="../Procedures/Running/index.html">Running
-        applications</a></p>
-
-    <p><img src="../DefaultCSS/img/seealso_blt.gif" alt="Icon">&nbsp;&nbsp;<a href="../Procedures/Testing/testingPart.html">Performing
-        tests</a></p><br>
-
-
-</div>
 
 <div id="footer">
     <p>
 
-        Comments, questions, suggestions? See the <a href="../feedback.html">Feedback</a> page to contact
-        <b>JetBrains</b><br><br>
-
-        <b>Copyright &copy; 2000-2007 JetBrains s.r.o. All rights reserved</b>
+        <b>Copyright &copy; 2007 Esko Luontola. All rights reserved</b>
 
     </p>
 </div>

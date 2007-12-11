@@ -17,6 +17,9 @@
     <idea-version since-build="7361"/>
 
     <change-notes><![CDATA[
+        <p>0.3.0 (2007-12-xx)
+        <br>- xx</p>
+
         <p>0.2.0 (2007-12-11)
         <br>- Added help documentation
         <br>- Added program icons
@@ -25,7 +28,7 @@
         <p>0.1.0 (2007-12-05)
         <br>- Initial release</p>
 
-        <p><b>Known issues / Coming soon</b>
+        <p>Known issues / Coming soon
         <br>- Reformatting many files is slower than it could be, because for now Eclipse is started once for each individual file.
         <br>- No support for a generic command line formatter.
         <br>- Does not support reformatting a selection within a file.

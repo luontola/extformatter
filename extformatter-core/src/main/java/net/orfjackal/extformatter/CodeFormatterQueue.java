@@ -66,6 +66,7 @@ public class CodeFormatterQueue implements CodeFormatter {
         mustBeEmpty(fileQueue);
     }
 
+    @NotNull
     private List<File> useReformatFile() {
         List<File> reformatted = new ArrayList<File>();
         if (formatter.supportsReformatFile()) {
@@ -77,6 +78,7 @@ public class CodeFormatterQueue implements CodeFormatter {
         return reformatted;
     }
 
+    @NotNull
     private List<File> useReformatFiles() {
         List<File> reformatted = new ArrayList<File>();
         if (formatter.supportsReformatFiles() && fileQueue.size() > 0) {
@@ -86,6 +88,7 @@ public class CodeFormatterQueue implements CodeFormatter {
         return reformatted;
     }
 
+    @NotNull
     private List<File> useReformatFilesInDirectory() {
         List<File> reformatted = new ArrayList<File>();
         if (formatter.supportsReformatFilesInDirectory()) {
@@ -102,6 +105,7 @@ public class CodeFormatterQueue implements CodeFormatter {
         return reformatted;
     }
 
+    @NotNull
     private List<File> useReformatFilesInDirectoryRecursively() {
         List<File> reformatted = new ArrayList<File>();
         if (formatter.supportsReformatFilesInDirectoryRecursively()) {
@@ -137,7 +141,7 @@ public class CodeFormatterQueue implements CodeFormatter {
         return true;
     }
 
-    private boolean noOthersInTheSameDirectory(File directory, @NotNull List<File> files) {
+    private boolean noOthersInTheSameDirectory(@NotNull File directory, @NotNull List<File> files) {
         File[] allFilesInDir = directory.listFiles(new FilesSupportedBy(this));
         for (File fileInDir : allFilesInDir) {
             if (!files.contains(fileInDir)) {
@@ -189,7 +193,8 @@ public class CodeFormatterQueue implements CodeFormatter {
         list.add(value);
     }
 
-    private static File[] toArray(List<File> files) {
+    @NotNull
+    private static File[] toArray(@NotNull List<File> files) {
         return files.toArray(new File[files.size()]);
     }
 

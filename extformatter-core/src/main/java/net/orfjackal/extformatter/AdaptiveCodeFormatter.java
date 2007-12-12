@@ -24,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 /**
+ * Uses alternative reformat methods if the underlying formatter does not support all methods.
+ *
  * @author Esko Luontola
  * @since 6.12.2007
  */
@@ -108,5 +110,4 @@ public class AdaptiveCodeFormatter implements CodeFormatter {
             }
         }
     }
-
 }

@@ -20,6 +20,8 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Executes a shell command.
+ *
  * @author Esko Luontola
  * @since 30.11.2007
  */

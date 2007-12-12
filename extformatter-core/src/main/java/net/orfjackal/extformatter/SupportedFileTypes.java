@@ -24,6 +24,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Checks whether a file's name matches any of the specified file masks (*.java, *.* and so on).
+ *
  * @author Esko Luontola
  * @since 7.12.2007
  */

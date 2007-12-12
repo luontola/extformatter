@@ -29,15 +29,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Uses as few reformat method calls as possible to reformat all the queued files.
+ *
  * @author Esko Luontola
  * @since 7.12.2007
  */
-public class CodeFormatterQueue implements CodeFormatter {
+public class OptimizingReformatQueue implements ReformatQueue {
 
     @NotNull private final CodeFormatter formatter;
     @NotNull private final List<File> fileQueue = new ArrayList<File>();
 
-    public CodeFormatterQueue(@NotNull CodeFormatter formatter) {
+    public OptimizingReformatQueue(@NotNull CodeFormatter formatter) {
         this.formatter = formatter;
     }
 

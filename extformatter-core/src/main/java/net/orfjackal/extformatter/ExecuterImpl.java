@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
+ * Executes a shell command. Prints the output of the command.
+ *
  * @author Esko Luontola
  * @since 1.12.2007
  */

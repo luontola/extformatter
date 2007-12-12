@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * {@link CodeFormatter} for Eclipse 3.2 or later.
+ *
  * @author Esko Luontola
  * @since 1.12.2007
  */

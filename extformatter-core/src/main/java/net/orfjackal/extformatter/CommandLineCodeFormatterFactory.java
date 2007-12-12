@@ -21,6 +21,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Builds a {@link CommandLineCodeFormatter}.
+ *
  * @author Esko Luontola
  * @since 4.12.2007
  */

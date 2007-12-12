@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 
 /**
+ * {@link CodeFormatter} for a generic command line tool.
+ *
  * @author Esko Luontola
  * @since 30.11.2007
  */

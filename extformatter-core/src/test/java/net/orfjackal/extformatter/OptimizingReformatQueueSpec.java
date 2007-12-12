@@ -31,16 +31,16 @@ import java.io.File;
  * @since 7.12.2007
  */
 @RunWith(JDaveRunner.class)
-public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
+public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
 
     public class ACodeFormatterQueue {
 
         private CodeFormatter formatter;
-        private CodeFormatterQueue queue;
+        private ReformatQueue queue;
 
-        public CodeFormatterQueue create() {
+        public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
-            queue = new CodeFormatterQueue(formatter);
+            queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
                 allowing(formatter).supportsFileType(JAVA_FILE); will(returnValue(true));
                 allowing(formatter).supportsFileType(XML_FILE); will(returnValue(false));
@@ -106,11 +106,11 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
     public class WhenFormatterSupportsReformatFiles {
 
         private CodeFormatter formatter;
-        private CodeFormatterQueue queue;
+        private ReformatQueue queue;
 
-        public CodeFormatterQueue create() {
+        public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
-            queue = new CodeFormatterQueue(formatter);
+            queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
                 allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(true));
@@ -135,11 +135,11 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
     public class WhenFormatterSupportsReformatDirectory {
 
         private CodeFormatter formatter;
-        private CodeFormatterQueue queue;
+        private ReformatQueue queue;
 
-        public CodeFormatterQueue create() {
+        public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
-            queue = new CodeFormatterQueue(formatter);
+            queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
                 allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(false));
@@ -188,11 +188,11 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
     public class WhenFormatterSupportsReformatDirectoryRecursively {
 
         private CodeFormatter formatter;
-        private CodeFormatterQueue queue;
+        private ReformatQueue queue;
 
-        public CodeFormatterQueue create() {
+        public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
-            queue = new CodeFormatterQueue(formatter);
+            queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
                 allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(false));
@@ -253,11 +253,11 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
     public class WhenQueueIsEmpty {
 
         private CodeFormatter formatter;
-        private CodeFormatterQueue queue;
+        private ReformatQueue queue;
 
-        public CodeFormatterQueue create() {
+        public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
-            queue = new CodeFormatterQueue(formatter);
+            queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
                 allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
                 allowing(formatter).supportsReformatFile(); will(returnValue(true));

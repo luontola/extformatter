@@ -26,6 +26,8 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 
 /**
+ * Builds a {@link CodeFormatter} based on the {@link Settings}.
+ *
  * @author Esko Luontola
  * @since 4.12.2007
  */

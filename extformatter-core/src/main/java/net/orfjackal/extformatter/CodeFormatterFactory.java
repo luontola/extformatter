@@ -20,6 +20,8 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Builds a {@link CodeFormatter}.
+ *
  * @author Esko Luontola
  * @since 4.12.2007
  */

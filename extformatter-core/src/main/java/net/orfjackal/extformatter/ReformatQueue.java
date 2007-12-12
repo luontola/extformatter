@@ -17,35 +17,15 @@
 
 package net.orfjackal.extformatter;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-
 /**
- * Reformats source code files. Not all formatters might support all files and methods.
+ * A {@link CodeFormatter} which does not reformat the files until {@link #flush()} is called.
  *
  * @author Esko Luontola
- * @since 30.11.2007
+ * @since 12.12.2007
  */
-public interface CodeFormatter {
+public interface ReformatQueue extends CodeFormatter {
 
-    // TODO: too long method names, make shorter
+    boolean isEmpty();
 
-    boolean supportsFileType(@NotNull File file);
-
-    boolean supportsReformatFile();
-
-    void reformatFile(@NotNull File file);
-
-    boolean supportsReformatFiles();
-
-    void reformatFiles(@NotNull File... files);
-
-    boolean supportsReformatFilesInDirectory();
-
-    void reformatFilesInDirectory(@NotNull File directory);
-
-    boolean supportsReformatFilesInDirectoryRecursively();
-
-    void reformatFilesInDirectoryRecursively(@NotNull File directory);
+    void flush();
 }

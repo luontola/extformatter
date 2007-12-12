@@ -20,7 +20,7 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Used only for debugging purposes.
+ * For debugging purposes, does not execute anything - only prints the command.
  *
  * @author Esko Luontola
  * @since 1.12.2007

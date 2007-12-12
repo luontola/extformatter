@@ -59,112 +59,82 @@ public class CodeFormatterQueue implements CodeFormatter {
     }
 
     public void flush() {
-        // TODO: slice into smaller methods
-        // TODO: formatter.supportsReformatFilesInDirectoryRecursively()
-        if (fileQueue.isEmpty()) {
-            return;
-        }
-        if (formatter.supportsReformatFilesInDirectoryRecursively()) {
-            File directory = commonParentDirectory(fileQueue);
-            if (directory != null && noOthersInTheSameDirectoryTree(directory, fileQueue)) {
-                formatter.reformatFilesInDirectoryRecursively(directory);
-                fileQueue.clear();
+        fileQueue.removeAll(useReformatFiles());
+        fileQueue.removeAll(useReformatFilesInDirectoryRecursively());
+        fileQueue.removeAll(useReformatFilesInDirectory());
+        fileQueue.removeAll(useReformatFile());
+        mustBeEmpty(fileQueue);
+    }
+
+    private List<File> useReformatFile() {
+        List<File> reformatted = new ArrayList<File>();
+        if (formatter.supportsReformatFile()) {
+            for (File file : fileQueue) {
+                formatter.reformatFile(file);
+                reformatted.add(file);
             }
         }
+        return reformatted;
+    }
+
+    private List<File> useReformatFiles() {
+        List<File> reformatted = new ArrayList<File>();
+        if (formatter.supportsReformatFiles() && fileQueue.size() > 0) {
+            formatter.reformatFiles(toArray(fileQueue));
+            reformatted.addAll(fileQueue);
+        }
+        return reformatted;
+    }
+
+    private List<File> useReformatFilesInDirectory() {
+        List<File> reformatted = new ArrayList<File>();
         if (formatter.supportsReformatFilesInDirectory()) {
-            Map<File, List<File>> groups = groupByCommonDirectory(fileQueue);
+            Map<File, List<File>> groups = groupByDirectory(fileQueue);
             for (Map.Entry<File, List<File>> group : groups.entrySet()) {
                 File directory = group.getKey();
                 List<File> files = group.getValue();
                 if (noOthersInTheSameDirectory(directory, files)) {
                     formatter.reformatFilesInDirectory(directory);
-                    fileQueue.removeAll(files);
+                    reformatted.addAll(files);
                 }
             }
         }
-        if (formatter.supportsReformatFiles()) {
-            File[] files = fileQueue.toArray(new File[fileQueue.size()]);
-            formatter.reformatFiles(files);
-            fileQueue.clear();
-        }
-        if (formatter.supportsReformatFile()) {
-            for (File file : fileQueue) {
-                formatter.reformatFile(file);
+        return reformatted;
+    }
+
+    private List<File> useReformatFilesInDirectoryRecursively() {
+        List<File> reformatted = new ArrayList<File>();
+        if (formatter.supportsReformatFilesInDirectoryRecursively()) {
+            File directory = commonParentDirectory(fileQueue);
+            if (directory != null && noOthersInTheSameDirectoryTree(directory, fileQueue)) {
+                formatter.reformatFilesInDirectoryRecursively(directory);
+                reformatted.addAll(fileQueue);
             }
-            fileQueue.clear();
         }
-        if (!fileQueue.isEmpty()) {
-            String notReformatted = "";
-            for (File file : fileQueue) {
-                notReformatted += "\n" + file;
+        return reformatted;
+    }
+
+    private static void mustBeEmpty(@NotNull List<File> files) {
+        if (!files.isEmpty()) {
+            try {
+                throw new IllegalStateException("The following files could not be reformatted: " + files);
+            } finally {
+                files.clear();
             }
-            fileQueue.clear();
-            throw new IllegalStateException("The following files could not be reformatted: " + notReformatted);
         }
     }
 
-    private boolean noOthersInTheSameDirectoryTree(File directory, List<File> files) {
-        if (noOthersInTheSameDirectory(directory, files)) {
-            File[] subDirs = directory.listFiles(new Directories());
-            for (File subDir : subDirs) {
-                if (!noOthersInTheSameDirectoryTree(subDir, files)) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
+    private boolean noOthersInTheSameDirectoryTree(@NotNull File directory, @NotNull List<File> files) {
+        if (!noOthersInTheSameDirectory(directory, files)) {
             return false;
         }
-    }
-
-    @Nullable
-    private File commonParentDirectory(@NotNull List<File> files) {
-        File commonParent = null;
-        for (File file : files) {
-            if (commonParent == null) {
-                commonParent = file.getParentFile();
-            }
-            File f = commonParent(commonParent, file.getParentFile());
-            if (f != null) {
-                commonParent = f;
+        File[] subDirs = directory.listFiles(new Directories());
+        for (File subDir : subDirs) {
+            if (!noOthersInTheSameDirectoryTree(subDir, files)) {
+                return false;
             }
         }
-        return commonParent;
-    }
-
-    @Nullable
-    private File commonParent(@NotNull File dir1, @NotNull File dir2) {
-        if (isParent(dir2, dir1)) {
-            return dir2;
-        }
-        if (isParent(dir1, dir2)) {
-            return dir1;
-        }
-        return null;
-    }
-
-    private static boolean isParent(File parent, File child) {
-        for (File dir = child; dir.getParentFile() != null; dir = dir.getParentFile()) {
-            if (dir.equals(parent)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @NotNull
-    private static Map<File, List<File>> groupByCommonDirectory(@NotNull List<File> fileList) {
-        Map<File, List<File>> groups = new HashMap<File, List<File>>();
-        for (File file : fileList) {
-            File directory = file.getParentFile();
-            List<File> files = groups.get(directory);
-            if (files == null) {
-                files = new ArrayList<File>();
-                groups.put(directory, files);
-            }
-            files.add(file);
-        }
-        return groups;
+        return true;
     }
 
     private boolean noOthersInTheSameDirectory(File directory, @NotNull List<File> files) {
@@ -175,6 +145,52 @@ public class CodeFormatterQueue implements CodeFormatter {
             }
         }
         return true;
+    }
+
+    @Nullable
+    private static File commonParentDirectory(@NotNull List<File> files) {
+        File commonParent = null;
+        for (File file : files) {
+            if (commonParent == null) {
+                commonParent = file.getParentFile();
+            }
+            if (isParent(file.getParentFile(), commonParent)) {
+                commonParent = file.getParentFile();
+            }
+        }
+        return commonParent;
+    }
+
+    private static boolean isParent(@NotNull File parent, @NotNull File child) {
+        for (File dir = child; dir.getParentFile() != null; dir = dir.getParentFile()) {
+            if (dir.equals(parent)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @NotNull
+    private static Map<File, List<File>> groupByDirectory(@NotNull List<File> files) {
+        Map<File, List<File>> groups = new HashMap<File, List<File>>();
+        for (File file : files) {
+            File directory = file.getParentFile();
+            putToList(groups, directory, file);
+        }
+        return groups;
+    }
+
+    private static <T> void putToList(@NotNull Map<T, List<T>> map, @NotNull T key, @NotNull T value) {
+        List<T> list = map.get(key);
+        if (list == null) {
+            list = new ArrayList<T>();
+            map.put(key, list);
+        }
+        list.add(value);
+    }
+
+    private static File[] toArray(List<File> files) {
+        return files.toArray(new File[files.size()]);
     }
 
     // Unsupported operations

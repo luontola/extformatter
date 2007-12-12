@@ -18,7 +18,9 @@
 package net.orfjackal.extformatter.plugin;
 
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.UndoConfirmationPolicy;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
@@ -26,6 +28,8 @@ import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import com.intellij.util.IncorrectOperationException;
 import net.orfjackal.extformatter.CodeFormatter;
 import net.orfjackal.extformatter.ReformatQueue;
+import net.orfjackal.extformatter.plugin.util.CommandRunner;
+import net.orfjackal.extformatter.plugin.util.WriteActionRunner;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -49,23 +53,30 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
 
     public void reformatText(@NotNull PsiFile psiFile, int startOffset, int endOffset) throws IncorrectOperationException {
         VirtualFile file = psiFile.getVirtualFile();
+        Project project = psiFile.getProject();
         if (file != null
                 && canReformat(file)
                 && wholeFile(psiFile, startOffset, endOffset)) {
-            queueReformatOf(file);
+            queueReformatOf(file, project);
         } else {
             super.reformatText(psiFile, startOffset, endOffset);
         }
     }
 
-    private void queueReformatOf(final @NotNull VirtualFile file) {
+    /**
+     * The formatting will be executed after IDEA has called the 'reformatText' method for all files
+     * which should be reformatted in one go. Starting the formatter for each file would be very slow,
+     * especially in the case of EclipseCodeFormatter, so that's why a ReformatQueue must be used here.
+     */
+    private void queueReformatOf(final @NotNull VirtualFile file, @NotNull Project project) {
         save(file);
         replacement.reformatFile(ioFile(file));
+        ApplicationManager.getApplication().invokeLater(flushAndRefresh(file, project));
+    }
 
-        // The formatting will be executed after IDEA has called the 'reformatText' method for all files
-        // which should be reformatted in one go. Starting the formatter for each file would be very slow,
-        // especially in the case of EclipseCodeFormatter, so that's why a ReformatQueue is used here.
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
+    @NotNull
+    private Runnable flushAndRefresh(final @NotNull VirtualFile file, @NotNull Project project) {
+        Runnable flushAndRefresh = new Runnable() {
             public void run() {
                 try {
                     replacement.flush();
@@ -73,7 +84,12 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
                     file.refresh(false, false);
                 }
             }
-        });
+        };
+        // TODO: does not support undo (Ctrl+Z)
+        // TODO: even if undo would work, might not support undoing a groups of files with one command
+        // IDEA requires this to be executed as a command and a write action
+        return new CommandRunner(project, new WriteActionRunner(flushAndRefresh),
+                "Reformat Code (External Code Formatter)", null, UndoConfirmationPolicy.REQUEST_CONFIRMATION);
     }
 
     private boolean canReformat(@NotNull VirtualFile file) {

@@ -223,18 +223,18 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             specify(queue.isEmpty());
         }
 
-//        public void whenThereAreAlsoOtherFilesInTheSameDirectoryShouldNotReformatThatDirectory() {
-//            checking(new Expectations() {{
-//            }});
-//            queue.reformatFile(FOO_FILE);
-//            queue.reformatFile(GAZONK_FILE);
-//            specify(new Block() {
-//                public void run() throws Throwable {
-//                    queue.flush();
-//                }
-//            }, should.raise(IllegalStateException.class));
-//            specify(queue.isEmpty());
-//        }
+        public void whenThereAreAlsoOtherFilesInTheSameDirectoryShouldNotReformatThatDirectory() {
+            checking(new Expectations() {{
+            }});
+            queue.reformatFile(FOO_FILE);
+            queue.reformatFile(GAZONK_FILE);
+            specify(new Block() {
+                public void run() throws Throwable {
+                    queue.flush();
+                }
+            }, should.raise(IllegalStateException.class));
+            specify(queue.isEmpty());
+        }
     }
 
     public class WhenQueueIsEmpty {

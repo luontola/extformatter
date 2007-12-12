@@ -17,6 +17,7 @@
 
 package net.orfjackal.extformatter;
 
+import net.orfjackal.extformatter.util.Directories;
 import net.orfjackal.extformatter.util.FilesSupportedBy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -65,17 +66,17 @@ public class CodeFormatterQueue implements CodeFormatter {
         }
         if (formatter.supportsReformatFilesInDirectoryRecursively()) {
             File directory = commonParentDirectory(fileQueue);
-            if (directory != null) {
+            if (directory != null && noOthersInTheSameDirectoryTree(directory, fileQueue)) {
                 formatter.reformatFilesInDirectoryRecursively(directory);
+                fileQueue.clear();
             }
-            fileQueue.clear();
         }
         if (formatter.supportsReformatFilesInDirectory()) {
             Map<File, List<File>> groups = groupByCommonDirectory(fileQueue);
             for (Map.Entry<File, List<File>> group : groups.entrySet()) {
                 File directory = group.getKey();
                 List<File> files = group.getValue();
-                if (noOthersInTheSameDirectory(files)) {
+                if (noOthersInTheSameDirectory(directory, files)) {
                     formatter.reformatFilesInDirectory(directory);
                     fileQueue.removeAll(files);
                 }
@@ -99,6 +100,20 @@ public class CodeFormatterQueue implements CodeFormatter {
             }
             fileQueue.clear();
             throw new IllegalStateException("The following files could not be reformatted: " + notReformatted);
+        }
+    }
+
+    private boolean noOthersInTheSameDirectoryTree(File directory, List<File> files) {
+        if (noOthersInTheSameDirectory(directory, files)) {
+            File[] subDirs = directory.listFiles(new Directories());
+            for (File subDir : subDirs) {
+                if (!noOthersInTheSameDirectoryTree(subDir, files)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -152,8 +167,7 @@ public class CodeFormatterQueue implements CodeFormatter {
         return groups;
     }
 
-    private boolean noOthersInTheSameDirectory(@NotNull List<File> files) {
-        File directory = files.get(0).getParentFile();
+    private boolean noOthersInTheSameDirectory(File directory, @NotNull List<File> files) {
         File[] allFilesInDir = directory.listFiles(new FilesSupportedBy(this));
         for (File fileInDir : allFilesInDir) {
             if (!files.contains(fileInDir)) {

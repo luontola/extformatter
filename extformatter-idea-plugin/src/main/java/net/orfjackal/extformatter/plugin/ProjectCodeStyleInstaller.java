@@ -27,6 +27,8 @@ import org.jetbrains.annotations.Nullable;
 import org.picocontainer.MutablePicoContainer;
 
 /**
+ * Switches a project's {@link CodeStyleManager} to a {@link CodeFormatter} and back.
+ *
  * @author Esko Luontola
  * @since 2.12.2007
  */

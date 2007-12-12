@@ -34,6 +34,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Wrapper for intercepting the method calls to a {@link CodeStyleManagerEx} instance.
+ *
  * @author Esko Luontola
  * @since 2.12.2007
  */

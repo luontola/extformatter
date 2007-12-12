@@ -20,6 +20,8 @@ package net.orfjackal.extformatter;
 import java.net.URL;
 
 /**
+ * Paths to program icons and other resources.
+ *
  * @author Esko Luontola
  * @since 5.12.2007
  */

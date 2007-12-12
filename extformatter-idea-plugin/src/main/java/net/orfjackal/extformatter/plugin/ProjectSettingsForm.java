@@ -34,6 +34,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * Configuration dialog for changing the {@link Settings} of the plugin.
+ *
  * @author Esko Luontola
  * @since 4.12.2007
  */

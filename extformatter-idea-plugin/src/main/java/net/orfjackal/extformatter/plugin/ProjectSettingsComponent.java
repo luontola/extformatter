@@ -26,6 +26,7 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import net.orfjackal.extformatter.CodeFormatter;
 import net.orfjackal.extformatter.Resources;
 import net.orfjackal.extformatter.settings.IllegalSettingsException;
 import net.orfjackal.extformatter.settings.Settings;
@@ -40,6 +41,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Takes care of initializing a project's {@link CodeFormatter} and disposing of it when the project is closed.
+ * Updates the formatter whenever the plugin settings are changed.
+ *
  * @author Esko Luontola
  * @since 4.12.2007
  */

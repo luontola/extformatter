@@ -22,6 +22,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
+ * Paths to test files required by the unit tests.
+ *
  * @author Esko Luontola
  * @since 30.11.2007
  */

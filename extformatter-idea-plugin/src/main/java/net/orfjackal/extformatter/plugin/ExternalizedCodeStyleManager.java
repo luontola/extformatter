@@ -20,6 +20,7 @@ package net.orfjackal.extformatter.plugin;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import com.intellij.util.IncorrectOperationException;
 import net.orfjackal.extformatter.CodeFormatter;
@@ -28,6 +29,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 /**
+ * Intercepts the calls to {@link CodeStyleManager#reformatText(com.intellij.psi.PsiFile, int, int)} and redirects
+ * them to a {@link CodeFormatter} if the formatter supports reformatting that file. Otherwise falls back to using
+ * the original {@link CodeStyleManagerEx} instance.
+ *
  * @author Esko Luontola
  * @since 3.12.2007
  */

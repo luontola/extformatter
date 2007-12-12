@@ -17,10 +17,11 @@
 
 package net.orfjackal.extformatter;
 
+import net.orfjackal.extformatter.util.Directories;
+import net.orfjackal.extformatter.util.FilesSupportedBy;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileFilter;
 
 /**
  * @author Esko Luontola
@@ -84,11 +85,7 @@ public class AdaptiveCodeFormatter implements CodeFormatter {
         if (formatter.supportsReformatFilesInDirectory()) {
             formatter.reformatFilesInDirectory(directory);
         } else {
-            File[] files = directory.listFiles(new FileFilter() {
-                public boolean accept(File pathname) {
-                    return pathname.isFile() && supportsFileType(pathname);
-                }
-            });
+            File[] files = directory.listFiles(new FilesSupportedBy(this));
             reformatFiles(files);
         }
     }
@@ -104,15 +101,12 @@ public class AdaptiveCodeFormatter implements CodeFormatter {
         if (formatter.supportsReformatFilesInDirectoryRecursively()) {
             formatter.reformatFilesInDirectoryRecursively(directory);
         } else {
-            File[] subdirs = directory.listFiles(new FileFilter() {
-                public boolean accept(File pathname) {
-                    return pathname.isDirectory();
-                }
-            });
+            File[] subdirs = directory.listFiles(new Directories());
             reformatFilesInDirectory(directory);
             for (File subdir : subdirs) {
                 reformatFilesInDirectoryRecursively(subdir);
             }
         }
     }
+
 }

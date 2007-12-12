@@ -235,6 +235,19 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
             }, should.raise(IllegalStateException.class));
             specify(queue.isEmpty());
         }
+
+        public void whenThereAreAlsoOtherFilesInASubDirectoryShouldNotReformatThatDirectory() {
+            checking(new Expectations() {{
+            }});
+            queue.reformatFile(FOO_FILE);
+            queue.reformatFile(BAR_FILE);
+            specify(new Block() {
+                public void run() throws Throwable {
+                    queue.flush();
+                }
+            }, should.raise(IllegalStateException.class));
+            specify(queue.isEmpty());
+        }
     }
 
     public class WhenQueueIsEmpty {

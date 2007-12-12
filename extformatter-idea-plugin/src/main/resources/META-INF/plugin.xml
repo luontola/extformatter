@@ -28,8 +28,9 @@
         <p>0.1.0 (2007-12-05)
         <br>- Initial release</p>
 
-        <p>Known issues / Coming soon
+        <p>Known issues
         <br>- No support for a generic command line formatter.
+        <br>- Ctrl+Z does not work after reformat (IDEA sees reformatting as an external change)
         <br>- Does not support reformatting a selection within a file.
         </p>
     ]]></change-notes>

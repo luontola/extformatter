@@ -22,6 +22,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import net.orfjackal.extformatter.CodeFormatter;
+import net.orfjackal.extformatter.OptimizingReformatQueue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.picocontainer.MutablePicoContainer;
@@ -58,7 +59,8 @@ public class ProjectCodeStyleInstaller {
     private void installCodeFormatter(@NotNull CodeFormatter formatter) {
         CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
         if (!(manager instanceof ExternalizedCodeStyleManager)) {
-            registerCodeStyleManager(project, new ExternalizedCodeStyleManager(manager, formatter));
+            registerCodeStyleManager(project,
+                    new ExternalizedCodeStyleManager(manager, new OptimizingReformatQueue(formatter)));
         }
     }
 
@@ -77,9 +79,9 @@ public class ProjectCodeStyleInstaller {
         container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, manager);
     }
 
-    /* NOTES:
+    /* NOTES: Relevant places in IDEA's code style architecture
 
-   from ReformatCodeProcessor:
+   from com.intellij.codeInsight.actions.ReformatCodeProcessor:
        CodeStyleManager.getInstance(myProject).reformatText(file, k.getStartOffset(), k.getEndOffset());else
        CodeStyleManager.getInstance(myProject).reformatText(file, 0, file.getTextRange().getEndOffset());
    - try to inject a custom com.intellij.psi.codeStyle.CodeStyleManager and replace it after the command exits
@@ -88,6 +90,7 @@ public class ProjectCodeStyleInstaller {
        public static CodeStyleManager getInstance(@NotNull Project project) {
            return ServiceManager.getService(project, CodeStyleManager.class);
        }
+       
    from com.intellij.openapi.components.ServiceManager
        public static <T> T getService(Project project, Class<T> serviceClass) {
            return (T)project.getPicoContainer().getComponentInstance(serviceClass.getName());

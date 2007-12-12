@@ -17,6 +17,7 @@
 
 package net.orfjackal.extformatter.plugin;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -24,6 +25,7 @@ import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import com.intellij.util.IncorrectOperationException;
 import net.orfjackal.extformatter.CodeFormatter;
+import net.orfjackal.extformatter.ReformatQueue;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -38,26 +40,40 @@ import java.io.File;
  */
 public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
 
-    @NotNull private final CodeFormatter replacement;
+    @NotNull private final ReformatQueue replacement;
 
-    public ExternalizedCodeStyleManager(@NotNull CodeStyleManagerEx original, @NotNull CodeFormatter replacement) {
+    public ExternalizedCodeStyleManager(@NotNull CodeStyleManagerEx original, @NotNull ReformatQueue replacement) {
         super(original);
         this.replacement = replacement;
     }
 
     public void reformatText(@NotNull PsiFile psiFile, int startOffset, int endOffset) throws IncorrectOperationException {
         VirtualFile file = psiFile.getVirtualFile();
-        if (file != null && canReformat(file) && wholeFile(psiFile, startOffset, endOffset)) {
-            // TODO: queue all files so that they can be formatted with one command 
-            try {
-                save(file);
-                replacement.reformatFile(ioFile(file));
-            } finally {
-                file.refresh(false, false);
-            }
+        if (file != null
+                && canReformat(file)
+                && wholeFile(psiFile, startOffset, endOffset)) {
+            queueReformatOf(file);
         } else {
             super.reformatText(psiFile, startOffset, endOffset);
         }
+    }
+
+    private void queueReformatOf(final @NotNull VirtualFile file) {
+        save(file);
+        replacement.reformatFile(ioFile(file));
+
+        // The formattign will be executed after IDEA has called the 'reformatText' method for all files
+        // which should be reformatted in one go. Starting the formatter for each file would be very slow,
+        // so that's why a ReformatQueue is being used here.
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    replacement.flush();
+                } finally {
+                    file.refresh(false, false);
+                }
+            }
+        });
     }
 
     private boolean canReformat(@NotNull VirtualFile file) {

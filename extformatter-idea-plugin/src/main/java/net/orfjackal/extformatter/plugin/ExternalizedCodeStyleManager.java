@@ -62,9 +62,9 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         save(file);
         replacement.reformatFile(ioFile(file));
 
-        // The formattign will be executed after IDEA has called the 'reformatText' method for all files
+        // The formatting will be executed after IDEA has called the 'reformatText' method for all files
         // which should be reformatted in one go. Starting the formatter for each file would be very slow,
-        // so that's why a ReformatQueue is being used here.
+        // especially in the case of EclipseCodeFormatter, so that's why a ReformatQueue is used here.
         ApplicationManager.getApplication().invokeLater(new Runnable() {
             public void run() {
                 try {

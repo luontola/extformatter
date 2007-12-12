@@ -17,10 +17,11 @@
 
 package net.orfjackal.extformatter;
 
+import net.orfjackal.extformatter.util.FilesSupportedBy;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +63,13 @@ public class CodeFormatterQueue implements CodeFormatter {
         if (fileQueue.isEmpty()) {
             return;
         }
+        if (formatter.supportsReformatFilesInDirectoryRecursively()) {
+            File directory = commonParentDirectory(fileQueue);
+            if (directory != null) {
+                formatter.reformatFilesInDirectoryRecursively(directory);
+            }
+            fileQueue.clear();
+        }
         if (formatter.supportsReformatFilesInDirectory()) {
             Map<File, List<File>> groups = groupByCommonDirectory(fileQueue);
             for (Map.Entry<File, List<File>> group : groups.entrySet()) {
@@ -94,6 +102,41 @@ public class CodeFormatterQueue implements CodeFormatter {
         }
     }
 
+    @Nullable
+    private File commonParentDirectory(@NotNull List<File> files) {
+        File commonParent = null;
+        for (File file : files) {
+            if (commonParent == null) {
+                commonParent = file.getParentFile();
+            }
+            File f = commonParent(commonParent, file.getParentFile());
+            if (f != null) {
+                commonParent = f;
+            }
+        }
+        return commonParent;
+    }
+
+    @Nullable
+    private File commonParent(@NotNull File dir1, @NotNull File dir2) {
+        if (isParent(dir2, dir1)) {
+            return dir2;
+        }
+        if (isParent(dir1, dir2)) {
+            return dir1;
+        }
+        return null;
+    }
+
+    private static boolean isParent(File parent, File child) {
+        for (File dir = child; dir.getParentFile() != null; dir = dir.getParentFile()) {
+            if (dir.equals(parent)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @NotNull
     private static Map<File, List<File>> groupByCommonDirectory(@NotNull List<File> fileList) {
         Map<File, List<File>> groups = new HashMap<File, List<File>>();
@@ -111,11 +154,7 @@ public class CodeFormatterQueue implements CodeFormatter {
 
     private boolean noOthersInTheSameDirectory(@NotNull List<File> files) {
         File directory = files.get(0).getParentFile();
-        File[] allFilesInDir = directory.listFiles(new FileFilter() {
-            public boolean accept(File pathname) {
-                return pathname.isFile() && supportsFileType(pathname);
-            }
-        });
+        File[] allFilesInDir = directory.listFiles(new FilesSupportedBy(this));
         for (File fileInDir : allFilesInDir) {
             if (!files.contains(fileInDir)) {
                 return false;

@@ -185,6 +185,58 @@ public class CodeFormatterQueueSpec extends Specification<CodeFormatterQueue> {
         }
     }
 
+    public class WhenFormatterSupportsReformatDirectoryRecursively {
+
+        private CodeFormatter formatter;
+        private CodeFormatterQueue queue;
+
+        public CodeFormatterQueue create() {
+            formatter = mock(CodeFormatter.class);
+            queue = new CodeFormatterQueue(formatter);
+            checking(new Expectations() {{
+                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing(formatter).supportsReformatFile(); will(returnValue(false));
+                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
+                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
+                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(true));
+            }});
+            return queue;
+        }
+
+        public void whenAllFilesAreInTheSameDirectoryShouldReformatThatDirectory() {
+            checking(new Expectations() {{
+                one(formatter).reformatFilesInDirectoryRecursively(TESTFILES_SUBDIR);
+            }});
+            queue.reformatFile(GAZONK_FILE);
+            queue.flush();
+            specify(queue.isEmpty());
+        }
+
+        public void whenAllFilesAreUnderACommonParentDirectoryShouldReformatThatDirectory() {
+            checking(new Expectations() {{
+                one(formatter).reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+            }});
+            queue.reformatFile(FOO_FILE);
+            queue.reformatFile(BAR_FILE);
+            queue.reformatFile(GAZONK_FILE);
+            queue.flush();
+            specify(queue.isEmpty());
+        }
+
+//        public void whenThereAreAlsoOtherFilesInTheSameDirectoryShouldNotReformatThatDirectory() {
+//            checking(new Expectations() {{
+//            }});
+//            queue.reformatFile(FOO_FILE);
+//            queue.reformatFile(GAZONK_FILE);
+//            specify(new Block() {
+//                public void run() throws Throwable {
+//                    queue.flush();
+//                }
+//            }, should.raise(IllegalStateException.class));
+//            specify(queue.isEmpty());
+//        }
+    }
+
     public class WhenQueueIsEmpty {
 
         private CodeFormatter formatter;

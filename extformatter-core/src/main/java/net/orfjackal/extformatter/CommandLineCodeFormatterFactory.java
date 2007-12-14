@@ -29,32 +29,47 @@ import org.jetbrains.annotations.Nullable;
 public class CommandLineCodeFormatterFactory implements CodeFormatterFactory<CommandLineCodeFormatter> {
 
     @NotNull private String[] supportedFileTypes = new String[0];
-    @Nullable private String fileCommand;
+    @Nullable private String oneFileCommand;
+    @Nullable private String manyFilesCommand;
     @Nullable private String directoryCommand;
     @Nullable private String recursiveCommand;
 
     @Nullable
     public CommandLineCodeFormatter newFormatter() {
-        if (fileCommand != null || directoryCommand != null || recursiveCommand != null) {
-            return new CommandLineCodeFormatter(supportedFileTypes, fileCommand, directoryCommand, recursiveCommand);
+        if (oneFileCommand != null || manyFilesCommand != null || directoryCommand != null || recursiveCommand != null) {
+            return new CommandLineCodeFormatter(supportedFileTypes,
+                    oneFileCommand, manyFilesCommand, directoryCommand, recursiveCommand);
         } else {
             return null;
         }
     }
 
     public void setSupportedFileTypes(@NotNull String... supportedFileTypes) {
+        assert supportedFileTypes.length > 0;
         this.supportedFileTypes = supportedFileTypes;
     }
 
-    public void setFileCommand(@Nullable String fileCommand) {
-        this.fileCommand = fileCommand;
+    public void setOneFileCommand(@Nullable String oneFileCommand) {
+        assert notEmpty(oneFileCommand);
+        this.oneFileCommand = oneFileCommand;
+    }
+
+    public void setManyFilesCommand(@Nullable String manyFilesCommand) {
+        assert notEmpty(manyFilesCommand);
+        this.manyFilesCommand = manyFilesCommand;
     }
 
     public void setDirectoryCommand(@Nullable String directoryCommand) {
+        assert notEmpty(directoryCommand);
         this.directoryCommand = directoryCommand;
     }
 
     public void setRecursiveCommand(@Nullable String recursiveCommand) {
+        assert notEmpty(recursiveCommand);
         this.recursiveCommand = recursiveCommand;
+    }
+
+    private static boolean notEmpty(@Nullable String s) {
+        return s == null || s.length() > 0;
     }
 }

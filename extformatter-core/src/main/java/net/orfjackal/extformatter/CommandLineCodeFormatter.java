@@ -111,8 +111,8 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         }
     }
 
+    @NotNull
     private String parsed(@NotNull String command, @NotNull File file) {
-        // TODO: remove code duplication
         if (command.contains(FILE_TAG) && file.isFile()) {
             assert supportsFileType(file);
             command = command.replaceAll(FILE_TAG, Matcher.quoteReplacement(quoted(file)));
@@ -124,7 +124,8 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         return command;
     }
 
-    private String parsed(String command, File[] files) {
+    @NotNull
+    private String parsed(@NotNull String command, @NotNull File[] files) {
         if (command.contains(FILES_TAG) && areFiles(files)) {
             command = command.replaceAll(FILES_TAG, Matcher.quoteReplacement(listOf(files)));
         } else {
@@ -133,11 +134,12 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         return command;
     }
 
-    private boolean areFiles(File[] files) {
+    private boolean areFiles(@NotNull File[] files) {
         for (File file : files) {
             if (!file.isFile()) {
                 return false;
             }
+            assert supportsFileType(file);
         }
         return true;
     }

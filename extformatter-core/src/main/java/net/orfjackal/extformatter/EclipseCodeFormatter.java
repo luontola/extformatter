@@ -22,7 +22,6 @@ import static net.orfjackal.extformatter.util.FileUtil.quoted;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * {@link CodeFormatter} for Eclipse 3.2 or later.
@@ -58,11 +57,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
 
     public void reformatOne(@NotNull File file) {
         assert supportsFileType(file);
-        try {
-            executer.execute(commandFor(quoted(file.getCanonicalPath())));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        executer.execute(commandFor(quoted(file)));
     }
 
     public boolean supportsReformatMany() {
@@ -73,11 +68,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
         for (File file : files) {
             assert supportsFileType(file);
         }
-        try {
-            executer.execute(commandFor(listOf(files)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        executer.execute(commandFor(listOf(files)));
     }
 
     public boolean supportsReformatDirectory() {
@@ -93,11 +84,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public void reformatRecursively(@NotNull File directory) {
-        try {
-            executer.execute(commandFor(quoted(directory.getCanonicalPath())));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        executer.execute(commandFor(quoted(directory)));
     }
 
     @NotNull
@@ -123,14 +110,10 @@ public class EclipseCodeFormatter implements CodeFormatter {
         //      C:\Temp\weenyconsole\src\main\java\net\orfjackal\weenyconsole\*.java
         assert eclipseExecutable.isFile() : "Not a file, eclipseExecutable: " + eclipseExecutable;
         assert eclipsePrefs.isFile() : "Not a file, eclipsePrefs: " + eclipsePrefs;
-        try {
-            String eclipse = quoted(eclipseExecutable.getCanonicalPath());
-            String java = quoted(new File(System.getProperty("java.home"), "bin/java").getCanonicalPath());
-            String config = quoted(eclipsePrefs.getCanonicalPath());
-            return eclipse + " -application org.eclipse.jdt.core.JavaCodeFormatter -verbose"
-                    + " -vm " + java + " -config " + config + " " + path;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String eclipse = quoted(eclipseExecutable);
+        String java = quoted(new File(System.getProperty("java.home"), "bin/java"));
+        String config = quoted(eclipsePrefs);
+        return eclipse + " -application org.eclipse.jdt.core.JavaCodeFormatter -verbose"
+                + " -vm " + java + " -config " + config + " " + path;
     }
 }

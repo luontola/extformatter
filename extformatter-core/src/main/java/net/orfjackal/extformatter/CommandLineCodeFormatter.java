@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 
@@ -113,33 +112,25 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     }
 
     private String parsed(@NotNull String command, @NotNull File file) {
-        try {
-            // TODO: remove code duplication
-            if (command.contains(FILE_TAG) && file.isFile()) {
-                assert supportsFileType(file);
-                command = command.replaceAll(FILE_TAG, Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
-            } else if (command.contains(DIRECTORY_TAG) && file.isDirectory()) {
-                command = command.replaceAll(DIRECTORY_TAG, Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
-            } else {
-                throw new IllegalArgumentException("command '" + command + "',  file '" + file + "'");
-            }
-            return command;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        // TODO: remove code duplication
+        if (command.contains(FILE_TAG) && file.isFile()) {
+            assert supportsFileType(file);
+            command = command.replaceAll(FILE_TAG, Matcher.quoteReplacement(quoted(file)));
+        } else if (command.contains(DIRECTORY_TAG) && file.isDirectory()) {
+            command = command.replaceAll(DIRECTORY_TAG, Matcher.quoteReplacement(quoted(file)));
+        } else {
+            throw new IllegalArgumentException("command '" + command + "',  file '" + file + "'");
         }
+        return command;
     }
 
     private String parsed(String command, File[] files) {
-        try {
-            if (command.contains(FILES_TAG) && areFiles(files)) {
-                command = command.replaceAll(FILES_TAG, Matcher.quoteReplacement(listOf(files)));
-            } else {
-                throw new IllegalArgumentException("command '" + command + "',  file '" + Arrays.toString(files) + "'");
-            }
-            return command;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (command.contains(FILES_TAG) && areFiles(files)) {
+            command = command.replaceAll(FILES_TAG, Matcher.quoteReplacement(listOf(files)));
+        } else {
+            throw new IllegalArgumentException("command '" + command + "',  file '" + Arrays.toString(files) + "'");
         }
+        return command;
     }
 
     private boolean areFiles(File[] files) {

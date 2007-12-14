@@ -200,7 +200,13 @@ public class ProjectSettingsForm {
         enabledBy(cliReformatManyEnabled, cliReformatMany);
         enabledBy(cliReformatDirectoryEnabled, cliReformatDirectory);
         enabledBy(cliReformatRecursivelyEnabled, cliReformatRecursively);
-
+        if (useCliFormatter.isSelected()) {
+            atLeastOneSelected(
+                    cliReformatOneEnabled,
+                    cliReformatManyEnabled,
+                    cliReformatDirectoryEnabled,
+                    cliReformatRecursivelyEnabled);
+        }
         if (notEmpty(cliSupportedFileTypes)) {
             ok(cliSupportedFileTypes);
         }
@@ -240,11 +246,20 @@ public class ProjectSettingsForm {
         return true;
     }
 
+    private void atLeastOneSelected(JToggleButton... buttons) {
+        for (JToggleButton button : buttons) {
+            if (button.isSelected()) {
+                return;
+            }
+        }
+        showPopup(buttons[0], "Select at least one"); // TODO: localize
+    }
+
     private void ok(@NotNull JTextField field) {
         field.setBackground(NORMAL);
     }
 
-    private void showPopup(@NotNull JTextField parent, @NotNull String message) {
+    private void showPopup(@NotNull JComponent parent, @NotNull String message) {
         if (!parent.isShowing() || !parent.isEnabled()) {
             return; // if getLocationOnScreen is called when the component is not showing, an exception is thrown
         }

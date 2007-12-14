@@ -31,6 +31,8 @@ import java.io.File;
  */
 public class AdaptiveCodeFormatter implements CodeFormatter {
 
+    // TODO: this class is not being used at the moment - it has been replaced by OptimizingReformatQueue
+
     private final CodeFormatter formatter;
 
     public AdaptiveCodeFormatter(@NotNull CodeFormatter formatter) {

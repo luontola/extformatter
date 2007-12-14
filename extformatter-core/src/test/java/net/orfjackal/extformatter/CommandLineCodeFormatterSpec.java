@@ -41,16 +41,23 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
 
         public CodeFormatter create() {
             executer = mock(Executer.class);
-            formatter = new CommandLineCodeFormatter(
-                    SUPPORTS_TXT, "format %FILE%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
+            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT,
+                    "formatOne %FILE%", "formatMany %FILES%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
             return formatter;
         }
 
         public void shouldExecuteCommandForReformatOne() throws IOException {
             checking(new Expectations() {{
-                one (executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
+                one (executer).execute("formatOne \"" + FOO_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatOne(FOO_FILE);
+        }
+
+        public void shouldExecuteCommandForReformatMany() throws IOException {
+            checking(new Expectations() {{
+                one (executer).execute("formatMany \"" + FOO_FILE.getAbsolutePath() + "\" \"" + BAR_FILE.getAbsolutePath() + "\"");
+            }});
+            formatter.reformatMany(FOO_FILE, BAR_FILE);
         }
 
         public void shouldExecuteCommandForReformatDirectory() throws IOException {
@@ -73,12 +80,24 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
                     formatter.reformatOne(new File("doesNotExist"));
                 }
             }, should.raise(IllegalArgumentException.class));
+            
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatMany(new File("doesNotExist"));
+                }
+            }, should.raise(IllegalArgumentException.class));
         }
 
         public void shouldNotAllowFormattingANonExistingDirectory() {
             specify(new Block() {
                 public void run() throws Throwable {
                     formatter.reformatDirectory(new File("doesNotExist"));
+                }
+            }, should.raise(IllegalArgumentException.class));
+
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatRecursively(new File("doesNotExist"));
                 }
             }, should.raise(IllegalArgumentException.class));
         }
@@ -89,12 +108,24 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
                     formatter.reformatOne(TESTFILES_DIR);
                 }
             }, should.raise(IllegalArgumentException.class));
+
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatMany(TESTFILES_DIR);
+                }
+            }, should.raise(IllegalArgumentException.class));
         }
 
         public void shouldNotAcceptAFileAsADirectory() {
             specify(new Block() {
                 public void run() throws Throwable {
                     formatter.reformatDirectory(FOO_FILE);
+                }
+            }, should.raise(IllegalArgumentException.class));
+
+            specify(new Block() {
+                public void run() throws Throwable {
+                    formatter.reformatRecursively(FOO_FILE);
                 }
             }, should.raise(IllegalArgumentException.class));
         }
@@ -110,7 +141,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, "format %FILE%", null, null);
+            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, "formatOne %FILE%", null, null, null);
             return formatter;
         }
 
@@ -125,12 +156,32 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         }
     }
 
+    public class WhenOnlyReformatManyCommandIsSpecified {
+
+        private CodeFormatter formatter;
+
+        public CodeFormatter create() {
+            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, null, "formatMany %FILES%", null, null);
+            return formatter;
+        }
+
+        public void shouldSupportReformatMany() {
+            specify(formatter.supportsReformatMany());
+        }
+
+        public void shouldNotSupportTheOthers() {
+            specify(should.not().be.supportsReformatOne());
+            specify(should.not().be.supportsReformatDirectory());
+            specify(should.not().be.supportsReformatRecursively());
+        }
+    }
+
     public class WhenOnlyReformatDirectoryCommandIsSpecified {
 
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, null, "formatDir %DIRECTORY%", null);
+            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, null, null, "formatDir %DIRECTORY%", null);
             return formatter;
         }
 
@@ -150,7 +201,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, null, null, "formatDirRec %DIRECTORY%");
+            formatter = new CommandLineCodeFormatter(SUPPORTS_TXT, null, null, null, "formatDirRec %DIRECTORY%");
             return formatter;
         }
 

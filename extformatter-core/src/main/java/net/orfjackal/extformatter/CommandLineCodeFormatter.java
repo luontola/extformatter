@@ -17,11 +17,14 @@
 
 package net.orfjackal.extformatter;
 
+import static net.orfjackal.extformatter.util.FileUtil.listOf;
+import static net.orfjackal.extformatter.util.FileUtil.quoted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 
 /**
@@ -33,31 +36,36 @@ import java.util.regex.Matcher;
 public class CommandLineCodeFormatter implements CodeFormatter {
 
     private static final String FILE_TAG = "%FILE%";
+    private static final String FILES_TAG = "%FILES%";
     private static final String DIRECTORY_TAG = "%DIRECTORY%";
 
     @NotNull private final SupportedFileTypes supportedFileTypes;
-    @Nullable private final String fileCommand;
+    @Nullable private final String oneFileCommand;
+    @Nullable private final String manyFilesCommand;
     @Nullable private final String directoryCommand;
     @Nullable private final String recursiveCommand;
     @NotNull private final Executer executer;
 
     public CommandLineCodeFormatter(@NotNull String[] supportedFileTypes,
-                                    @Nullable String fileCommand,
+                                    @Nullable String oneFileCommand,
+                                    @Nullable String manyFilesCommand,
                                     @Nullable String directoryCommand,
                                     @Nullable String recursiveCommand,
                                     @NotNull Executer executer) {
         this.supportedFileTypes = new SupportedFileTypes(supportedFileTypes);
-        this.fileCommand = fileCommand;
+        this.oneFileCommand = oneFileCommand;
+        this.manyFilesCommand = manyFilesCommand;
         this.directoryCommand = directoryCommand;
         this.recursiveCommand = recursiveCommand;
         this.executer = executer;
     }
 
     public CommandLineCodeFormatter(@NotNull String[] supportedFileTypes,
-                                    @Nullable String fileCommand,
+                                    @Nullable String oneFileCommand,
+                                    @Nullable String manyFilesCommand,
                                     @Nullable String directoryCommand,
                                     @Nullable String recursiveCommand) {
-        this(supportedFileTypes, fileCommand, directoryCommand, recursiveCommand, new ExecuterImpl());
+        this(supportedFileTypes, oneFileCommand, manyFilesCommand, directoryCommand, recursiveCommand, new ExecuterImpl());
     }
 
     public boolean supportsFileType(@NotNull File file) {
@@ -65,21 +73,23 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     }
 
     public boolean supportsReformatOne() {
-        return fileCommand != null;
+        return oneFileCommand != null;
     }
 
     public void reformatOne(@NotNull File file) {
-        if (fileCommand != null) {
-            executer.execute(parsed(fileCommand, file));
+        if (oneFileCommand != null) {
+            executer.execute(parsed(oneFileCommand, file));
         }
     }
 
     public boolean supportsReformatMany() {
-        return false;
+        return manyFilesCommand != null;
     }
 
     public void reformatMany(@NotNull File... files) {
-        throw new UnsupportedOperationException();
+        if (manyFilesCommand != null) {
+            executer.execute(parsed(manyFilesCommand, files));
+        }
     }
 
     public boolean supportsReformatDirectory() {
@@ -104,6 +114,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     private String parsed(@NotNull String command, @NotNull File file) {
         try {
+            // TODO: remove code duplication
             if (command.contains(FILE_TAG) && file.isFile()) {
                 assert supportsFileType(file);
                 command = command.replaceAll(FILE_TAG, Matcher.quoteReplacement(quoted(file.getCanonicalPath())));
@@ -118,8 +129,25 @@ public class CommandLineCodeFormatter implements CodeFormatter {
         }
     }
 
-    @NotNull
-    private static String quoted(@NotNull String s) {
-        return '"' + s + '"';
+    private String parsed(String command, File[] files) {
+        try {
+            if (command.contains(FILES_TAG) && areFiles(files)) {
+                command = command.replaceAll(FILES_TAG, Matcher.quoteReplacement(listOf(files)));
+            } else {
+                throw new IllegalArgumentException("command '" + command + "',  file '" + Arrays.toString(files) + "'");
+            }
+            return command;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean areFiles(File[] files) {
+        for (File file : files) {
+            if (!file.isFile()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

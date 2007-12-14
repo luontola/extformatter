@@ -161,6 +161,7 @@ public class ProjectSettingsForm {
 
     private void updateComponents() {
         hidePopups();
+
         JComponent[] eclipseComponents = new JComponent[]{
                 eclipseSupportedFileTypesLabel,
                 eclipseExecutable,
@@ -195,6 +196,11 @@ public class ProjectSettingsForm {
         for (JComponent component : cliComponents) {
             component.setEnabled(useCliFormatter.isSelected());
         }
+        cliReformatOne.setEnabled(cliReformatOneEnabled.isEnabled() && cliReformatOneEnabled.isSelected());
+        cliReformatMany.setEnabled(cliReformatManyEnabled.isEnabled() && cliReformatManyEnabled.isSelected());
+        cliReformatDirectory.setEnabled(cliReformatDirectoryEnabled.isEnabled() && cliReformatDirectoryEnabled.isSelected());
+        cliReformatRecursively.setEnabled(cliReformatRecursivelyEnabled.isEnabled() && cliReformatRecursivelyEnabled.isSelected());
+
         if (notEmpty(cliSupportedFileTypes)) {
             ok(cliSupportedFileTypes);
         }

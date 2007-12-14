@@ -110,13 +110,13 @@ public class SettingsManagerSpec extends Specification<Settings> {
         public Settings create() throws IOException {
             settings = new Settings();
             settings.setFormatter(Settings.Formatter.COMMAND_LINE);
-            settings.setCliReformatOne("format %FILE%");
+            settings.setCliReformatOne("reformat %FILE%");
             settings.setCliReformatOneEnabled(true);
-            settings.setCliReformatMany("format %FILES%");
+            settings.setCliReformatMany("reformat %FILES%");
             settings.setCliReformatManyEnabled(true);
-            settings.setCliReformatDirectory("format %DIRECTORY%");
+            settings.setCliReformatDirectory("reformat %DIRECTORY%");
             settings.setCliReformatDirectoryEnabled(true);
-            settings.setCliReformatRecursively("format -R %DIRECTORY%");
+            settings.setCliReformatRecursively("reformat -R %DIRECTORY%");
             settings.setCliReformatRecursivelyEnabled(true);
             settings.setCliSupportedFileTypes("*.java *.xml");
             return settings;
@@ -206,6 +206,42 @@ public class SettingsManagerSpec extends Specification<Settings> {
 
         public void shouldNotAllowAnEmptyListOfSupportedFiles() {
             settings.setCliSupportedFileTypes("");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
+        public void shouldRequireFileTagInReformatOneCommand() {
+            settings.setCliReformatOne("FILE %FILES% %DIRECTORY%");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
+        public void shouldRequireFilesTagInReformatManyCommand() {
+            settings.setCliReformatMany("%FILE% FILES %DIRECTORY%");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
+        public void shouldRequireDirectoryTagInReformatDirectoryCommand() {
+            settings.setCliReformatDirectory("%FILE% %FILES% DIRECTORY");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
+        public void shouldRequireDirectoryTagInReformatRecursivelyCommand() {
+            settings.setCliReformatRecursively("%FILE% %FILES% DIRECTORY");
             specify(new Block() {
                 public void run() throws Throwable {
                     SettingsManager.newFormatter(settings);

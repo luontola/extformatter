@@ -34,9 +34,9 @@ import java.util.regex.Matcher;
  */
 public class CommandLineCodeFormatter implements CodeFormatter {
 
-    private static final String FILE_TAG = "%FILE%";
-    private static final String FILES_TAG = "%FILES%";
-    private static final String DIRECTORY_TAG = "%DIRECTORY%";
+    public static final String FILE_TAG = "%FILE%";
+    public static final String FILES_TAG = "%FILES%";
+    public static final String DIRECTORY_TAG = "%DIRECTORY%";
 
     @NotNull private final SupportedFileTypes supportedFileTypes;
     @Nullable private final String oneFileCommand;

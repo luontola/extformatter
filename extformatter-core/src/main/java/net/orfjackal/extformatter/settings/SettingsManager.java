@@ -18,6 +18,7 @@
 package net.orfjackal.extformatter.settings;
 
 import net.orfjackal.extformatter.CodeFormatter;
+import net.orfjackal.extformatter.CommandLineCodeFormatter;
 import net.orfjackal.extformatter.CommandLineCodeFormatterFactory;
 import net.orfjackal.extformatter.EclipseCodeFormatterFactory;
 import org.jetbrains.annotations.NotNull;
@@ -66,18 +67,26 @@ public class SettingsManager {
         CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
         if (settings.isCliReformatOneEnabled()) {
             mustNotBeEmpty(settings.getCliReformatOne(), "cliReformatOne");
+            mustContain(CommandLineCodeFormatter.FILE_TAG,
+                    settings.getCliReformatOne(), "cliReformatOne");
             factory.setOneFileCommand(settings.getCliReformatOne());
         }
         if (settings.isCliReformatManyEnabled()) {
             mustNotBeEmpty(settings.getCliReformatMany(), "cliReformatMany");
+            mustContain(CommandLineCodeFormatter.FILES_TAG,
+                    settings.getCliReformatMany(), "cliReformatMany");
             factory.setManyFilesCommand(settings.getCliReformatMany());
         }
         if (settings.isCliReformatDirectoryEnabled()) {
             mustNotBeEmpty(settings.getCliReformatDirectory(), "cliReformatDirectory");
+            mustContain(CommandLineCodeFormatter.DIRECTORY_TAG,
+                    settings.getCliReformatDirectory(), "cliReformatDirectory");
             factory.setDirectoryCommand(settings.getCliReformatDirectory());
         }
         if (settings.isCliReformatRecursivelyEnabled()) {
             mustNotBeEmpty(settings.getCliReformatRecursively(), "cliReformatRecursively");
+            mustContain(CommandLineCodeFormatter.DIRECTORY_TAG,
+                    settings.getCliReformatRecursively(), "cliReformatRecursively");
             factory.setRecursiveCommand(settings.getCliReformatRecursively());
         }
         mustNotBeEmpty(settings.getCliSupportedFileTypes(), "cliSupportedFileTypes");
@@ -88,6 +97,12 @@ public class SettingsManager {
     private static void mustNotBeEmpty(@NotNull String s, @NotNull String field) throws IllegalSettingsException {
         if (isEmpty(s)) {
             throw new IllegalSettingsException(field, "Field is empty");
+        }
+    }
+
+    private static void mustContain(@NotNull String needle, @NotNull String haystack, @NotNull String field) throws IllegalSettingsException {
+        if (!haystack.contains(needle)) {
+            throw new IllegalSettingsException(field, "Does not contain text: " + needle);
         }
     }
 

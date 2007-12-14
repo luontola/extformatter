@@ -184,7 +184,7 @@
           <background swing-color="Label.background"/>
           <editable value="false"/>
           <foreground swing-color="Label.foreground"/>
-          <text value="Example: C:\workspace\yourProject\.settings\org.eclipse.jdt.core.prefs&#10;Notice: See 'Help' for instructions on how to enable project specific formatter settings in Eclipse."/>
+          <text value="Example: C:\workspace\yourProject\.settings\org.eclipse.jdt.core.prefs&#10;See the help pages for instructions on how to enable project specific formatter settings in Eclipse."/>
         </properties>
       </component>
       <component id="cef82" class="javax.swing.JTextPane" binding="eclipseExecutableExample">

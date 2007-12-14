@@ -98,6 +98,12 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
         Map<String, String> fieldNames = new HashMap<String, String>();
         fieldNames.put("eclipseExecutable", "Eclipse executable");
         fieldNames.put("eclipsePrefs", "Eclipse preferences");
+        fieldNames.put("cliSupportedFileTypes", "Supported file types");
+        fieldNames.put("cliReformatOne", "Command for reformat one file");
+        fieldNames.put("cliReformatOneEnabled", "Command for reformat one file");
+        fieldNames.put("cliReformatMany", "Command for reformat many files");
+        fieldNames.put("cliReformatDirectory", "Command for reformat directory");
+        fieldNames.put("cliReformatRecursively", "Command for reformat recursively");
         String name = fieldNames.get(field);
         if (name == null) {
             LOG.warn("Unknown field: " + field);

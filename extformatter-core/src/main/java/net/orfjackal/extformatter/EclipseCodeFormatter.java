@@ -17,6 +17,8 @@
 
 package net.orfjackal.extformatter;
 
+import static net.orfjackal.extformatter.util.FileUtil.listOf;
+import static net.orfjackal.extformatter.util.FileUtil.quoted;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -130,25 +132,5 @@ public class EclipseCodeFormatter implements CodeFormatter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @NotNull
-    private static String listOf(@NotNull File... files) throws IOException {
-        if (files.length == 0) {
-            throw new IllegalArgumentException("No files");
-        }
-        String paths = "";
-        for (File file : files) {
-            if (paths.length() > 0) {
-                paths += " ";
-            }
-            paths += quoted(file.getCanonicalPath());
-        }
-        return paths;
-    }
-
-    @NotNull
-    private static String quoted(@NotNull String s) {
-        return '"' + s + '"';
     }
 }

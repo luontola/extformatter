@@ -20,6 +20,8 @@ package net.orfjackal.extformatter.settings;
 import jdave.Block;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
+import net.orfjackal.extformatter.CodeFormatter;
+import net.orfjackal.extformatter.CommandLineCodeFormatter;
 import net.orfjackal.extformatter.EclipseCodeFormatter;
 import net.orfjackal.extformatter.TestResources;
 import org.junit.runner.RunWith;
@@ -93,6 +95,117 @@ public class SettingsManagerSpec extends Specification<Settings> {
 
         public void shouldNotAllowAMissingFileForEclipsePrefs() {
             settings.setEclipsePrefs("nowhere/org.eclipse.jdt.core.prefs");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+    }
+
+    public class WhenCommandLineFormatterIsSelected {
+
+        private Settings settings;
+
+        public Settings create() throws IOException {
+            settings = new Settings();
+            settings.setFormatter(Settings.Formatter.COMMAND_LINE);
+            settings.setCliReformatOne("format %FILE%");
+            settings.setCliReformatOneEnabled(true);
+            settings.setCliReformatMany("format %FILES%");
+            settings.setCliReformatManyEnabled(true);
+            settings.setCliReformatDirectory("format %DIRECTORY%");
+            settings.setCliReformatDirectoryEnabled(true);
+            settings.setCliReformatRecursively("format -R %DIRECTORY%");
+            settings.setCliReformatRecursivelyEnabled(true);
+            settings.setCliSupportedFileTypes("*.java *.xml");
+            return settings;
+        }
+
+        public void shouldCreateACommandLineFormatter() throws IllegalSettingsException {
+            specify(SettingsManager.newFormatter(settings) instanceof CommandLineCodeFormatter);
+        }
+
+        public void formatterShouldSupportTheSpecifiedCommands() throws IllegalSettingsException {
+            CodeFormatter formatter = SettingsManager.newFormatter(settings);
+            assert formatter != null;
+            specify(formatter.supportsReformatOne());
+            specify(formatter.supportsReformatMany());
+            specify(formatter.supportsReformatDirectory());
+            specify(formatter.supportsReformatRecursively());
+        }
+
+        public void formatterShouldNotSupportCommandsWhichWereNotSpecified() throws IllegalSettingsException {
+            settings.setCliReformatManyEnabled(false);
+            settings.setCliReformatDirectoryEnabled(false);
+            settings.setCliReformatRecursivelyEnabled(false);
+            CodeFormatter formatter = SettingsManager.newFormatter(settings);
+            assert formatter != null;
+            specify(formatter.supportsReformatOne(), should.equal(true));
+            specify(formatter.supportsReformatMany(), should.equal(false));
+            specify(formatter.supportsReformatDirectory(), should.equal(false));
+            specify(formatter.supportsReformatRecursively(), should.equal(false));
+
+            // test disabled reformatOne
+            settings.setCliReformatOneEnabled(false);
+            settings.setCliReformatManyEnabled(true);
+            formatter = SettingsManager.newFormatter(settings);
+            assert formatter != null;
+            specify(formatter.supportsReformatOne(), should.equal(false));
+            specify(formatter.supportsReformatMany(), should.equal(true));
+        }
+
+        public void formatterShouldSupportTheSpecifiedFileTypes() throws IllegalSettingsException {
+            CodeFormatter formatter = SettingsManager.newFormatter(settings);
+            assert formatter != null;
+            specify(formatter.supportsFileType(TestResources.JAVA_FILE));
+            specify(formatter.supportsFileType(TestResources.XML_FILE));
+        }
+
+        public void formatterShouldNotSupportOtherFileTypes() throws IllegalSettingsException {
+            CodeFormatter formatter = SettingsManager.newFormatter(settings);
+            assert formatter != null;
+            specify(formatter.supportsFileType(TestResources.TXT_FILE), should.equal(false));
+        }
+
+        public void shouldNotAllowEnablingAnEmptyCommandForReformatOne() {
+            settings.setCliReformatOne("");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
+        public void shouldNotAllowEnablingAnEmptyCommandForReformatMany() {
+            settings.setCliReformatMany("");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
+        public void shouldNotAllowEnablingAnEmptyCommandForReformatDirectory() {
+            settings.setCliReformatDirectory("");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
+        public void shouldNotAllowEnablingAnEmptyCommandForReformatRecursively() {
+            settings.setCliReformatRecursively("");
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
+        public void shouldNotAllowAnEmptyListOfSupportedFiles() {
+            settings.setCliSupportedFileTypes("");
             specify(new Block() {
                 public void run() throws Throwable {
                     SettingsManager.newFormatter(settings);

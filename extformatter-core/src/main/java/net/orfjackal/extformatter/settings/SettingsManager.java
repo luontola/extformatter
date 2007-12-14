@@ -18,7 +18,7 @@
 package net.orfjackal.extformatter.settings;
 
 import net.orfjackal.extformatter.CodeFormatter;
-import net.orfjackal.extformatter.CodeFormatterFactory;
+import net.orfjackal.extformatter.CommandLineCodeFormatterFactory;
 import net.orfjackal.extformatter.EclipseCodeFormatterFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,10 +36,11 @@ public class SettingsManager {
     @Nullable
     public static CodeFormatter newFormatter(@NotNull Settings settings) throws IllegalSettingsException {
         if (settings.getFormatter().equals(Settings.Formatter.ECLIPSE)) {
-            CodeFormatterFactory<?> factory = eclipseFactory(settings);
-            return factory.newFormatter();
+            return eclipseFactory(settings).newFormatter();
         }
-        // TODO: cli formatter
+        if (settings.getFormatter().equals(Settings.Formatter.COMMAND_LINE)) {
+            return commandLineFactory(settings).newFormatter();
+        }
         return null;
     }
 
@@ -57,6 +58,30 @@ public class SettingsManager {
         EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
         factory.setEclipseExecutable(eclipseExecutable);
         factory.setEclipsePrefs(eclipsePrefs);
+        return factory;
+    }
+
+    @NotNull
+    private static CommandLineCodeFormatterFactory commandLineFactory(@NotNull Settings settings) throws IllegalSettingsException {
+        CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
+        if (settings.isCliReformatOneEnabled()) {
+            mustNotBeEmpty(settings.getCliReformatOne(), "cliReformatOne");
+            factory.setOneFileCommand(settings.getCliReformatOne());
+        }
+        if (settings.isCliReformatManyEnabled()) {
+            mustNotBeEmpty(settings.getCliReformatMany(), "cliReformatMany");
+            factory.setManyFilesCommand(settings.getCliReformatMany());
+        }
+        if (settings.isCliReformatDirectoryEnabled()) {
+            mustNotBeEmpty(settings.getCliReformatDirectory(), "cliReformatDirectory");
+            factory.setDirectoryCommand(settings.getCliReformatDirectory());
+        }
+        if (settings.isCliReformatRecursivelyEnabled()) {
+            mustNotBeEmpty(settings.getCliReformatRecursively(), "cliReformatRecursively");
+            factory.setRecursiveCommand(settings.getCliReformatRecursively());
+        }
+        mustNotBeEmpty(settings.getCliSupportedFileTypes(), "cliSupportedFileTypes");
+        factory.setSupportedFileTypes(settings.getCliSupportedFileTypes().split("\\s+"));
         return factory;
     }
 

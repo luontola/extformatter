@@ -25,9 +25,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Settings implements Cloneable {
 
-    private boolean useDefaultFormatter = true;
-    private boolean useEclipseFormatter = true;
-    private boolean useCliFormatter = true;
+    @NotNull private SelectedFormatter selectedFormatter = SelectedFormatter.IDEA_DEFAULT;
 
     @NotNull private String eclipseExecutable = "";
     @NotNull private String eclipsePrefs = "";
@@ -53,28 +51,13 @@ public class Settings implements Cloneable {
 
     // Generated getters and setters
 
-    public boolean isUseDefaultFormatter() {
-        return useDefaultFormatter;
+    @NotNull
+    public SelectedFormatter getSelectedFormatter() {
+        return selectedFormatter;
     }
 
-    public void setUseDefaultFormatter(boolean useDefaultFormatter) {
-        this.useDefaultFormatter = useDefaultFormatter;
-    }
-
-    public boolean isUseEclipseFormatter() {
-        return useEclipseFormatter;
-    }
-
-    public void setUseEclipseFormatter(boolean useEclipseFormatter) {
-        this.useEclipseFormatter = useEclipseFormatter;
-    }
-
-    public boolean isUseCliFormatter() {
-        return useCliFormatter;
-    }
-
-    public void setUseCliFormatter(boolean useCliFormatter) {
-        this.useCliFormatter = useCliFormatter;
+    public void setSelectedFormatter(@NotNull SelectedFormatter selectedFormatter) {
+        this.selectedFormatter = selectedFormatter;
     }
 
     @NotNull

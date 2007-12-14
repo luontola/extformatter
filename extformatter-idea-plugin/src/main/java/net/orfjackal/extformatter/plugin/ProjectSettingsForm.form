@@ -148,7 +148,7 @@
         </constraints>
         <properties>
           <font size="12"/>
-          <text value="Disable for current project"/>
+          <text value="Disabled for current project"/>
         </properties>
       </component>
       <component id="a7c42" class="javax.swing.JRadioButton" binding="useEclipseFormatter">
@@ -157,7 +157,7 @@
         </constraints>
         <properties>
           <font size="12" style="1"/>
-          <text value="Eclipse Code Formatter"/>
+          <text value="Use the Eclipse code formatter"/>
         </properties>
       </component>
       <component id="85dc2" class="javax.swing.JRadioButton" binding="useCliFormatter">
@@ -166,7 +166,7 @@
         </constraints>
         <properties>
           <font size="12" style="1"/>
-          <text value="Command Line Code Formatter"/>
+          <text value="Use a custom code formatter"/>
         </properties>
       </component>
       <hspacer id="d2ae0">

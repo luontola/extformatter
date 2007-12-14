@@ -35,11 +35,12 @@ public class SettingsManager {
 
     @Nullable
     public static CodeFormatter newFormatter(@NotNull Settings settings) throws IllegalSettingsException {
-        if (settings.isUseDefaultFormatter()) {
-            return null;
+        if (settings.getSelectedFormatter().equals(SelectedFormatter.ECLIPSE)) {
+            CodeFormatterFactory<?> factory = eclipseFactory(settings);
+            return factory.newFormatter();
         }
-        CodeFormatterFactory<?> factory = eclipseFactory(settings);
-        return factory.newFormatter();
+        // TODO: cli formatter
+        return null;
     }
 
     @NotNull

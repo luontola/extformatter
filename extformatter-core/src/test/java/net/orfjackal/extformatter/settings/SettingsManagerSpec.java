@@ -168,6 +168,18 @@ public class SettingsManagerSpec extends Specification<Settings> {
             specify(formatter.supportsFileType(TestResources.TXT_FILE), should.equal(false));
         }
 
+        public void shouldRequireAtLeastOneOfTheCommandsToBeEnabled() {
+            settings.setCliReformatOneEnabled(false);
+            settings.setCliReformatManyEnabled(false);
+            settings.setCliReformatDirectoryEnabled(false);
+            settings.setCliReformatRecursivelyEnabled(false);
+            specify(new Block() {
+                public void run() throws Throwable {
+                    SettingsManager.newFormatter(settings);
+                }
+            }, should.raise(IllegalSettingsException.class));
+        }
+
         public void shouldNotAllowEnablingAnEmptyCommandForReformatOne() {
             settings.setCliReformatOne("");
             specify(new Block() {

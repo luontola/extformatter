@@ -65,6 +65,12 @@ public class SettingsManager {
     @NotNull
     private static CommandLineCodeFormatterFactory commandLineFactory(@NotNull Settings settings) throws IllegalSettingsException {
         CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
+        if (!settings.isCliReformatOneEnabled()
+                && !settings.isCliReformatManyEnabled()
+                && !settings.isCliReformatDirectoryEnabled()
+                && !settings.isCliReformatRecursivelyEnabled()) {
+            throw new IllegalSettingsException("cliReformatOneEnabled", "At least one the commands must be enabled");
+        }
         if (settings.isCliReformatOneEnabled()) {
             String s = settings.getCliReformatOne();
             mustNotBeEmpty(s, "cliReformatOne");

@@ -25,9 +25,22 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Settings implements Cloneable {
 
-    private boolean pluginEnabled = false;
+    private boolean useDefaultFormatter = true;
+    private boolean useEclipseFormatter = true;
+    private boolean useCliFormatter = true;
+
     @NotNull private String eclipseExecutable = "";
     @NotNull private String eclipsePrefs = "";
+
+    private boolean cliReformatOneEnabled = false;
+    private boolean cliReformatManyEnabled = false;
+    private boolean cliReformatDirectoryEnabled = false;
+    private boolean cliReformatRecursivelyEnabled = false;
+    @NotNull private String cliSupportedFileTypes = "*.*";
+    @NotNull private String cliReformatOne = "";
+    @NotNull private String cliReformatMany = "";
+    @NotNull private String cliReformatDirectory = "";
+    @NotNull private String cliReformatRecursively = "";
 
     @NotNull
     public final Settings clone() {
@@ -40,12 +53,28 @@ public class Settings implements Cloneable {
 
     // Generated getters and setters
 
-    public boolean isPluginEnabled() {
-        return pluginEnabled;
+    public boolean isUseDefaultFormatter() {
+        return useDefaultFormatter;
     }
 
-    public void setPluginEnabled(boolean pluginEnabled) {
-        this.pluginEnabled = pluginEnabled;
+    public void setUseDefaultFormatter(boolean useDefaultFormatter) {
+        this.useDefaultFormatter = useDefaultFormatter;
+    }
+
+    public boolean isUseEclipseFormatter() {
+        return useEclipseFormatter;
+    }
+
+    public void setUseEclipseFormatter(boolean useEclipseFormatter) {
+        this.useEclipseFormatter = useEclipseFormatter;
+    }
+
+    public boolean isUseCliFormatter() {
+        return useCliFormatter;
+    }
+
+    public void setUseCliFormatter(boolean useCliFormatter) {
+        this.useCliFormatter = useCliFormatter;
     }
 
     @NotNull
@@ -64,5 +93,82 @@ public class Settings implements Cloneable {
 
     public void setEclipsePrefs(@NotNull String eclipsePrefs) {
         this.eclipsePrefs = eclipsePrefs;
+    }
+
+    public boolean isCliReformatOneEnabled() {
+        return cliReformatOneEnabled;
+    }
+
+    public void setCliReformatOneEnabled(boolean cliReformatOneEnabled) {
+        this.cliReformatOneEnabled = cliReformatOneEnabled;
+    }
+
+    public boolean isCliReformatManyEnabled() {
+        return cliReformatManyEnabled;
+    }
+
+    public void setCliReformatManyEnabled(boolean cliReformatManyEnabled) {
+        this.cliReformatManyEnabled = cliReformatManyEnabled;
+    }
+
+    public boolean isCliReformatDirectoryEnabled() {
+        return cliReformatDirectoryEnabled;
+    }
+
+    public void setCliReformatDirectoryEnabled(boolean cliReformatDirectoryEnabled) {
+        this.cliReformatDirectoryEnabled = cliReformatDirectoryEnabled;
+    }
+
+    public boolean isCliReformatRecursivelyEnabled() {
+        return cliReformatRecursivelyEnabled;
+    }
+
+    public void setCliReformatRecursivelyEnabled(boolean cliReformatRecursivelyEnabled) {
+        this.cliReformatRecursivelyEnabled = cliReformatRecursivelyEnabled;
+    }
+
+    @NotNull
+    public String getCliSupportedFileTypes() {
+        return cliSupportedFileTypes;
+    }
+
+    public void setCliSupportedFileTypes(@NotNull String cliSupportedFileTypes) {
+        this.cliSupportedFileTypes = cliSupportedFileTypes;
+    }
+
+    @NotNull
+    public String getCliReformatOne() {
+        return cliReformatOne;
+    }
+
+    public void setCliReformatOne(@NotNull String cliReformatOne) {
+        this.cliReformatOne = cliReformatOne;
+    }
+
+    @NotNull
+    public String getCliReformatMany() {
+        return cliReformatMany;
+    }
+
+    public void setCliReformatMany(@NotNull String cliReformatMany) {
+        this.cliReformatMany = cliReformatMany;
+    }
+
+    @NotNull
+    public String getCliReformatDirectory() {
+        return cliReformatDirectory;
+    }
+
+    public void setCliReformatDirectory(@NotNull String cliReformatDirectory) {
+        this.cliReformatDirectory = cliReformatDirectory;
+    }
+
+    @NotNull
+    public String getCliReformatRecursively() {
+        return cliReformatRecursively;
+    }
+
+    public void setCliReformatRecursively(@NotNull String cliReformatRecursively) {
+        this.cliReformatRecursively = cliReformatRecursively;
     }
 }

@@ -45,38 +45,71 @@ public class ProjectSettingsForm {
     private static final Color WARNING = new Color(255, 255, 204);
     private static final Color ERROR = new Color(255, 204, 204);
 
-    private JCheckBox pluginEnabled;
-    private JTextField eclipseExecutable;
-    private JTextField eclipsePrefs;
-    private JTextField eclipseSupportedFileTypes;
-
     private JPanel rootComponent;
-    private JLabel titleLabel;
-    private JButton eclipseExecutableBrowse;
-    private JButton eclipsePrefsBrowse;
-    private JLabel eclipseExecutableLabel;
-    private JLabel eclipsePrefsLabel;
-    private JLabel eclipseSupportedFileTypesLabel;
+
+    private JRadioButton useDefaultFormatter;
+    private JRadioButton useEclipseFormatter;
+    private JRadioButton useCliFormatter;
+
+    private JTextField  eclipseSupportedFileTypes;
+    private JLabel      eclipseSupportedFileTypesLabel;
+    private JTextField  eclipseExecutable;
+    private JButton     eclipseExecutableBrowse;
+    private JLabel      eclipseExecutableLabel;
+    private JTextField  eclipsePrefs;
+    private JButton     eclipsePrefsBrowse;
+    private JLabel      eclipsePrefsLabel;
+
+    private JTextField  cliSupportedFileTypes;
+    private JLabel      cliSupportedFileTypesLabel;
+    private JTextField  cliReformatOne;
+    private JCheckBox   cliReformatOneEnabled;
+    private JTextField  cliReformatMany;
+    private JCheckBox   cliReformatManyEnabled;
+    private JTextField  cliReformatDirectory;
+    private JCheckBox   cliReformatDirectoryEnabled;
+    private JTextField  cliReformatRecursively;
+    private JCheckBox   cliReformatRecursivelyEnabled;
 
     private final List<Popup> visiblePopups = new ArrayList<Popup>();
     @Nullable private File lastDirectory;
 
     public ProjectSettingsForm() {
-        pluginEnabled.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                updateComponents();
-            }
-        });
-        eclipseExecutable.getDocument().addDocumentListener(new DocumentAdapter() {
-            protected void textChanged(DocumentEvent e) {
-                updateComponents();
-            }
-        });
-        eclipsePrefs.getDocument().addDocumentListener(new DocumentAdapter() {
-            protected void textChanged(DocumentEvent e) {
-                updateComponents();
-            }
-        });
+        JToggleButton[] modifyableButtons = new JToggleButton[]{
+                useDefaultFormatter,
+                useEclipseFormatter,
+                useCliFormatter,
+                cliReformatOneEnabled,
+                cliReformatManyEnabled,
+                cliReformatDirectoryEnabled,
+                cliReformatRecursivelyEnabled,
+        };
+        for (JToggleButton button : modifyableButtons) {
+            button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    updateComponents();
+                }
+            });
+        }
+
+        JTextField[] modifyableFields = new JTextField[]{
+                eclipseExecutable,
+                eclipsePrefs,
+                cliSupportedFileTypes,
+                cliReformatOne,
+                cliReformatMany,
+                cliReformatDirectory,
+                cliReformatRecursively,
+        };
+        for (JTextField field : modifyableFields) {
+            field.getDocument().addDocumentListener(new DocumentAdapter() {
+                protected void textChanged(DocumentEvent e) {
+                    updateComponents();
+                }
+            });
+        }
+
+        eclipseSupportedFileTypes.setText(EclipseCodeFormatter.SUPPORTED_FILE_TYPES);
         eclipseExecutableBrowse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 browseForFile(eclipseExecutable);
@@ -87,7 +120,6 @@ public class ProjectSettingsForm {
                 browseForFile(eclipsePrefs);
             }
         });
-        eclipseSupportedFileTypes.setText(EclipseCodeFormatter.SUPPORTED_FILE_TYPES);
         updateComponents();
     }
 
@@ -114,8 +146,7 @@ public class ProjectSettingsForm {
 
     private void updateComponents() {
         hidePopups();
-        JComponent[] affectedByPluginEnabled = new JComponent[]{
-                titleLabel,
+        JComponent[] eclipseComponents = new JComponent[]{
                 eclipseSupportedFileTypesLabel,
                 eclipseExecutable,
                 eclipseExecutableBrowse,
@@ -124,14 +155,45 @@ public class ProjectSettingsForm {
                 eclipsePrefsBrowse,
                 eclipsePrefsLabel,
         };
-        for (JComponent component : affectedByPluginEnabled) {
-            component.setEnabled(pluginEnabled.isSelected());
+        for (JComponent component : eclipseComponents) {
+            component.setEnabled(useEclipseFormatter.isSelected());
         }
         if (notEmpty(eclipseExecutable) && fileExists(eclipseExecutable)) {
             ok(eclipseExecutable);
         }
         if (notEmpty(eclipsePrefs) && fileExists(eclipsePrefs)) {
             ok(eclipsePrefs);
+        }
+
+        JComponent[] cliComponents = new JComponent[]{
+                cliSupportedFileTypes,
+                cliSupportedFileTypesLabel,
+                cliReformatOne,
+                cliReformatOneEnabled,
+                cliReformatMany,
+                cliReformatManyEnabled,
+                cliReformatDirectory,
+                cliReformatDirectoryEnabled,
+                cliReformatRecursively,
+                cliReformatRecursivelyEnabled,
+        };
+        for (JComponent component : cliComponents) {
+            component.setEnabled(useCliFormatter.isSelected());
+        }
+        if (notEmpty(cliSupportedFileTypes)) {
+            ok(cliSupportedFileTypes);
+        }
+        if (notEmpty(cliReformatOne)) {
+            ok(cliReformatOne);
+        }
+        if (notEmpty(cliReformatMany)) {
+            ok(cliReformatMany);
+        }
+        if (notEmpty(cliReformatDirectory)) {
+            ok(cliReformatDirectory);
+        }
+        if (notEmpty(cliReformatRecursively)) {
+            ok(cliReformatRecursively);
         }
     }
 
@@ -188,27 +250,89 @@ public class ProjectSettingsForm {
     }
 
     public void importFrom(@NotNull Settings in) {
+        useDefaultFormatter.setSelected(in.isUseDefaultFormatter());
+        useEclipseFormatter.setSelected(in.isUseEclipseFormatter());
+        useCliFormatter.setSelected(in.isUseCliFormatter());
+
         eclipseExecutable.setText(in.getEclipseExecutable());
         eclipsePrefs.setText(in.getEclipsePrefs());
-        pluginEnabled.setSelected(in.isPluginEnabled());
+
+        cliSupportedFileTypes.setText(in.getCliSupportedFileTypes());
+        cliReformatOne.setText(in.getCliReformatOne());
+        cliReformatOneEnabled.setSelected(in.isCliReformatOneEnabled());
+        cliReformatMany.setText(in.getCliReformatMany());
+        cliReformatManyEnabled.setSelected(in.isCliReformatManyEnabled());
+        cliReformatDirectory.setText(in.getCliReformatDirectory());
+        cliReformatDirectoryEnabled.setSelected(in.isCliReformatDirectoryEnabled());
+        cliReformatRecursively.setText(in.getCliReformatRecursively());
+        cliReformatRecursivelyEnabled.setSelected(in.isCliReformatRecursivelyEnabled());
+
         updateComponents();
     }
 
     public void exportTo(@NotNull Settings out) {
+        out.setUseDefaultFormatter(useDefaultFormatter.isSelected());
+        out.setUseCliFormatter(useEclipseFormatter.isSelected());
+        out.setUseCliFormatter(useCliFormatter.isSelected());
+
         out.setEclipseExecutable(eclipseExecutable.getText());
         out.setEclipsePrefs(eclipsePrefs.getText());
-        out.setPluginEnabled(pluginEnabled.isSelected());
+
+        out.setCliSupportedFileTypes(cliSupportedFileTypes.getText());
+        out.setCliReformatOne(cliReformatOne.getText());
+        out.setCliReformatOneEnabled(cliReformatOneEnabled.isSelected());
+        out.setCliReformatMany(cliReformatMany.getText());
+        out.setCliReformatManyEnabled(cliReformatManyEnabled.isSelected());
+        out.setCliReformatDirectory(cliReformatDirectory.getText());
+        out.setCliReformatDirectoryEnabled(cliReformatDirectoryEnabled.isSelected());
+        out.setCliReformatRecursively(cliReformatRecursively.getText());
+        out.setCliReformatRecursivelyEnabled(cliReformatRecursivelyEnabled.isSelected());
     }
 
-    @SuppressWarnings({"ConstantConditions", "RedundantIfStatement"})
-    public boolean isModified(@NotNull Settings previous) {
-        if (eclipseExecutable.getText() != null ? !eclipseExecutable.getText().equals(previous.getEclipseExecutable()) : previous.getEclipseExecutable() != null) {
+    @SuppressWarnings({"RedundantIfStatement", "ConstantConditions"})
+    public boolean isModified(Settings data) {
+        if (useDefaultFormatter.isSelected() != data.isUseDefaultFormatter()) {
             return true;
         }
-        if (eclipsePrefs.getText() != null ? !eclipsePrefs.getText().equals(previous.getEclipsePrefs()) : previous.getEclipsePrefs() != null) {
+        if (useEclipseFormatter.isSelected() != data.isUseEclipseFormatter()) {
             return true;
         }
-        if (pluginEnabled.isSelected() != previous.isPluginEnabled()) {
+        if (useCliFormatter.isSelected() != data.isUseCliFormatter()) {
+            return true;
+        }
+
+        if (eclipseExecutable.getText() != null ? !eclipseExecutable.getText().equals(data.getEclipseExecutable()) : data.getEclipseExecutable() != null) {
+            return true;
+        }
+        if (eclipsePrefs.getText() != null ? !eclipsePrefs.getText().equals(data.getEclipsePrefs()) : data.getEclipsePrefs() != null) {
+            return true;
+        }
+
+        if (cliSupportedFileTypes.getText() != null ? !cliSupportedFileTypes.getText().equals(data.getCliSupportedFileTypes()) : data.getCliSupportedFileTypes() != null) {
+            return true;
+        }
+        if (cliReformatOne.getText() != null ? !cliReformatOne.getText().equals(data.getCliReformatOne()) : data.getCliReformatOne() != null) {
+            return true;
+        }
+        if (cliReformatOneEnabled.isSelected() != data.isCliReformatOneEnabled()) {
+            return true;
+        }
+        if (cliReformatMany.getText() != null ? !cliReformatMany.getText().equals(data.getCliReformatMany()) : data.getCliReformatMany() != null) {
+            return true;
+        }
+        if (cliReformatManyEnabled.isSelected() != data.isCliReformatManyEnabled()) {
+            return true;
+        }
+        if (cliReformatDirectory.getText() != null ? !cliReformatDirectory.getText().equals(data.getCliReformatDirectory()) : data.getCliReformatDirectory() != null) {
+            return true;
+        }
+        if (cliReformatDirectoryEnabled.isSelected() != data.isCliReformatDirectoryEnabled()) {
+            return true;
+        }
+        if (cliReformatRecursively.getText() != null ? !cliReformatRecursively.getText().equals(data.getCliReformatRecursively()) : data.getCliReformatRecursively() != null) {
+            return true;
+        }
+        if (cliReformatRecursivelyEnabled.isSelected() != data.isCliReformatRecursivelyEnabled()) {
             return true;
         }
         return false;

@@ -20,6 +20,9 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +34,7 @@ import java.util.regex.Pattern;
  */
 public class SupportedFileTypes {
 
-    @NotNull private final Pattern[] patterns;
+    @NotNull private final List<Pattern> patterns;
 
     public SupportedFileTypes(@NotNull String... fileMasks) {
         this.patterns = toRegex(fileMasks);
@@ -47,12 +50,15 @@ public class SupportedFileTypes {
     }
 
     @NotNull
-    private static Pattern[] toRegex(@NotNull String[] fileMasks) {
-        Pattern[] patterns = new Pattern[fileMasks.length];
-        for (int i = 0; i < fileMasks.length; i++) {
-            patterns[i] = toRegex(fileMasks[i]);
+    private static List<Pattern> toRegex(@NotNull String[] fileMasks) {
+        List<Pattern> patterns = new ArrayList<Pattern>();
+        for (String fileMask : fileMasks) {
+            fileMask = fileMask.trim();
+            if (fileMask.length() > 0) {
+                patterns.add(toRegex(fileMask));
+            }
         }
-        return patterns;
+        return Collections.unmodifiableList(patterns);
     }
 
     @NotNull

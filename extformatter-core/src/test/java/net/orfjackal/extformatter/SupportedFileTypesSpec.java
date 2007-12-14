@@ -22,6 +22,8 @@ import jdave.junit4.JDaveRunner;
 import static net.orfjackal.extformatter.TestResources.*;
 import org.junit.runner.RunWith;
 
+import java.io.File;
+
 /**
  * @author Esko Luontola
  * @since 7.12.2007
@@ -93,6 +95,18 @@ public class SupportedFileTypesSpec extends Specification<SupportedFileTypes> {
             specify(should.not().be.matches(JAVA_FILE));
             specify(should.not().be.matches(XML_FILE));
             specify(should.not().be.matches(TXT_FILE));
+        }
+    }
+
+    public class WhiteSpaceHandling {
+
+       public SupportedFileTypes create() {
+            return new SupportedFileTypes("", " ");
+        }
+
+        public void shouldNotAllowEmptyStrings() {
+            specify(should.not().be.matches(new File("")));
+            specify(should.not().be.matches(new File(" ")));
         }
     }
 }

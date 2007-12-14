@@ -39,7 +39,7 @@ public class SettingsManagerSpec extends Specification<Settings> {
 
         public Settings create() {
             settings = new Settings();
-            settings.setPluginEnabled(false);
+            settings.setUseDefaultFormatter(true);
             return settings;
         }
 
@@ -54,7 +54,7 @@ public class SettingsManagerSpec extends Specification<Settings> {
 
         public Settings create() throws IOException {
             settings = new Settings();
-            settings.setPluginEnabled(true);
+            settings.setUseDefaultFormatter(false);
             settings.setEclipseExecutable(TestResources.ECLIPSE_EXE_FILE.getPath());
             settings.setEclipsePrefs(TestResources.ECLIPSE_PREFS_FILE.getPath());
             return settings;

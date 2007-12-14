@@ -35,7 +35,7 @@ public class SettingsManager {
 
     @Nullable
     public static CodeFormatter newFormatter(@NotNull Settings settings) throws IllegalSettingsException {
-        if (!settings.isPluginEnabled()) {
+        if (settings.isUseDefaultFormatter()) {
             return null;
         }
         CodeFormatterFactory<?> factory = eclipseFactory(settings);

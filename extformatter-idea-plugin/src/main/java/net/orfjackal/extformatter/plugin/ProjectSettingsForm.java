@@ -59,20 +59,27 @@ public class ProjectSettingsForm {
     private JTextField  eclipseExecutable;
     private JButton     eclipseExecutableBrowse;
     private JLabel      eclipseExecutableLabel;
+    private JTextPane   eclipseExecutableExample;
     private JTextField  eclipsePrefs;
     private JButton     eclipsePrefsBrowse;
     private JLabel      eclipsePrefsLabel;
+    private JTextPane   eclipsePrefsExample;
 
     private JTextField  cliSupportedFileTypes;
     private JLabel      cliSupportedFileTypesLabel;
+    private JTextPane   cliSupportedFileTypesExample;
     private JTextField  cliReformatOne;
     private JCheckBox   cliReformatOneEnabled;
+    private JTextPane   cliReformatOneExample;
     private JTextField  cliReformatMany;
     private JCheckBox   cliReformatManyEnabled;
+    private JTextPane   cliReformatManyExample;
     private JTextField  cliReformatDirectory;
     private JCheckBox   cliReformatDirectoryEnabled;
+    private JTextPane   cliReformatDirectoryExample;
     private JTextField  cliReformatRecursively;
     private JCheckBox   cliReformatRecursivelyEnabled;
+    private JTextPane   cliReformatRecursivelyExample;
 
     private final List<Popup> visiblePopups = new ArrayList<Popup>();
     @Nullable private File lastDirectory;
@@ -168,9 +175,11 @@ public class ProjectSettingsForm {
                 eclipseExecutable,
                 eclipseExecutableBrowse,
                 eclipseExecutableLabel,
+                eclipseExecutableExample,
                 eclipsePrefs,
                 eclipsePrefsBrowse,
                 eclipsePrefsLabel,
+                eclipsePrefsExample,
         };
         for (JComponent component : eclipseComponents) {
             enabledBy(useEclipseFormatter, component);
@@ -185,22 +194,31 @@ public class ProjectSettingsForm {
         JComponent[] cliComponents = new JComponent[]{
                 cliSupportedFileTypes,
                 cliSupportedFileTypesLabel,
+                cliSupportedFileTypesExample,
                 cliReformatOne,
                 cliReformatOneEnabled,
+                cliReformatOneExample,
                 cliReformatMany,
                 cliReformatManyEnabled,
+                cliReformatManyExample,
                 cliReformatDirectory,
                 cliReformatDirectoryEnabled,
+                cliReformatDirectoryExample,
                 cliReformatRecursively,
                 cliReformatRecursivelyEnabled,
+                cliReformatRecursivelyExample,
         };
         for (JComponent component : cliComponents) {
             enabledBy(useCliFormatter, component);
         }
         enabledBy(cliReformatOneEnabled, cliReformatOne);
+        enabledBy(cliReformatOneEnabled, cliReformatOneExample);
         enabledBy(cliReformatManyEnabled, cliReformatMany);
+        enabledBy(cliReformatManyEnabled, cliReformatManyExample);
         enabledBy(cliReformatDirectoryEnabled, cliReformatDirectory);
+        enabledBy(cliReformatDirectoryEnabled, cliReformatDirectoryExample);
         enabledBy(cliReformatRecursivelyEnabled, cliReformatRecursively);
+        enabledBy(cliReformatRecursivelyEnabled, cliReformatRecursivelyExample);
         if (useCliFormatter.isSelected()) {
             atLeastOneSelected(
                     cliReformatOneEnabled,

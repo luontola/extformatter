@@ -176,9 +176,9 @@
           </grid>
         </constraints>
       </hspacer>
-      <component id="443bc" class="javax.swing.JTextPane" default-binding="true">
+      <component id="443bc" class="javax.swing.JTextPane" binding="eclipsePrefsExample">
         <constraints>
-          <grid row="7" column="2" row-span="1" col-span="2" vsize-policy="2" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="7" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background swing-color="Label.background"/>
@@ -187,9 +187,9 @@
           <text value="Example: C:\workspace\yourProject\.settings\org.eclipse.jdt.core.prefs&#10;Notice: See 'Help' for instructions on how to enable project specific formatter settings in Eclipse."/>
         </properties>
       </component>
-      <component id="cef82" class="javax.swing.JTextPane" default-binding="true">
+      <component id="cef82" class="javax.swing.JTextPane" binding="eclipseExecutableExample">
         <constraints>
-          <grid row="5" column="2" row-span="1" col-span="2" vsize-policy="2" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background swing-color="Label.background"/>
@@ -233,9 +233,9 @@
           <text value="Command for reformat many files"/>
         </properties>
       </component>
-      <component id="3f0a6" class="javax.swing.JTextPane" default-binding="true">
+      <component id="3f0a6" class="javax.swing.JTextPane" binding="cliSupportedFileTypesExample">
         <constraints>
-          <grid row="11" column="2" row-span="1" col-span="2" vsize-policy="2" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="11" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background swing-color="Label.background"/>
@@ -244,9 +244,9 @@
           <text value="Example: *.java *.html"/>
         </properties>
       </component>
-      <component id="c204c" class="javax.swing.JTextPane" default-binding="true">
+      <component id="c204c" class="javax.swing.JTextPane" binding="cliReformatOneExample">
         <constraints>
-          <grid row="13" column="2" row-span="1" col-span="2" vsize-policy="2" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="13" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background swing-color="Label.background"/>
@@ -255,9 +255,9 @@
           <text value="Example: C:\formatter\formatter.exe %FILE% "/>
         </properties>
       </component>
-      <component id="a7c5" class="javax.swing.JTextPane" default-binding="true">
+      <component id="a7c5" class="javax.swing.JTextPane" binding="cliReformatManyExample">
         <constraints>
-          <grid row="15" column="2" row-span="1" col-span="2" vsize-policy="2" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="15" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background swing-color="Label.background"/>
@@ -266,9 +266,9 @@
           <text value="Example: C:\formatter\formatter.exe %FILES%"/>
         </properties>
       </component>
-      <component id="c9495" class="javax.swing.JTextPane" default-binding="true">
+      <component id="c9495" class="javax.swing.JTextPane" binding="cliReformatDirectoryExample">
         <constraints>
-          <grid row="17" column="2" row-span="1" col-span="2" vsize-policy="2" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="17" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background swing-color="Label.background"/>
@@ -277,9 +277,9 @@
           <text value="Example: C:\formatter\formatter.exe %DIRECTORY%"/>
         </properties>
       </component>
-      <component id="8edee" class="javax.swing.JTextPane" default-binding="true">
+      <component id="8edee" class="javax.swing.JTextPane" binding="cliReformatRecursivelyExample">
         <constraints>
-          <grid row="19" column="2" row-span="1" col-span="2" vsize-policy="2" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="19" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background swing-color="Label.background"/>

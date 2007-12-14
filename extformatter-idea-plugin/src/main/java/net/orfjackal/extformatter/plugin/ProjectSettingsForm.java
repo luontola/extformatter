@@ -19,7 +19,6 @@ package net.orfjackal.extformatter.plugin;
 
 import com.intellij.ui.DocumentAdapter;
 import net.orfjackal.extformatter.EclipseCodeFormatter;
-import net.orfjackal.extformatter.settings.SelectedFormatter;
 import net.orfjackal.extformatter.settings.Settings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -251,9 +250,9 @@ public class ProjectSettingsForm {
     }
 
     public void importFrom(@NotNull Settings in) {
-        useDefaultFormatter.setSelected(in.getSelectedFormatter().equals(SelectedFormatter.IDEA_DEFAULT));
-        useEclipseFormatter.setSelected(in.getSelectedFormatter().equals(SelectedFormatter.ECLIPSE));
-        useCliFormatter.setSelected(in.getSelectedFormatter().equals(SelectedFormatter.COMMAND_LINE));
+        useDefaultFormatter.setSelected(in.getFormatter().equals(Settings.Formatter.IDEA_DEFAULT));
+        useEclipseFormatter.setSelected(in.getFormatter().equals(Settings.Formatter.ECLIPSE));
+        useCliFormatter.setSelected(in.getFormatter().equals(Settings.Formatter.COMMAND_LINE));
 
         eclipseExecutable.setText(in.getEclipseExecutable());
         eclipsePrefs.setText(in.getEclipsePrefs());
@@ -273,11 +272,11 @@ public class ProjectSettingsForm {
 
     public void exportTo(@NotNull Settings out) {
         if (useEclipseFormatter.isSelected()) {
-            out.setSelectedFormatter(SelectedFormatter.ECLIPSE);
+            out.setFormatter(Settings.Formatter.ECLIPSE);
         } else if (useCliFormatter.isSelected()) {
-            out.setSelectedFormatter(SelectedFormatter.COMMAND_LINE);
+            out.setFormatter(Settings.Formatter.COMMAND_LINE);
         } else {
-            out.setSelectedFormatter(SelectedFormatter.IDEA_DEFAULT);
+            out.setFormatter(Settings.Formatter.IDEA_DEFAULT);
         }
 
         out.setEclipseExecutable(eclipseExecutable.getText());
@@ -296,13 +295,13 @@ public class ProjectSettingsForm {
 
     @SuppressWarnings({"RedundantIfStatement", "ConstantConditions"})
     public boolean isModified(Settings data) {
-        if (useDefaultFormatter.isSelected() != data.getSelectedFormatter().equals(SelectedFormatter.IDEA_DEFAULT)) {
+        if (useDefaultFormatter.isSelected() != data.getFormatter().equals(Settings.Formatter.IDEA_DEFAULT)) {
             return true;
         }
-        if (useEclipseFormatter.isSelected() != data.getSelectedFormatter().equals(SelectedFormatter.ECLIPSE)) {
+        if (useEclipseFormatter.isSelected() != data.getFormatter().equals(Settings.Formatter.ECLIPSE)) {
             return true;
         }
-        if (useCliFormatter.isSelected() != data.getSelectedFormatter().equals(SelectedFormatter.COMMAND_LINE)) {
+        if (useCliFormatter.isSelected() != data.getFormatter().equals(Settings.Formatter.COMMAND_LINE)) {
             return true;
         }
 

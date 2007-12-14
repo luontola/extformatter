@@ -25,7 +25,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Settings implements Cloneable {
 
-    @NotNull private SelectedFormatter selectedFormatter = SelectedFormatter.IDEA_DEFAULT;
+    public static enum Formatter {
+        IDEA_DEFAULT, ECLIPSE, COMMAND_LINE
+    }
+
+    @NotNull private Formatter formatter = Formatter.IDEA_DEFAULT;
 
     @NotNull private String eclipseExecutable = "";
     @NotNull private String eclipsePrefs = "";
@@ -52,12 +56,12 @@ public class Settings implements Cloneable {
     // Generated getters and setters
 
     @NotNull
-    public SelectedFormatter getSelectedFormatter() {
-        return selectedFormatter;
+    public Formatter getFormatter() {
+        return formatter;
     }
 
-    public void setSelectedFormatter(@NotNull SelectedFormatter selectedFormatter) {
-        this.selectedFormatter = selectedFormatter;
+    public void setFormatter(@NotNull Formatter formatter) {
+        this.formatter = formatter;
     }
 
     @NotNull

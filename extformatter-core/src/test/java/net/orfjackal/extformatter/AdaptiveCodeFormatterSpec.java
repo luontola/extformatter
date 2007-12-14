@@ -34,6 +34,7 @@ import java.io.File;
 public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatter> {
     
     // TODO: improve the readability of the tests
+    // TODO: AdaptiveCodeFormatter is right now not used anywhere - it's mainly replaced by OptimizingReformatQueue
 
     public class WhenFormatterSupportsReformatOne {
 

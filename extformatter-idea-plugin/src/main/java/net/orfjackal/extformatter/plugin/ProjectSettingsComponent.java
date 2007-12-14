@@ -94,7 +94,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
 
     @NotNull
     private static String nameOf(@NotNull String field) {
-        // TODO: put names and other texts to a resource bundle
+        // TODO: localize, put names and other texts to a resource bundle
         Map<String, String> fieldNames = new HashMap<String, String>();
         fieldNames.put("eclipseExecutable", "Eclipse executable");
         fieldNames.put("eclipsePrefs", "Eclipse preferences");

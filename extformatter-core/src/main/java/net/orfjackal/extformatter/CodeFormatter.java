@@ -29,8 +29,6 @@ import java.io.File;
  */
 public interface CodeFormatter {
 
-    // TODO: too long method names, make shorter
-
     boolean supportsFileType(@NotNull File file);
 
     boolean supportsReformatOne();

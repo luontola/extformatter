@@ -18,7 +18,7 @@
 package net.orfjackal.extformatter.settings;
 
 import net.orfjackal.extformatter.CodeFormatter;
-import net.orfjackal.extformatter.CommandLineCodeFormatter;
+import static net.orfjackal.extformatter.CommandLineCodeFormatter.*;
 import net.orfjackal.extformatter.CommandLineCodeFormatterFactory;
 import net.orfjackal.extformatter.EclipseCodeFormatterFactory;
 import org.jetbrains.annotations.NotNull;
@@ -66,31 +66,32 @@ public class SettingsManager {
     private static CommandLineCodeFormatterFactory commandLineFactory(@NotNull Settings settings) throws IllegalSettingsException {
         CommandLineCodeFormatterFactory factory = new CommandLineCodeFormatterFactory();
         if (settings.isCliReformatOneEnabled()) {
-            mustNotBeEmpty(settings.getCliReformatOne(), "cliReformatOne");
-            mustContain(CommandLineCodeFormatter.FILE_TAG,
-                    settings.getCliReformatOne(), "cliReformatOne");
-            factory.setOneFileCommand(settings.getCliReformatOne());
+            String s = settings.getCliReformatOne();
+            mustNotBeEmpty(s, "cliReformatOne");
+            mustContain(FILE_TAG, s, "cliReformatOne");
+            factory.setOneFileCommand(s);
         }
         if (settings.isCliReformatManyEnabled()) {
-            mustNotBeEmpty(settings.getCliReformatMany(), "cliReformatMany");
-            mustContain(CommandLineCodeFormatter.FILES_TAG,
-                    settings.getCliReformatMany(), "cliReformatMany");
-            factory.setManyFilesCommand(settings.getCliReformatMany());
+            String s = settings.getCliReformatMany();
+            mustNotBeEmpty(s, "cliReformatMany");
+            mustContain(FILES_TAG, s, "cliReformatMany");
+            factory.setManyFilesCommand(s);
         }
         if (settings.isCliReformatDirectoryEnabled()) {
-            mustNotBeEmpty(settings.getCliReformatDirectory(), "cliReformatDirectory");
-            mustContain(CommandLineCodeFormatter.DIRECTORY_TAG,
-                    settings.getCliReformatDirectory(), "cliReformatDirectory");
-            factory.setDirectoryCommand(settings.getCliReformatDirectory());
+            String s = settings.getCliReformatDirectory();
+            mustNotBeEmpty(s, "cliReformatDirectory");
+            mustContain(DIRECTORY_TAG, s, "cliReformatDirectory");
+            factory.setDirectoryCommand(s);
         }
         if (settings.isCliReformatRecursivelyEnabled()) {
-            mustNotBeEmpty(settings.getCliReformatRecursively(), "cliReformatRecursively");
-            mustContain(CommandLineCodeFormatter.DIRECTORY_TAG,
-                    settings.getCliReformatRecursively(), "cliReformatRecursively");
-            factory.setRecursiveCommand(settings.getCliReformatRecursively());
+            String s = settings.getCliReformatRecursively();
+            mustNotBeEmpty(s, "cliReformatRecursively");
+            mustContain(DIRECTORY_TAG, s, "cliReformatRecursively");
+            factory.setRecursiveCommand(s);
         }
-        mustNotBeEmpty(settings.getCliSupportedFileTypes(), "cliSupportedFileTypes");
-        factory.setSupportedFileTypes(settings.getCliSupportedFileTypes().split("\\s+"));
+        String s = settings.getCliSupportedFileTypes();
+        mustNotBeEmpty(s, "cliSupportedFileTypes");
+        factory.setSupportedFileTypes(s.split("\\s+"));
         return factory;
     }
 

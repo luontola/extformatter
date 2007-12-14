@@ -18,6 +18,7 @@
 package net.orfjackal.extformatter.plugin;
 
 import com.intellij.ui.DocumentAdapter;
+import static net.orfjackal.extformatter.CommandLineCodeFormatter.*;
 import net.orfjackal.extformatter.EclipseCodeFormatter;
 import net.orfjackal.extformatter.settings.Settings;
 import org.jetbrains.annotations.NotNull;
@@ -122,7 +123,7 @@ public class ProjectSettingsForm {
                 browseForFile(eclipsePrefs);
             }
         });
-        
+
         rootComponent.addAncestorListener(new AncestorListener() {
             public void ancestorAdded(AncestorEvent event) {
                 // Called when component becomes visible, to ensure that the popups
@@ -210,16 +211,16 @@ public class ProjectSettingsForm {
         if (notEmpty(cliSupportedFileTypes)) {
             ok(cliSupportedFileTypes);
         }
-        if (notEmpty(cliReformatOne)) {
+        if (notEmpty(cliReformatOne) && containsText(FILE_TAG, cliReformatOne)) {
             ok(cliReformatOne);
         }
-        if (notEmpty(cliReformatMany)) {
+        if (notEmpty(cliReformatMany) && containsText(FILES_TAG, cliReformatMany)) {
             ok(cliReformatMany);
         }
-        if (notEmpty(cliReformatDirectory)) {
+        if (notEmpty(cliReformatDirectory) && containsText(DIRECTORY_TAG, cliReformatDirectory)) {
             ok(cliReformatDirectory);
         }
-        if (notEmpty(cliReformatRecursively)) {
+        if (notEmpty(cliReformatRecursively) && containsText(DIRECTORY_TAG, cliReformatRecursively)) {
             ok(cliReformatRecursively);
         }
     }
@@ -232,6 +233,15 @@ public class ProjectSettingsForm {
         if (field.getText().trim().length() == 0) {
             field.setBackground(WARNING);
             showPopup(field, "Required field"); // TODO: localize
+            return false;
+        }
+        return true;
+    }
+
+    private boolean containsText(@NotNull String needle, @NotNull JTextField field) {
+        if (!field.getText().contains(needle)) {
+            field.setBackground(ERROR);
+            showPopup(field, "Must contain: " + needle); // TODO: localize
             return false;
         }
         return true;

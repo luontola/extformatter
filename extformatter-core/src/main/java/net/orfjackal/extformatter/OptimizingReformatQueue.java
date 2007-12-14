@@ -155,6 +155,10 @@ public class OptimizingReformatQueue implements ReformatQueue {
 
     @Nullable
     private static File commonParentDirectory(@NotNull List<File> files) {
+        // Assumes that the common parent directory contains some files.
+        // Otherwise there should be some check that this does not go
+        // up to the root directory and possibly by accident reformat
+        // files outside the project source directories.
         File commonParent = null;
         for (File file : files) {
             if (commonParent == null) {

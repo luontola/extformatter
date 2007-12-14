@@ -52,7 +52,7 @@ public class CommandLineCodeFormatterFactorySpec extends Specification<CodeForma
             specify(formatter.supportsFileType(XML_FILE));
         }
 
-        public void formatterShouldNotSupportOtherFiles() {
+        public void formatterShouldNotSupportOtherFileTypes() {
             specify(should.not().be.supportsFileType(TXT_FILE));
         }
 

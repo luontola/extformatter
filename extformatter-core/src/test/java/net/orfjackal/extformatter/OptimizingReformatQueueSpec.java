@@ -67,16 +67,6 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             queue.flush();
         }
 
-        public void afterFlushingTheQueueShouldBeEmpty() {
-            checking(new Expectations() {{
-                one (formatter).reformatOne(FOO_FILE);
-            }});
-                                            specify(queue.isEmpty());
-            queue.reformatOne(FOO_FILE);    specify(should.not().be.isEmpty());
-            queue.flush();                  specify(queue.isEmpty());
-            queue.flush();                  specify(queue.isEmpty());
-        }
-
         public void shouldExecuteAllQueuedCommandsWhenFlushed() {
             checking(new Expectations() {{
                 one (formatter).reformatOne(FOO_FILE);
@@ -85,6 +75,16 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             queue.reformatOne(FOO_FILE);
             queue.reformatOne(GAZONK_FILE);
             queue.flush();
+        }
+
+        public void afterFlushingTheQueueShouldBeEmpty() {
+            checking(new Expectations() {{
+                one (formatter).reformatOne(FOO_FILE);
+            }});
+                                            specify(queue.isEmpty());
+            queue.reformatOne(FOO_FILE);    specify(should.not().be.isEmpty());
+            queue.flush();                  specify(queue.isEmpty());
+            queue.flush();                  specify(queue.isEmpty());
         }
 
         public void shouldSupportOnlyReformatOne() {
@@ -147,7 +147,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             return queue;
         }
 
-        public void whenAllFilesAreInTheSameDirectoryShouldReformatThatDirectory() {
+        public void shouldReformatDirectoryWhenAllFilesAreInTheSameDirectory() {
             checking(new Expectations() {{
                 one (formatter).reformatDirectory(TESTFILES_DIR);
             }});
@@ -157,7 +157,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             specify(queue.isEmpty());
         }
 
-        public void whenAllFilesAreInDifferentDirectoriesShouldReformatEachDirectory() {
+        public void shouldReformatEachDirectoryWhenAllFilesAreInDifferentDirectories() {
             checking(new Expectations() {{
                 one (formatter).reformatDirectory(TESTFILES_DIR);
                 one (formatter).reformatDirectory(TESTFILES_SUBDIR);
@@ -169,7 +169,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             specify(queue.isEmpty());
         }
 
-        public void whenThereAreAlsoOtherFilesInTheSameDirectoryShouldNotReformatThatDirectory() {
+        public void shouldNotReformatDirectoryWhenThereAreAlsoOtherFilesInTheSameDirectory() {
             checking(new Expectations() {{
             }});
             queue.reformatOne(FOO_FILE);
@@ -200,7 +200,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             return queue;
         }
 
-        public void whenAllFilesAreInTheSameDirectoryShouldReformatThatDirectory() {
+        public void shouldReformatRecursivelyWhenAllFilesAreInTheSameDirectory() {
             checking(new Expectations() {{
                 one (formatter).reformatRecursively(TESTFILES_SUBDIR);
             }});
@@ -209,7 +209,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             specify(queue.isEmpty());
         }
 
-        public void whenAllFilesAreUnderACommonParentDirectoryShouldReformatThatDirectory() {
+        public void shouldReformatRecursivelyWhenAllFilesAreUnderACommonParentDirectory() {
             checking(new Expectations() {{
                 one (formatter).reformatRecursively(TESTFILES_DIR);
             }});
@@ -220,7 +220,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             specify(queue.isEmpty());
         }
 
-        public void whenThereAreAlsoOtherFilesInTheSameDirectoryShouldNotReformatThatDirectory() {
+        public void shouldNotReformatRecursivelyWhenThereAreAlsoOtherFilesInTheSameDirectory() {
             checking(new Expectations() {{
             }});
             queue.reformatOne(FOO_FILE);
@@ -233,7 +233,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             specify(queue.isEmpty());
         }
 
-        public void whenThereAreAlsoOtherFilesInASubDirectoryShouldNotReformatThatDirectory() {
+        public void shouldNotReformatRecursivelyWhenThereAreAlsoOtherFilesInASubDirectory() {
             checking(new Expectations() {{
             }});
             queue.reformatOne(FOO_FILE);

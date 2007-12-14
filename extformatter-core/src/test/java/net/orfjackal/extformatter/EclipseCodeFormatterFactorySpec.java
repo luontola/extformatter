@@ -61,7 +61,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
         }
     }
 
-    public class WhenOnlyEclipseExecutableIsConfigured {
+    public class WhenEclipsePrefsIsNotConfigured {
 
         private EclipseCodeFormatter formatter;
 
@@ -77,7 +77,7 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
         }
     }
 
-    public class WhenOnlyEclipsePrefsIsConfigured {
+    public class WhenEclipseExecutableIsNotConfigured {
 
         private EclipseCodeFormatter formatter;
 

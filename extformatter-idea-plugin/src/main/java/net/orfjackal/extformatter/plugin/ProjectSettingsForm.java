@@ -193,18 +193,10 @@ public class ProjectSettingsForm {
                 cliSupportedFileTypes,
                 cliSupportedFileTypesLabel,
                 cliSupportedFileTypesExample,
-                cliReformatOne,
                 cliReformatOneEnabled,
-                cliReformatOneExample,
-                cliReformatMany,
                 cliReformatManyEnabled,
-                cliReformatManyExample,
-                cliReformatDirectory,
                 cliReformatDirectoryEnabled,
-                cliReformatDirectoryExample,
-                cliReformatRecursively,
                 cliReformatRecursivelyEnabled,
-                cliReformatRecursivelyExample,
         });
         enabledBy(cliReformatOneEnabled, new JComponent[]{
                 cliReformatOne,

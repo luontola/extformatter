@@ -125,8 +125,8 @@ public class ProjectSettingsForm {
         
         rootComponent.addAncestorListener(new AncestorListener() {
             public void ancestorAdded(AncestorEvent event) {
-                // Called when component becomes visible, to insure that 
-                // the popups are visible when the form is first shown.
+                // Called when component becomes visible, to ensure that the popups
+                // are visible when the form is shown for the first time.
                 updateComponents();
             }
 

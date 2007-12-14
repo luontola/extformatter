@@ -172,7 +172,7 @@ public class ProjectSettingsForm {
                 eclipsePrefsLabel,
         };
         for (JComponent component : eclipseComponents) {
-            component.setEnabled(useEclipseFormatter.isSelected());
+            enabledBy(useEclipseFormatter, component);
         }
         if (notEmpty(eclipseExecutable) && fileExists(eclipseExecutable)) {
             ok(eclipseExecutable);
@@ -194,12 +194,12 @@ public class ProjectSettingsForm {
                 cliReformatRecursivelyEnabled,
         };
         for (JComponent component : cliComponents) {
-            component.setEnabled(useCliFormatter.isSelected());
+            enabledBy(useCliFormatter, component);
         }
-        cliReformatOne.setEnabled(cliReformatOneEnabled.isEnabled() && cliReformatOneEnabled.isSelected());
-        cliReformatMany.setEnabled(cliReformatManyEnabled.isEnabled() && cliReformatManyEnabled.isSelected());
-        cliReformatDirectory.setEnabled(cliReformatDirectoryEnabled.isEnabled() && cliReformatDirectoryEnabled.isSelected());
-        cliReformatRecursively.setEnabled(cliReformatRecursivelyEnabled.isEnabled() && cliReformatRecursivelyEnabled.isSelected());
+        enabledBy(cliReformatOneEnabled, cliReformatOne);
+        enabledBy(cliReformatManyEnabled, cliReformatMany);
+        enabledBy(cliReformatDirectoryEnabled, cliReformatDirectory);
+        enabledBy(cliReformatRecursivelyEnabled, cliReformatRecursively);
 
         if (notEmpty(cliSupportedFileTypes)) {
             ok(cliSupportedFileTypes);
@@ -216,6 +216,10 @@ public class ProjectSettingsForm {
         if (notEmpty(cliReformatRecursively)) {
             ok(cliReformatRecursively);
         }
+    }
+
+    private void enabledBy(@NotNull JToggleButton control, @NotNull JComponent target) {
+        target.setEnabled(control.isEnabled() && control.isSelected());
     }
 
     private boolean notEmpty(@NotNull JTextField field) {

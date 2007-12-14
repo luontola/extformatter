@@ -159,8 +159,8 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
 
         public void whenAllFilesAreInDifferentDirectoriesShouldReformatEachDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatDirectory(TESTFILES_DIR);
-                one(formatter).reformatDirectory(TESTFILES_SUBDIR);
+                one (formatter).reformatDirectory(TESTFILES_DIR);
+                one (formatter).reformatDirectory(TESTFILES_SUBDIR);
             }});
             queue.reformatOne(FOO_FILE);
             queue.reformatOne(BAR_FILE);

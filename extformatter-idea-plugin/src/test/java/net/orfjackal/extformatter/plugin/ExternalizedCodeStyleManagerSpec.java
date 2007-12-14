@@ -64,7 +64,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
         public void reformattingWholeFileShouldUseTheReplacementFormatter() throws IncorrectOperationException {
             if (TEST_DISABLED) return;
             checking(new Expectations() {{
-                one(replacement).reformatFile(new File("Foo.java"));
+                one (replacement).reformatOne(new File("Foo.java"));
             }});
             manager.reformatText(file, 0, 100);
         }
@@ -72,7 +72,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
         public void reformattingSelectedTextShouldFallBackToTheOriginalCodeStyleManager() throws IncorrectOperationException {
             if (TEST_DISABLED) return;
             checking(new Expectations() {{
-                one(original).reformatText(file, 30, 40);
+                one (original).reformatText(file, 30, 40);
             }});
             manager.reformatText(file, 30, 40);
         }
@@ -96,7 +96,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
         public void shouldFallBackToTheOriginalCodeStyleManager() throws IncorrectOperationException {
             if (TEST_DISABLED) return;
             checking(new Expectations() {{
-                one(original).reformatText(file, 0, 100);
+                one (original).reformatText(file, 0, 100);
             }});
             manager.reformatText(file, 0, 100);
         }

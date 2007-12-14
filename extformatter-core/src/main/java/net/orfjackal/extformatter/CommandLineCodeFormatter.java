@@ -38,67 +38,67 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     @NotNull private final SupportedFileTypes supportedFileTypes;
     @Nullable private final String fileCommand;
     @Nullable private final String directoryCommand;
-    @Nullable private final String recursiveDirectoryCommand;
+    @Nullable private final String recursiveCommand;
     @NotNull private final Executer executer;
 
     public CommandLineCodeFormatter(@NotNull String[] supportedFileTypes,
                                     @Nullable String fileCommand,
                                     @Nullable String directoryCommand,
-                                    @Nullable String recursiveDirectoryCommand,
+                                    @Nullable String recursiveCommand,
                                     @NotNull Executer executer) {
         this.supportedFileTypes = new SupportedFileTypes(supportedFileTypes);
         this.fileCommand = fileCommand;
         this.directoryCommand = directoryCommand;
-        this.recursiveDirectoryCommand = recursiveDirectoryCommand;
+        this.recursiveCommand = recursiveCommand;
         this.executer = executer;
     }
 
     public CommandLineCodeFormatter(@NotNull String[] supportedFileTypes,
                                     @Nullable String fileCommand,
                                     @Nullable String directoryCommand,
-                                    @Nullable String recursiveDirectoryCommand) {
-        this(supportedFileTypes, fileCommand, directoryCommand, recursiveDirectoryCommand, new ExecuterImpl());
+                                    @Nullable String recursiveCommand) {
+        this(supportedFileTypes, fileCommand, directoryCommand, recursiveCommand, new ExecuterImpl());
     }
 
     public boolean supportsFileType(@NotNull File file) {
         return supportedFileTypes.matches(file);
     }
 
-    public boolean supportsReformatFile() {
+    public boolean supportsReformatOne() {
         return fileCommand != null;
     }
 
-    public void reformatFile(@NotNull File file) {
+    public void reformatOne(@NotNull File file) {
         if (fileCommand != null) {
             executer.execute(parsed(fileCommand, file));
         }
     }
 
-    public boolean supportsReformatFiles() {
+    public boolean supportsReformatMany() {
         return false;
     }
 
-    public void reformatFiles(@NotNull File... files) {
+    public void reformatMany(@NotNull File... files) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean supportsReformatFilesInDirectory() {
+    public boolean supportsReformatDirectory() {
         return directoryCommand != null;
     }
 
-    public void reformatFilesInDirectory(@NotNull File directory) {
+    public void reformatDirectory(@NotNull File directory) {
         if (directoryCommand != null) {
             executer.execute(parsed(directoryCommand, directory));
         }
     }
 
-    public boolean supportsReformatFilesInDirectoryRecursively() {
-        return recursiveDirectoryCommand != null;
+    public boolean supportsReformatRecursively() {
+        return recursiveCommand != null;
     }
 
-    public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
-        if (recursiveDirectoryCommand != null) {
-            executer.execute(parsed(recursiveDirectoryCommand, directory));
+    public void reformatRecursively(@NotNull File directory) {
+        if (recursiveCommand != null) {
+            executer.execute(parsed(recursiveCommand, directory));
         }
     }
 

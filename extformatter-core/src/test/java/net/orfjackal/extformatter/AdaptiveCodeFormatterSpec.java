@@ -35,7 +35,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
     
     // TODO: improve the readability of the tests
 
-    public class WhenFormatterSupportsReformatFile {
+    public class WhenFormatterSupportsReformatOne {
 
         private CodeFormatter formatter;
         private AdaptiveCodeFormatter adapter;
@@ -44,65 +44,65 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(true));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(true));
+                allowing (formatter).supportsReformatMany();        will(returnValue(false));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
             return adapter;
         }
 
-        public void adapterShouldSupportReformatFile() {
-            specify(adapter.supportsReformatFile());
+        public void adapterShouldSupportReformatOne() {
+            specify(adapter.supportsReformatOne());
         }
 
-        public void adapterShouldSupportReformatFiles() {
-            specify(adapter.supportsReformatFiles());
+        public void adapterShouldSupportReformatMany() {
+            specify(adapter.supportsReformatMany());
         }
 
-        public void adapterShouldSupportReformatFilesInDirectory() {
-            specify(adapter.supportsReformatFilesInDirectory());
+        public void adapterShouldSupportReformatDirectory() {
+            specify(adapter.supportsReformatDirectory());
         }
 
-        public void adapterShouldSupportReformatFilesInDirectoryRecursively() {
-            specify(adapter.supportsReformatFilesInDirectoryRecursively());
+        public void adapterShouldSupportReformatRecursively() {
+            specify(adapter.supportsReformatRecursively());
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFile() {
+        public void theSupportedCommandShouldBeUsedForReformatOne() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(FOO_FILE);
+                one (formatter).reformatOne(FOO_FILE);
             }});
-            adapter.reformatFile(FOO_FILE);
+            adapter.reformatOne(FOO_FILE);
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFiles() {
+        public void theSupportedCommandShouldBeUsedForReformatMany() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(FOO_FILE);
-                one(formatter).reformatFile(GAZONK_FILE);
+                one (formatter).reformatOne(FOO_FILE);
+                one (formatter).reformatOne(GAZONK_FILE);
             }});
-            adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
+            adapter.reformatMany(FOO_FILE, GAZONK_FILE);
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFilesInDirectory() {
+        public void theSupportedCommandShouldBeUsedForReformatDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(FOO_FILE);
-                one(formatter).reformatFile(BAR_FILE);
+                one (formatter).reformatOne(FOO_FILE);
+                one (formatter).reformatOne(BAR_FILE);
             }});
-            adapter.reformatFilesInDirectory(TESTFILES_DIR);
+            adapter.reformatDirectory(TESTFILES_DIR);
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFilesInDirectoryRecursively() {
+        public void theSupportedCommandShouldBeUsedForReformatRecursively() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(FOO_FILE);
-                one(formatter).reformatFile(BAR_FILE);
-                one(formatter).reformatFile(GAZONK_FILE);
+                one (formatter).reformatOne(FOO_FILE);
+                one (formatter).reformatOne(BAR_FILE);
+                one (formatter).reformatOne(GAZONK_FILE);
             }});
-            adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+            adapter.reformatRecursively(TESTFILES_DIR);
         }
     }
 
-    public class WhenFormatterSupportsReformatFiles {
+    public class WhenFormatterSupportsReformatMany {
 
         private CodeFormatter formatter;
         private AdaptiveCodeFormatter adapter;
@@ -111,62 +111,62 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(false));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(true));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(false));
+                allowing (formatter).supportsReformatMany();        will(returnValue(true));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
             return adapter;
         }
 
-        public void adapterShouldSupportReformatFile() {
-            specify(adapter.supportsReformatFile());
+        public void adapterShouldSupportReformatOne() {
+            specify(adapter.supportsReformatOne());
         }
 
-        public void adapterShouldSupportReformatFiles() {
-            specify(adapter.supportsReformatFiles());
+        public void adapterShouldSupportReformatMany() {
+            specify(adapter.supportsReformatMany());
         }
 
-        public void adapterShouldSupportReformatFilesInDirectory() {
-            specify(adapter.supportsReformatFilesInDirectory());
+        public void adapterShouldSupportReformatDirectory() {
+            specify(adapter.supportsReformatDirectory());
         }
 
-        public void adapterShouldSupportReformatFilesInDirectoryRecursively() {
-            specify(adapter.supportsReformatFilesInDirectoryRecursively());
+        public void adapterShouldSupportReformatRecursively() {
+            specify(adapter.supportsReformatRecursively());
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFile() {
+        public void theSupportedCommandShouldBeUsedForReformatOne() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(FOO_FILE);
+                one (formatter).reformatMany(FOO_FILE);
             }});
-            adapter.reformatFile(FOO_FILE);
+            adapter.reformatOne(FOO_FILE);
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFiles() {
+        public void theSupportedCommandShouldBeUsedForReformatMany() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(FOO_FILE, GAZONK_FILE);
+                one (formatter).reformatMany(FOO_FILE, GAZONK_FILE);
             }});
-            adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
+            adapter.reformatMany(FOO_FILE, GAZONK_FILE);
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFilesInDirectory() {
+        public void theSupportedCommandShouldBeUsedForReformatDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(BAR_FILE, FOO_FILE);
+                one (formatter).reformatMany(BAR_FILE, FOO_FILE);
             }});
-            adapter.reformatFilesInDirectory(TESTFILES_DIR);
+            adapter.reformatDirectory(TESTFILES_DIR);
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFilesInDirectoryRecursively() {
+        public void theSupportedCommandShouldBeUsedForReformatRecursively() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(BAR_FILE, FOO_FILE);
-                one(formatter).reformatFiles(GAZONK_FILE);
+                one (formatter).reformatMany(BAR_FILE, FOO_FILE);
+                one (formatter).reformatMany(GAZONK_FILE);
             }});
-            adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+            adapter.reformatRecursively(TESTFILES_DIR);
         }
     }
 
-    public class WhenFormatterSupportsReformatFilesInDirectory {
+    public class WhenFormatterSupportsReformatDirectory {
 
         private CodeFormatter formatter;
         private AdaptiveCodeFormatter adapter;
@@ -175,64 +175,64 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(false));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(true));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(false));
+                allowing (formatter).supportsReformatMany();        will(returnValue(false));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(true));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
             return adapter;
         }
 
-        public void adapterShouldNotSupportReformatFile() {
-            specify(should.not().be.supportsReformatFile());
+        public void adapterShouldNotSupportReformatOne() {
+            specify(should.not().be.supportsReformatOne());
         }
 
-        public void adapterShouldNotSupportReformatFiles() {
-            specify(should.not().be.supportsReformatFiles());
+        public void adapterShouldNotSupportReformatMany() {
+            specify(should.not().be.supportsReformatMany());
         }
 
-        public void adapterShouldSupportReformatFilesInDirectory() {
-            specify(adapter.supportsReformatFilesInDirectory());
+        public void adapterShouldSupportReformatDirectory() {
+            specify(adapter.supportsReformatDirectory());
         }
 
-        public void adapterShouldSupportReformatFilesInDirectoryRecursively() {
-            specify(adapter.supportsReformatFilesInDirectoryRecursively());
+        public void adapterShouldSupportReformatRecursively() {
+            specify(adapter.supportsReformatRecursively());
         }
 
-        public void itShouldBeAnErrorToUseReformatFile() {
+        public void itShouldBeAnErrorToUseReformatOne() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFile(FOO_FILE);
+                    adapter.reformatOne(FOO_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
-        public void itShouldBeAnErrorToUseReformatFiles() {
+        public void itShouldBeAnErrorToUseReformatMany() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
+                    adapter.reformatMany(FOO_FILE, GAZONK_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFilesInDirectory() {
+        public void theSupportedCommandShouldBeUsedForReformatDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
+                one (formatter).reformatDirectory(TESTFILES_DIR);
             }});
-            adapter.reformatFilesInDirectory(TESTFILES_DIR);
+            adapter.reformatDirectory(TESTFILES_DIR);
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFilesInDirectoryRecursively() {
+        public void theSupportedCommandShouldBeUsedForReformatRecursively() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
-                one(formatter).reformatFilesInDirectory(TESTFILES_SUBDIR);
+                one (formatter).reformatDirectory(TESTFILES_DIR);
+                one (formatter).reformatDirectory(TESTFILES_SUBDIR);
             }});
-            adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+            adapter.reformatRecursively(TESTFILES_DIR);
         }
     }
 
-    public class WhenFormatterSupportsReformatFilesInDirectoryRecursively {
+    public class WhenFormatterSupportsReformatRecursively {
 
         private CodeFormatter formatter;
         private AdaptiveCodeFormatter adapter;
@@ -241,60 +241,60 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(false));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(true));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(false));
+                allowing (formatter).supportsReformatMany();        will(returnValue(false));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(true));
             }});
             return adapter;
         }
 
-        public void adapterShouldNotSupportReformatFile() {
-            specify(should.not().be.supportsReformatFile());
+        public void adapterShouldNotSupportReformatOne() {
+            specify(should.not().be.supportsReformatOne());
         }
 
-        public void adapterShouldNotSupportReformatFiles() {
-            specify(should.not().be.supportsReformatFiles());
+        public void adapterShouldNotSupportReformatMany() {
+            specify(should.not().be.supportsReformatMany());
         }
 
-        public void adapterShouldNotSupportReformatFilesInDirectory() {
-            specify(should.not().be.supportsReformatFilesInDirectory());
+        public void adapterShouldNotSupportReformatDirectory() {
+            specify(should.not().be.supportsReformatDirectory());
         }
 
-        public void adapterShouldSupportReformatFilesInDirectoryRecursively() {
-            specify(adapter.supportsReformatFilesInDirectoryRecursively());
+        public void adapterShouldSupportReformatRecursively() {
+            specify(adapter.supportsReformatRecursively());
         }
 
-        public void itShouldBeAnErrorToUseReformatFile() {
+        public void itShouldBeAnErrorToUseReformatOne() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFile(FOO_FILE);
+                    adapter.reformatOne(FOO_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
-        public void itShouldBeAnErrorToUseReformatFiles() {
+        public void itShouldBeAnErrorToUseReformatMany() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
+                    adapter.reformatMany(FOO_FILE, GAZONK_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
-        public void itShouldBeAnErrorToUseReformatFilesInDirectory() {
+        public void itShouldBeAnErrorToUseReformatDirectory() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFilesInDirectory(TESTFILES_DIR);
+                    adapter.reformatDirectory(TESTFILES_DIR);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
-        public void theSupportedCommandShouldBeUsedForReformatFilesInDirectoryRecursively() {
+        public void theSupportedCommandShouldBeUsedForReformatRecursively() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+                one (formatter).reformatRecursively(TESTFILES_DIR);
             }});
-            adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+            adapter.reformatRecursively(TESTFILES_DIR);
         }
     }
 
@@ -307,59 +307,59 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(false));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(false));
+                allowing (formatter).supportsReformatMany();        will(returnValue(false));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
             return adapter;
         }
 
-        public void adapterShouldNotSupportReformatFile() {
-            specify(should.not().be.supportsReformatFile());
+        public void adapterShouldNotSupportReformatOne() {
+            specify(should.not().be.supportsReformatOne());
         }
 
-        public void adapterShouldNotSupportReformatFiles() {
-            specify(should.not().be.supportsReformatFiles());
+        public void adapterShouldNotSupportReformatMany() {
+            specify(should.not().be.supportsReformatMany());
         }
 
-        public void adapterShouldNotSupportReformatFilesInDirectory() {
-            specify(should.not().be.supportsReformatFilesInDirectory());
+        public void adapterShouldNotSupportReformatDirectory() {
+            specify(should.not().be.supportsReformatDirectory());
         }
 
-        public void adapterShouldNotSupportReformatFilesInDirectoryRecursively() {
-            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
+        public void adapterShouldNotSupportReformatRecursively() {
+            specify(should.not().be.supportsReformatRecursively());
         }
 
-        public void itShouldBeAnErrorToUseReformatFile() {
+        public void itShouldBeAnErrorToUseReformatOne() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFile(FOO_FILE);
+                    adapter.reformatOne(FOO_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
-        public void itShouldBeAnErrorToUseReformatFiles() {
+        public void itShouldBeAnErrorToUseReformatMany() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFiles(FOO_FILE, GAZONK_FILE);
+                    adapter.reformatMany(FOO_FILE, GAZONK_FILE);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
-        public void itShouldBeAnErrorToUseReformatFilesInDirectory() {
+        public void itShouldBeAnErrorToUseReformatDirectory() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFilesInDirectory(TESTFILES_DIR);
+                    adapter.reformatDirectory(TESTFILES_DIR);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
 
-        public void itShouldBeAnErrorToUseReformatFilesInDirectoryRecursively() {
+        public void itShouldBeAnErrorToUseReformatRecursively() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    adapter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+                    adapter.reformatRecursively(TESTFILES_DIR);
                 }
             }, should.raise(UnsupportedOperationException.class));
         }
@@ -374,21 +374,21 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
             formatter = mock(CodeFormatter.class);
             adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(FOO_FILE); will(returnValue(false));
-                allowing(formatter).supportsFileType(BAR_FILE); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(true));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+                allowing (formatter).supportsFileType(FOO_FILE);    will(returnValue(false));
+                allowing (formatter).supportsFileType(BAR_FILE);    will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(true));
+                allowing (formatter).supportsReformatMany();        will(returnValue(false));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
             return adapter;
         }
 
         public void shouldReformatOnlyTheSupportedFiles() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(BAR_FILE);
+                one (formatter).reformatOne(BAR_FILE);
             }});
-            adapter.reformatFilesInDirectory(TESTFILES_DIR);
+            adapter.reformatDirectory(TESTFILES_DIR);
         }
     }
 }

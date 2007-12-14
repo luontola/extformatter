@@ -36,7 +36,7 @@ public class CommandRunner implements Runnable {
     @NotNull private final UndoConfirmationPolicy undoConfirmationPolicy;
 
     public CommandRunner(@NotNull Project project, @NotNull Runnable runnable, @NotNull String commandName,
-                         Object groupId, @NotNull UndoConfirmationPolicy undoConfirmationPolicy) {
+                         @Nullable Object groupId, @NotNull UndoConfirmationPolicy undoConfirmationPolicy) {
         this.project = project;
         this.runnable = runnable;
         this.commandName = commandName;

@@ -45,10 +45,11 @@ public class ResourcesSpec extends Specification<Object> {
 
         public void allIconsShouldHaveTheSpecifiedSize() {
             ImageIcon logo16 = new ImageIcon(Resources.PROGRAM_LOGO_16);
-            specify(logo16.getIconWidth(), should.equal(16));
+            specify(logo16.getIconWidth(),  should.equal(16));
             specify(logo16.getIconHeight(), should.equal(16));
+
             ImageIcon logo32 = new ImageIcon(Resources.PROGRAM_LOGO_32);
-            specify(logo32.getIconWidth(), should.equal(32));
+            specify(logo32.getIconWidth(),  should.equal(32));
             specify(logo32.getIconHeight(), should.equal(32));
         }
     }

@@ -42,13 +42,13 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             formatter = mock(CodeFormatter.class);
             queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(JAVA_FILE); will(returnValue(true));
-                allowing(formatter).supportsFileType(XML_FILE); will(returnValue(false));
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(true));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+                allowing (formatter).supportsFileType(JAVA_FILE);   will(returnValue(true));
+                allowing (formatter).supportsFileType(XML_FILE);    will(returnValue(false));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(true));
+                allowing (formatter).supportsReformatMany();        will(returnValue(false));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
             return queue;
         }
@@ -56,45 +56,42 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
         public void shouldNotCallTheFormatterImmediately() {
             checking(new Expectations() {{
             }});
-            queue.reformatFile(FOO_FILE);
+            queue.reformatOne(FOO_FILE);
         }
 
         public void shouldCallTheFormatterWhenFlushed() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(FOO_FILE);
+                one (formatter).reformatOne(FOO_FILE);
             }});
-            queue.reformatFile(FOO_FILE);
+            queue.reformatOne(FOO_FILE);
             queue.flush();
         }
 
         public void afterFlushingTheQueueShouldBeEmpty() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(FOO_FILE);
+                one (formatter).reformatOne(FOO_FILE);
             }});
-            specify(queue.isEmpty());
-            queue.reformatFile(FOO_FILE);
-            specify(should.not().be.isEmpty());
-            queue.flush();
-            specify(queue.isEmpty());
-            queue.flush();
-            specify(queue.isEmpty());
+                                            specify(queue.isEmpty());
+            queue.reformatOne(FOO_FILE);    specify(should.not().be.isEmpty());
+            queue.flush();                  specify(queue.isEmpty());
+            queue.flush();                  specify(queue.isEmpty());
         }
 
         public void shouldExecuteAllQueuedCommandsWhenFlushed() {
             checking(new Expectations() {{
-                one(formatter).reformatFile(FOO_FILE);
-                one(formatter).reformatFile(GAZONK_FILE);
+                one (formatter).reformatOne(FOO_FILE);
+                one (formatter).reformatOne(GAZONK_FILE);
             }});
-            queue.reformatFile(FOO_FILE);
-            queue.reformatFile(GAZONK_FILE);
+            queue.reformatOne(FOO_FILE);
+            queue.reformatOne(GAZONK_FILE);
             queue.flush();
         }
 
-        public void shouldSupportOnlyReformatFile() {
-            specify(queue.supportsReformatFile());
-            specify(should.not().be.supportsReformatFiles());
-            specify(should.not().be.supportsReformatFilesInDirectory());
-            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
+        public void shouldSupportOnlyReformatOne() {
+            specify(queue.supportsReformatOne());
+            specify(should.not().be.supportsReformatMany());
+            specify(should.not().be.supportsReformatDirectory());
+            specify(should.not().be.supportsReformatRecursively());
         }
 
         public void shouldSupportTheSameFileTypesAsTheFormatter() {
@@ -103,7 +100,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
         }
     }
 
-    public class WhenFormatterSupportsReformatFiles {
+    public class WhenFormatterSupportsReformatMany {
 
         private CodeFormatter formatter;
         private ReformatQueue queue;
@@ -112,21 +109,21 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             formatter = mock(CodeFormatter.class);
             queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(true));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(true));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(true));
+                allowing (formatter).supportsReformatMany();        will(returnValue(true));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
             return queue;
         }
 
-        public void shouldUseReformatFilesWhenAskedToFormatManyIndividualFiles() {
+        public void shouldUseReformatManyWhenAskedToFormatManyIndividualFiles() {
             checking(new Expectations() {{
-                one(formatter).reformatFiles(FOO_FILE, GAZONK_FILE);
+                one (formatter).reformatMany(FOO_FILE, GAZONK_FILE);
             }});
-            queue.reformatFile(FOO_FILE);
-            queue.reformatFile(GAZONK_FILE);
+            queue.reformatOne(FOO_FILE);
+            queue.reformatOne(GAZONK_FILE);
             queue.flush();
             specify(queue.isEmpty());
         }
@@ -141,33 +138,33 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             formatter = mock(CodeFormatter.class);
             queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(false));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(true));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(false));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(false));
+                allowing (formatter).supportsReformatMany();        will(returnValue(false));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(true));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
             return queue;
         }
 
         public void whenAllFilesAreInTheSameDirectoryShouldReformatThatDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
+                one (formatter).reformatDirectory(TESTFILES_DIR);
             }});
-            queue.reformatFile(FOO_FILE);
-            queue.reformatFile(BAR_FILE);
+            queue.reformatOne(FOO_FILE);
+            queue.reformatOne(BAR_FILE);
             queue.flush();
             specify(queue.isEmpty());
         }
 
         public void whenAllFilesAreInDifferentDirectoriesShouldReformatEachDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectory(TESTFILES_DIR);
-                one(formatter).reformatFilesInDirectory(TESTFILES_SUBDIR);
+                one(formatter).reformatDirectory(TESTFILES_DIR);
+                one(formatter).reformatDirectory(TESTFILES_SUBDIR);
             }});
-            queue.reformatFile(FOO_FILE);
-            queue.reformatFile(BAR_FILE);
-            queue.reformatFile(GAZONK_FILE);
+            queue.reformatOne(FOO_FILE);
+            queue.reformatOne(BAR_FILE);
+            queue.reformatOne(GAZONK_FILE);
             queue.flush();
             specify(queue.isEmpty());
         }
@@ -175,7 +172,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
         public void whenThereAreAlsoOtherFilesInTheSameDirectoryShouldNotReformatThatDirectory() {
             checking(new Expectations() {{
             }});
-            queue.reformatFile(FOO_FILE);
+            queue.reformatOne(FOO_FILE);
             specify(new Block() {
                 public void run() throws Throwable {
                     queue.flush();
@@ -185,7 +182,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
         }
     }
 
-    public class WhenFormatterSupportsReformatDirectoryRecursively {
+    public class WhenFormatterSupportsReformatRecursively {
 
         private CodeFormatter formatter;
         private ReformatQueue queue;
@@ -194,31 +191,31 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             formatter = mock(CodeFormatter.class);
             queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(false));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(false));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(true));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(false));
+                allowing (formatter).supportsReformatMany();        will(returnValue(false));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(true));
             }});
             return queue;
         }
 
         public void whenAllFilesAreInTheSameDirectoryShouldReformatThatDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectoryRecursively(TESTFILES_SUBDIR);
+                one (formatter).reformatRecursively(TESTFILES_SUBDIR);
             }});
-            queue.reformatFile(GAZONK_FILE);
+            queue.reformatOne(GAZONK_FILE);
             queue.flush();
             specify(queue.isEmpty());
         }
 
         public void whenAllFilesAreUnderACommonParentDirectoryShouldReformatThatDirectory() {
             checking(new Expectations() {{
-                one(formatter).reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+                one (formatter).reformatRecursively(TESTFILES_DIR);
             }});
-            queue.reformatFile(FOO_FILE);
-            queue.reformatFile(BAR_FILE);
-            queue.reformatFile(GAZONK_FILE);
+            queue.reformatOne(FOO_FILE);
+            queue.reformatOne(BAR_FILE);
+            queue.reformatOne(GAZONK_FILE);
             queue.flush();
             specify(queue.isEmpty());
         }
@@ -226,8 +223,8 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
         public void whenThereAreAlsoOtherFilesInTheSameDirectoryShouldNotReformatThatDirectory() {
             checking(new Expectations() {{
             }});
-            queue.reformatFile(FOO_FILE);
-            queue.reformatFile(GAZONK_FILE);
+            queue.reformatOne(FOO_FILE);
+            queue.reformatOne(GAZONK_FILE);
             specify(new Block() {
                 public void run() throws Throwable {
                     queue.flush();
@@ -239,8 +236,8 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
         public void whenThereAreAlsoOtherFilesInASubDirectoryShouldNotReformatThatDirectory() {
             checking(new Expectations() {{
             }});
-            queue.reformatFile(FOO_FILE);
-            queue.reformatFile(BAR_FILE);
+            queue.reformatOne(FOO_FILE);
+            queue.reformatOne(BAR_FILE);
             specify(new Block() {
                 public void run() throws Throwable {
                     queue.flush();
@@ -259,11 +256,11 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
             formatter = mock(CodeFormatter.class);
             queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
-                allowing(formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing(formatter).supportsReformatFile(); will(returnValue(true));
-                allowing(formatter).supportsReformatFiles(); will(returnValue(true));
-                allowing(formatter).supportsReformatFilesInDirectory(); will(returnValue(true));
-                allowing(formatter).supportsReformatFilesInDirectoryRecursively(); will(returnValue(true));
+                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
+                allowing (formatter).supportsReformatOne();         will(returnValue(true));
+                allowing (formatter).supportsReformatMany();        will(returnValue(true));
+                allowing (formatter).supportsReformatDirectory();   will(returnValue(true));
+                allowing (formatter).supportsReformatRecursively(); will(returnValue(true));
             }});
             return queue;
         }
@@ -271,9 +268,8 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
         public void flushingShouldDoNothing() {
             checking(new Expectations() {{
             }});
-            specify(queue.isEmpty());
-            queue.flush();
-            specify(queue.isEmpty());
+                                specify(queue.isEmpty());
+            queue.flush();      specify(queue.isEmpty());
         }
     }
 }

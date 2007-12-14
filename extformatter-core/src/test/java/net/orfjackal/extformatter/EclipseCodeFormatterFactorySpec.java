@@ -44,20 +44,20 @@ public class EclipseCodeFormatterFactorySpec extends Specification<EclipseCodeFo
             specify(formatter, should.not().equal(null));
         }
 
-        public void formatterShouldSupportReformatFile() {
-            specify(formatter.supportsReformatFile());
+        public void formatterShouldSupportReformatOne() {
+            specify(formatter.supportsReformatOne());
         }
 
-        public void formatterShouldSupportReformatFiles() {
-            specify(formatter.supportsReformatFiles());
+        public void formatterShouldSupportReformatMany() {
+            specify(formatter.supportsReformatMany());
         }
 
-        public void formatterShouldNotSupportReformatFilesInDirectory() {
-            specify(should.not().be.supportsReformatFilesInDirectory());
+        public void formatterShouldNotSupportReformatDirectory() {
+            specify(should.not().be.supportsReformatDirectory());
         }
 
-        public void formatterShouldSupportReformatFilesInDirectoryRecursively() {
-            specify(formatter.supportsReformatFilesInDirectoryRecursively());
+        public void formatterShouldSupportReformatRecursively() {
+            specify(formatter.supportsReformatRecursively());
         }
     }
 

@@ -47,11 +47,11 @@ public class OptimizingReformatQueue implements ReformatQueue {
         return formatter.supportsFileType(file);
     }
 
-    public boolean supportsReformatFile() {
+    public boolean supportsReformatOne() {
         return true;
     }
 
-    public void reformatFile(@NotNull File file) {
+    public void reformatOne(@NotNull File file) {
         assert supportsFileType(file);
         fileQueue.add(file);
     }
@@ -61,19 +61,19 @@ public class OptimizingReformatQueue implements ReformatQueue {
     }
 
     public void flush() {
-        fileQueue.removeAll(useReformatFiles());
-        fileQueue.removeAll(useReformatFilesInDirectoryRecursively());
-        fileQueue.removeAll(useReformatFilesInDirectory());
-        fileQueue.removeAll(useReformatFile());
+        fileQueue.removeAll(useReformatMany());
+        fileQueue.removeAll(useReformatRecursively());
+        fileQueue.removeAll(useReformatDirectory());
+        fileQueue.removeAll(useReformatOne());
         mustBeEmpty(fileQueue);
     }
 
     @NotNull
-    private List<File> useReformatFile() {
+    private List<File> useReformatOne() {
         List<File> reformatted = new ArrayList<File>();
-        if (formatter.supportsReformatFile()) {
+        if (formatter.supportsReformatOne()) {
             for (File file : fileQueue) {
-                formatter.reformatFile(file);
+                formatter.reformatOne(file);
                 reformatted.add(file);
             }
         }
@@ -81,25 +81,25 @@ public class OptimizingReformatQueue implements ReformatQueue {
     }
 
     @NotNull
-    private List<File> useReformatFiles() {
+    private List<File> useReformatMany() {
         List<File> reformatted = new ArrayList<File>();
-        if (formatter.supportsReformatFiles() && fileQueue.size() > 0) {
-            formatter.reformatFiles(toArray(fileQueue));
+        if (formatter.supportsReformatMany() && fileQueue.size() > 0) {
+            formatter.reformatMany(toArray(fileQueue));
             reformatted.addAll(fileQueue);
         }
         return reformatted;
     }
 
     @NotNull
-    private List<File> useReformatFilesInDirectory() {
+    private List<File> useReformatDirectory() {
         List<File> reformatted = new ArrayList<File>();
-        if (formatter.supportsReformatFilesInDirectory()) {
+        if (formatter.supportsReformatDirectory()) {
             Map<File, List<File>> groups = groupByDirectory(fileQueue);
             for (Map.Entry<File, List<File>> group : groups.entrySet()) {
                 File directory = group.getKey();
                 List<File> files = group.getValue();
                 if (noOthersInTheSameDirectory(directory, files)) {
-                    formatter.reformatFilesInDirectory(directory);
+                    formatter.reformatDirectory(directory);
                     reformatted.addAll(files);
                 }
             }
@@ -108,12 +108,12 @@ public class OptimizingReformatQueue implements ReformatQueue {
     }
 
     @NotNull
-    private List<File> useReformatFilesInDirectoryRecursively() {
+    private List<File> useReformatRecursively() {
         List<File> reformatted = new ArrayList<File>();
-        if (formatter.supportsReformatFilesInDirectoryRecursively()) {
+        if (formatter.supportsReformatRecursively()) {
             File directory = commonParentDirectory(fileQueue);
             if (directory != null && noOthersInTheSameDirectoryTree(directory, fileQueue)) {
-                formatter.reformatFilesInDirectoryRecursively(directory);
+                formatter.reformatRecursively(directory);
                 reformatted.addAll(fileQueue);
             }
         }
@@ -202,27 +202,27 @@ public class OptimizingReformatQueue implements ReformatQueue {
 
     // Unsupported operations
 
-    public boolean supportsReformatFiles() {
+    public boolean supportsReformatMany() {
         return false;
     }
 
-    public void reformatFiles(@NotNull File... files) {
+    public void reformatMany(@NotNull File... files) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean supportsReformatFilesInDirectory() {
+    public boolean supportsReformatDirectory() {
         return false;
     }
 
-    public void reformatFilesInDirectory(@NotNull File directory) {
+    public void reformatDirectory(@NotNull File directory) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean supportsReformatFilesInDirectoryRecursively() {
+    public boolean supportsReformatRecursively() {
         return false;
     }
 
-    public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
+    public void reformatRecursively(@NotNull File directory) {
         throw new UnsupportedOperationException();
     }
 }

@@ -48,42 +48,42 @@ public class EclipseCodeFormatterManualTests {
         return new EclipseCodeFormatter(ECLIPSE_EXECUTABLE, eclipsePrefsFile, EXECUTER);
     }
 
-    public static class ReformatSingleFileTest {
+    public static class ReformatOneTest {
 
         public static void main(String[] args) {
-            showCurrentTest(ReformatSingleFileTest.class, "Foo.java (1)");
+            showCurrentTest(ReformatOneTest.class, "Foo.java (1)");
             prepareTestFiles();
-            newFormatter().reformatFile(fooFile);
+            newFormatter().reformatOne(fooFile);
             showResultingFiles();
         }
     }
 
-    public static class ReformatManyFilesTest {
+    public static class ReformatManyTest {
 
         public static void main(String[] args) {
-            showCurrentTest(ReformatManyFilesTest.class, "Foo.java (1), Gazonk.java (3)");
+            showCurrentTest(ReformatManyTest.class, "Foo.java (1), Gazonk.java (3)");
             prepareTestFiles();
-            newFormatter().reformatFiles(fooFile, gazonkFile);
+            newFormatter().reformatMany(fooFile, gazonkFile);
             showResultingFiles();
         }
     }
 
-    public static class ReformatFilesInDirectoryTest {
+    public static class ReformatDirectoryTest {
 
         public static void main(String[] args) {
-            showCurrentTest(ReformatFilesInDirectoryTest.class, "Foo.java (1), Bar.java (2)");
+            showCurrentTest(ReformatDirectoryTest.class, "Foo.java (1), Bar.java (2)");
             prepareTestFiles();
-            newFormatter().reformatFilesInDirectory(testfilesDir);
+            newFormatter().reformatDirectory(testfilesDir);
             showResultingFiles();
         }
     }
 
-    public static class ReformatFilesInDirectoryRecursivelyTest {
+    public static class ReformatRecursivelyTest {
 
         public static void main(String[] args) {
-            showCurrentTest(ReformatFilesInDirectoryRecursivelyTest.class, "Foo.java (1), Bar.java (2), Gazonk.java (3)");
+            showCurrentTest(ReformatRecursivelyTest.class, "Foo.java (1), Bar.java (2), Gazonk.java (3)");
             prepareTestFiles();
-            newFormatter().reformatFilesInDirectoryRecursively(testfilesDir);
+            newFormatter().reformatRecursively(testfilesDir);
             showResultingFiles();
         }
     }

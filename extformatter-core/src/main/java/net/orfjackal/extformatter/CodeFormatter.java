@@ -33,19 +33,19 @@ public interface CodeFormatter {
 
     boolean supportsFileType(@NotNull File file);
 
-    boolean supportsReformatFile();
+    boolean supportsReformatOne();
 
-    void reformatFile(@NotNull File file);
+    void reformatOne(@NotNull File file);
 
-    boolean supportsReformatFiles();
+    boolean supportsReformatMany();
 
-    void reformatFiles(@NotNull File... files);
+    void reformatMany(@NotNull File... files);
 
-    boolean supportsReformatFilesInDirectory();
+    boolean supportsReformatDirectory();
 
-    void reformatFilesInDirectory(@NotNull File directory);
+    void reformatDirectory(@NotNull File directory);
 
-    boolean supportsReformatFilesInDirectoryRecursively();
+    boolean supportsReformatRecursively();
 
-    void reformatFilesInDirectoryRecursively(@NotNull File directory);
+    void reformatRecursively(@NotNull File directory);
 }

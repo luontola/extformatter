@@ -19,6 +19,7 @@ package net.orfjackal.extformatter.plugin;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.UndoConfirmationPolicy;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -43,6 +44,8 @@ import java.io.File;
  * @since 3.12.2007
  */
 public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
+
+    private static final Logger LOG = Logger.getInstance(ExternalizedCodeStyleManager.class.getName());
 
     @NotNull private final ReformatQueue replacement;
 
@@ -69,8 +72,9 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
      * especially in the case of EclipseCodeFormatter, so that's why a ReformatQueue must be used here.
      */
     private void queueReformatOf(final @NotNull VirtualFile file, @NotNull Project project) {
+        LOG.info("Queue for reformat: " + file.getPath());
         save(file);
-        replacement.reformatFile(ioFile(file));
+        replacement.reformatOne(ioFile(file));
         ApplicationManager.getApplication().invokeLater(flushAndRefresh(file, project));
     }
 
@@ -79,8 +83,10 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         Runnable flushAndRefresh = new Runnable() {
             public void run() {
                 try {
+                    LOG.info("Flushing queue");
                     replacement.flush();
                 } finally {
+                    LOG.info("Refresh reformatted file: " + file.getPath());
                     file.refresh(false, false);
                 }
             }

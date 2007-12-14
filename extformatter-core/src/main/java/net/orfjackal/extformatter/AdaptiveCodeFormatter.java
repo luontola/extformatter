@@ -41,72 +41,72 @@ public class AdaptiveCodeFormatter implements CodeFormatter {
         return formatter.supportsFileType(file);
     }
 
-    public boolean supportsReformatFile() {
-        return formatter.supportsReformatFile()
-                || formatter.supportsReformatFiles();
+    public boolean supportsReformatOne() {
+        return formatter.supportsReformatOne()
+                || formatter.supportsReformatMany();
     }
 
-    public void reformatFile(@NotNull File file) {
+    public void reformatOne(@NotNull File file) {
         assert supportsFileType(file);
-        if (formatter.supportsReformatFile()) {
-            formatter.reformatFile(file);
-        } else if (formatter.supportsReformatFiles()) {
-            formatter.reformatFiles(file);
+        if (formatter.supportsReformatOne()) {
+            formatter.reformatOne(file);
+        } else if (formatter.supportsReformatMany()) {
+            formatter.reformatMany(file);
         } else {
             throw new UnsupportedOperationException();
         }
     }
 
-    public boolean supportsReformatFiles() {
-        return formatter.supportsReformatFile()
-                || formatter.supportsReformatFiles();
+    public boolean supportsReformatMany() {
+        return formatter.supportsReformatOne()
+                || formatter.supportsReformatMany();
     }
 
-    public void reformatFiles(@NotNull File... files) {
+    public void reformatMany(@NotNull File... files) {
         for (File file : files) {
             assert supportsFileType(file);
         }
-        if (formatter.supportsReformatFiles()) {
-            formatter.reformatFiles(files);
-        } else if (formatter.supportsReformatFile()) {
+        if (formatter.supportsReformatMany()) {
+            formatter.reformatMany(files);
+        } else if (formatter.supportsReformatOne()) {
             for (File file : files) {
-                formatter.reformatFile(file);
+                formatter.reformatOne(file);
             }
         } else {
             throw new UnsupportedOperationException();
         }
     }
 
-    public boolean supportsReformatFilesInDirectory() {
-        return formatter.supportsReformatFile()
-                || formatter.supportsReformatFiles()
-                || formatter.supportsReformatFilesInDirectory();
+    public boolean supportsReformatDirectory() {
+        return formatter.supportsReformatOne()
+                || formatter.supportsReformatMany()
+                || formatter.supportsReformatDirectory();
     }
 
-    public void reformatFilesInDirectory(@NotNull File directory) {
-        if (formatter.supportsReformatFilesInDirectory()) {
-            formatter.reformatFilesInDirectory(directory);
+    public void reformatDirectory(@NotNull File directory) {
+        if (formatter.supportsReformatDirectory()) {
+            formatter.reformatDirectory(directory);
         } else {
             File[] files = directory.listFiles(new FilesSupportedBy(this));
-            reformatFiles(files);
+            reformatMany(files);
         }
     }
 
-    public boolean supportsReformatFilesInDirectoryRecursively() {
-        return formatter.supportsReformatFile()
-                || formatter.supportsReformatFiles()
-                || formatter.supportsReformatFilesInDirectory()
-                || formatter.supportsReformatFilesInDirectoryRecursively();
+    public boolean supportsReformatRecursively() {
+        return formatter.supportsReformatOne()
+                || formatter.supportsReformatMany()
+                || formatter.supportsReformatDirectory()
+                || formatter.supportsReformatRecursively();
     }
 
-    public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
-        if (formatter.supportsReformatFilesInDirectoryRecursively()) {
-            formatter.reformatFilesInDirectoryRecursively(directory);
+    public void reformatRecursively(@NotNull File directory) {
+        if (formatter.supportsReformatRecursively()) {
+            formatter.reformatRecursively(directory);
         } else {
             File[] subdirs = directory.listFiles(new Directories());
-            reformatFilesInDirectory(directory);
+            reformatDirectory(directory);
             for (File subdir : subdirs) {
-                reformatFilesInDirectoryRecursively(subdir);
+                reformatRecursively(subdir);
             }
         }
     }

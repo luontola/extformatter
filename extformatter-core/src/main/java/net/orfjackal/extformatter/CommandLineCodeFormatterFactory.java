@@ -31,12 +31,12 @@ public class CommandLineCodeFormatterFactory implements CodeFormatterFactory<Com
     @NotNull private String[] supportedFileTypes = new String[0];
     @Nullable private String fileCommand;
     @Nullable private String directoryCommand;
-    @Nullable private String recursiveDirectoryCommand;
+    @Nullable private String recursiveCommand;
 
     @Nullable
     public CommandLineCodeFormatter newFormatter() {
-        if (fileCommand != null || directoryCommand != null || recursiveDirectoryCommand != null) {
-            return new CommandLineCodeFormatter(supportedFileTypes, fileCommand, directoryCommand, recursiveDirectoryCommand);
+        if (fileCommand != null || directoryCommand != null || recursiveCommand != null) {
+            return new CommandLineCodeFormatter(supportedFileTypes, fileCommand, directoryCommand, recursiveCommand);
         } else {
             return null;
         }
@@ -54,7 +54,7 @@ public class CommandLineCodeFormatterFactory implements CodeFormatterFactory<Com
         this.directoryCommand = directoryCommand;
     }
 
-    public void setRecursiveDirectoryCommand(@Nullable String recursiveDirectoryCommand) {
-        this.recursiveDirectoryCommand = recursiveDirectoryCommand;
+    public void setRecursiveCommand(@Nullable String recursiveCommand) {
+        this.recursiveCommand = recursiveCommand;
     }
 }

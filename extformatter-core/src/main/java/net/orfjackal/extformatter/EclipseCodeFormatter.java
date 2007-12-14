@@ -50,11 +50,11 @@ public class EclipseCodeFormatter implements CodeFormatter {
         return file.getName().endsWith(".java");
     }
 
-    public boolean supportsReformatFile() {
+    public boolean supportsReformatOne() {
         return true;
     }
 
-    public void reformatFile(@NotNull File file) {
+    public void reformatOne(@NotNull File file) {
         assert supportsFileType(file);
         try {
             executer.execute(commandFor(quoted(file.getCanonicalPath())));
@@ -63,11 +63,11 @@ public class EclipseCodeFormatter implements CodeFormatter {
         }
     }
 
-    public boolean supportsReformatFiles() {
+    public boolean supportsReformatMany() {
         return true;
     }
 
-    public void reformatFiles(@NotNull File... files) {
+    public void reformatMany(@NotNull File... files) {
         for (File file : files) {
             assert supportsFileType(file);
         }
@@ -78,19 +78,19 @@ public class EclipseCodeFormatter implements CodeFormatter {
         }
     }
 
-    public boolean supportsReformatFilesInDirectory() {
+    public boolean supportsReformatDirectory() {
         return false;
     }
 
-    public void reformatFilesInDirectory(@NotNull File directory) {
+    public void reformatDirectory(@NotNull File directory) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean supportsReformatFilesInDirectoryRecursively() {
+    public boolean supportsReformatRecursively() {
         return true;
     }
 
-    public void reformatFilesInDirectoryRecursively(@NotNull File directory) {
+    public void reformatRecursively(@NotNull File directory) {
         try {
             executer.execute(commandFor(quoted(directory.getCanonicalPath())));
         } catch (IOException e) {

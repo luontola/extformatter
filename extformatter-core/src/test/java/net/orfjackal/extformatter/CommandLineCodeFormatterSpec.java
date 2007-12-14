@@ -46,31 +46,31 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldExecuteCommandForASingleFile() throws IOException {
+        public void shouldExecuteCommandForReformatOne() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
+                one (executer).execute("format \"" + FOO_FILE.getAbsolutePath() + "\"");
             }});
-            formatter.reformatFile(FOO_FILE);
+            formatter.reformatOne(FOO_FILE);
         }
 
-        public void shouldExecuteCommandForFilesInDirectory() throws IOException {
+        public void shouldExecuteCommandForReformatDirectory() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
+                one (executer).execute("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
-            formatter.reformatFilesInDirectory(TESTFILES_DIR);
+            formatter.reformatDirectory(TESTFILES_DIR);
         }
 
-        public void shouldExecuteCommandForFilesInDirectoryRecursively() throws IOException {
+        public void shouldExecuteCommandForReformatRecursively() throws IOException {
             checking(new Expectations() {{
-                one(executer).execute("formatDirRec \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
+                one (executer).execute("formatDirRec \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
-            formatter.reformatFilesInDirectoryRecursively(TESTFILES_DIR);
+            formatter.reformatRecursively(TESTFILES_DIR);
         }
 
         public void shouldNotAllowFormattingANonExistingFile() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    formatter.reformatFile(new File("doesNotExist"));
+                    formatter.reformatOne(new File("doesNotExist"));
                 }
             }, should.raise(IllegalArgumentException.class));
         }
@@ -78,7 +78,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         public void shouldNotAllowFormattingANonExistingDirectory() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    formatter.reformatFilesInDirectory(new File("doesNotExist"));
+                    formatter.reformatDirectory(new File("doesNotExist"));
                 }
             }, should.raise(IllegalArgumentException.class));
         }
@@ -86,7 +86,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         public void shouldNotAcceptADirectoryAsAFile() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    formatter.reformatFile(TESTFILES_DIR);
+                    formatter.reformatOne(TESTFILES_DIR);
                 }
             }, should.raise(IllegalArgumentException.class));
         }
@@ -94,7 +94,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         public void shouldNotAcceptAFileAsADirectory() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    formatter.reformatFilesInDirectory(FOO_FILE);
+                    formatter.reformatDirectory(FOO_FILE);
                 }
             }, should.raise(IllegalArgumentException.class));
         }
@@ -105,7 +105,7 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
         }
     }
 
-    public class WhenOnlyReformatFileCommandIsSpecified {
+    public class WhenOnlyReformatOneCommandIsSpecified {
 
         private CodeFormatter formatter;
 
@@ -114,18 +114,18 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldSupportReformatFile() {
-            specify(formatter.supportsReformatFile());
+        public void shouldSupportReformatOne() {
+            specify(formatter.supportsReformatOne());
         }
 
         public void shouldNotSupportTheOthers() {
-            specify(should.not().be.supportsReformatFiles());
-            specify(should.not().be.supportsReformatFilesInDirectory());
-            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
+            specify(should.not().be.supportsReformatMany());
+            specify(should.not().be.supportsReformatDirectory());
+            specify(should.not().be.supportsReformatRecursively());
         }
     }
 
-    public class WhenOnlyReformatFilesInDirectoryCommandIsSpecified {
+    public class WhenOnlyReformatDirectoryCommandIsSpecified {
 
         private CodeFormatter formatter;
 
@@ -134,18 +134,18 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldSupportReformatFilesInDirectory() {
-            specify(formatter.supportsReformatFilesInDirectory());
+        public void shouldSupportReformatDirectory() {
+            specify(formatter.supportsReformatDirectory());
         }
 
         public void shouldNotSupportTheOthers() {
-            specify(should.not().be.supportsReformatFile());
-            specify(should.not().be.supportsReformatFiles());
-            specify(should.not().be.supportsReformatFilesInDirectoryRecursively());
+            specify(should.not().be.supportsReformatOne());
+            specify(should.not().be.supportsReformatMany());
+            specify(should.not().be.supportsReformatRecursively());
         }
     }
 
-    public class WhenOnlyReformatFilesInDirectoryRecursivelyCommandIsSpecified {
+    public class WhenOnlyReformatRecursivelyCommandIsSpecified {
 
         private CodeFormatter formatter;
 
@@ -154,14 +154,14 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
             return formatter;
         }
 
-        public void shouldSupportReformatFilesInDirectoryRecursively() {
-            specify(formatter.supportsReformatFilesInDirectoryRecursively());
+        public void shouldSupportReformatRecursively() {
+            specify(formatter.supportsReformatRecursively());
         }
 
         public void shouldNotSupportTheOthers() {
-            specify(should.not().be.supportsReformatFile());
-            specify(should.not().be.supportsReformatFiles());
-            specify(should.not().be.supportsReformatFilesInDirectory());
+            specify(should.not().be.supportsReformatOne());
+            specify(should.not().be.supportsReformatMany());
+            specify(should.not().be.supportsReformatDirectory());
         }
     }
 }

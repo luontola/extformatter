@@ -18,7 +18,7 @@
 
     <change-notes><![CDATA[
         <p>0.4.0 (2007-12-14)
-        <br>- Support for a generic command line formatter.</p>
+        <br>- Support for any code formatter which has a command line interface.</p>
 
         <p>0.3.0 (2007-12-12)
         <br>- Improved performance: Reformats all selected files by starting Eclipse only once</p>

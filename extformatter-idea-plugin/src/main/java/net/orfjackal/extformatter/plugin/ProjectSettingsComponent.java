@@ -88,7 +88,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
             }
         } catch (IllegalSettingsException e) {
             LOG.info(e);
-            throw new ConfigurationException("Error in the " + nameOf(e.getField()) + " field: " + e.getExplanation());
+            throw new ConfigurationException("Error in the \"" + nameOf(e.getField()) + "\" field: " + e.getExplanation());
         }
     }
 

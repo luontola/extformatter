@@ -24,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -120,7 +122,20 @@ public class ProjectSettingsForm {
                 browseForFile(eclipsePrefs);
             }
         });
-        updateComponents();
+        
+        rootComponent.addAncestorListener(new AncestorListener() {
+            public void ancestorAdded(AncestorEvent event) {
+                // Called when component becomes visible, to insure that 
+                // the popups are visible when the form is first shown.
+                updateComponents();
+            }
+
+            public void ancestorRemoved(AncestorEvent event) {
+            }
+
+            public void ancestorMoved(AncestorEvent event) {
+            }
+        });
     }
 
     private void browseForFile(@NotNull JTextField target) {

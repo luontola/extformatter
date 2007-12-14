@@ -21,6 +21,7 @@ import com.intellij.ui.DocumentAdapter;
 import static net.orfjackal.extformatter.CommandLineCodeFormatter.*;
 import net.orfjackal.extformatter.EclipseCodeFormatter;
 import net.orfjackal.extformatter.settings.Settings;
+import static net.orfjackal.extformatter.settings.Settings.Formatter.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,7 +45,7 @@ import java.util.List;
  */
 public class ProjectSettingsForm {
 
-    private static final Color NORMAL = Color.WHITE;
+    private static final Color NORMAL = new JTextField().getBackground();
     private static final Color WARNING = new Color(255, 255, 204);
     private static final Color ERROR = new Color(255, 204, 204);
 
@@ -170,7 +171,7 @@ public class ProjectSettingsForm {
     private void updateComponents() {
         hidePopups();
 
-        JComponent[] eclipseComponents = new JComponent[]{
+        enabledBy(useEclipseFormatter, new JComponent[]{
                 eclipseSupportedFileTypesLabel,
                 eclipseExecutable,
                 eclipseExecutableBrowse,
@@ -180,10 +181,7 @@ public class ProjectSettingsForm {
                 eclipsePrefsBrowse,
                 eclipsePrefsLabel,
                 eclipsePrefsExample,
-        };
-        for (JComponent component : eclipseComponents) {
-            enabledBy(useEclipseFormatter, component);
-        }
+        });
         if (notEmpty(eclipseExecutable) && fileExists(eclipseExecutable)) {
             ok(eclipseExecutable);
         }
@@ -191,7 +189,7 @@ public class ProjectSettingsForm {
             ok(eclipsePrefs);
         }
 
-        JComponent[] cliComponents = new JComponent[]{
+        enabledBy(useCliFormatter, new JComponent[]{
                 cliSupportedFileTypes,
                 cliSupportedFileTypesLabel,
                 cliSupportedFileTypesExample,
@@ -207,18 +205,23 @@ public class ProjectSettingsForm {
                 cliReformatRecursively,
                 cliReformatRecursivelyEnabled,
                 cliReformatRecursivelyExample,
-        };
-        for (JComponent component : cliComponents) {
-            enabledBy(useCliFormatter, component);
-        }
-        enabledBy(cliReformatOneEnabled, cliReformatOne);
-        enabledBy(cliReformatOneEnabled, cliReformatOneExample);
-        enabledBy(cliReformatManyEnabled, cliReformatMany);
-        enabledBy(cliReformatManyEnabled, cliReformatManyExample);
-        enabledBy(cliReformatDirectoryEnabled, cliReformatDirectory);
-        enabledBy(cliReformatDirectoryEnabled, cliReformatDirectoryExample);
-        enabledBy(cliReformatRecursivelyEnabled, cliReformatRecursively);
-        enabledBy(cliReformatRecursivelyEnabled, cliReformatRecursivelyExample);
+        });
+        enabledBy(cliReformatOneEnabled, new JComponent[]{
+                cliReformatOne,
+                cliReformatOneExample
+        });
+        enabledBy(cliReformatManyEnabled, new JComponent[]{
+                cliReformatMany,
+                cliReformatManyExample
+        });
+        enabledBy(cliReformatDirectoryEnabled, new JComponent[]{
+                cliReformatDirectory,
+                cliReformatDirectoryExample
+        });
+        enabledBy(cliReformatRecursivelyEnabled, new JComponent[]{
+                cliReformatRecursively,
+                cliReformatRecursivelyExample
+        });
         if (useCliFormatter.isSelected()) {
             atLeastOneSelected(
                     cliReformatOneEnabled,
@@ -243,8 +246,10 @@ public class ProjectSettingsForm {
         }
     }
 
-    private void enabledBy(@NotNull JToggleButton control, @NotNull JComponent target) {
-        target.setEnabled(control.isEnabled() && control.isSelected());
+    private void enabledBy(@NotNull JToggleButton control, @NotNull JComponent[] targets) {
+        for (JComponent target : targets) {
+            target.setEnabled(control.isEnabled() && control.isSelected());
+        }
     }
 
     private boolean notEmpty(@NotNull JTextField field) {
@@ -318,9 +323,9 @@ public class ProjectSettingsForm {
     }
 
     public void importFrom(@NotNull Settings in) {
-        useDefaultFormatter.setSelected(in.getFormatter().equals(Settings.Formatter.IDEA_DEFAULT));
-        useEclipseFormatter.setSelected(in.getFormatter().equals(Settings.Formatter.ECLIPSE));
-        useCliFormatter.setSelected(in.getFormatter().equals(Settings.Formatter.COMMAND_LINE));
+        useDefaultFormatter.setSelected(in.getFormatter().equals(DEFAULT));
+        useEclipseFormatter.setSelected(in.getFormatter().equals(ECLIPSE));
+        useCliFormatter.setSelected(in.getFormatter().equals(COMMAND_LINE));
 
         eclipseExecutable.setText(in.getEclipseExecutable());
         eclipsePrefs.setText(in.getEclipsePrefs());
@@ -340,11 +345,11 @@ public class ProjectSettingsForm {
 
     public void exportTo(@NotNull Settings out) {
         if (useEclipseFormatter.isSelected()) {
-            out.setFormatter(Settings.Formatter.ECLIPSE);
+            out.setFormatter(ECLIPSE);
         } else if (useCliFormatter.isSelected()) {
-            out.setFormatter(Settings.Formatter.COMMAND_LINE);
+            out.setFormatter(COMMAND_LINE);
         } else {
-            out.setFormatter(Settings.Formatter.IDEA_DEFAULT);
+            out.setFormatter(DEFAULT);
         }
 
         out.setEclipseExecutable(eclipseExecutable.getText());
@@ -363,13 +368,13 @@ public class ProjectSettingsForm {
 
     @SuppressWarnings({"RedundantIfStatement", "ConstantConditions"})
     public boolean isModified(Settings data) {
-        if (useDefaultFormatter.isSelected() != data.getFormatter().equals(Settings.Formatter.IDEA_DEFAULT)) {
+        if (useDefaultFormatter.isSelected() != data.getFormatter().equals(DEFAULT)) {
             return true;
         }
-        if (useEclipseFormatter.isSelected() != data.getFormatter().equals(Settings.Formatter.ECLIPSE)) {
+        if (useEclipseFormatter.isSelected() != data.getFormatter().equals(ECLIPSE)) {
             return true;
         }
-        if (useCliFormatter.isSelected() != data.getFormatter().equals(Settings.Formatter.COMMAND_LINE)) {
+        if (useCliFormatter.isSelected() != data.getFormatter().equals(COMMAND_LINE)) {
             return true;
         }
 

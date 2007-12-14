@@ -22,7 +22,7 @@
         </constraints>
         <properties>
           <labelFor value="5c82e"/>
-          <text value="Eclipse executable:"/>
+          <text value="Eclipse executable"/>
         </properties>
       </component>
       <component id="cd640" class="javax.swing.JLabel" binding="eclipsePrefsLabel">
@@ -31,7 +31,7 @@
         </constraints>
         <properties>
           <labelFor value="4ff2e"/>
-          <text value="Eclipse preferences:"/>
+          <text value="Eclipse preferences"/>
         </properties>
       </component>
       <component id="4ff2e" class="javax.swing.JTextField" binding="eclipsePrefs">
@@ -297,4 +297,9 @@
       <member id="85dc2"/>
     </group>
   </buttonGroups>
+  <inspectionSuppressions>
+    <suppress inspection="NoLabelFor"/>
+    <suppress inspection="MissingMnemonic"/>
+    <suppress inspection="NoScrollPane"/>
+  </inspectionSuppressions>
 </form>

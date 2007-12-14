@@ -24,6 +24,7 @@ import net.orfjackal.extformatter.CodeFormatter;
 import net.orfjackal.extformatter.CommandLineCodeFormatter;
 import net.orfjackal.extformatter.EclipseCodeFormatter;
 import net.orfjackal.extformatter.TestResources;
+import static net.orfjackal.extformatter.settings.Settings.Formatter.*;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class SettingsManagerSpec extends Specification<Settings> {
 
         public Settings create() {
             settings = new Settings();
-            settings.setFormatter(Settings.Formatter.IDEA_DEFAULT);
+            settings.setFormatter(DEFAULT);
             return settings;
         }
 
@@ -56,7 +57,7 @@ public class SettingsManagerSpec extends Specification<Settings> {
 
         public Settings create() throws IOException {
             settings = new Settings();
-            settings.setFormatter(Settings.Formatter.ECLIPSE);
+            settings.setFormatter(ECLIPSE);
             settings.setEclipseExecutable(TestResources.ECLIPSE_EXE_FILE.getPath());
             settings.setEclipsePrefs(TestResources.ECLIPSE_PREFS_FILE.getPath());
             return settings;
@@ -109,7 +110,7 @@ public class SettingsManagerSpec extends Specification<Settings> {
 
         public Settings create() throws IOException {
             settings = new Settings();
-            settings.setFormatter(Settings.Formatter.COMMAND_LINE);
+            settings.setFormatter(COMMAND_LINE);
             settings.setCliReformatOne("reformat %FILE%");
             settings.setCliReformatOneEnabled(true);
             settings.setCliReformatMany("reformat %FILES%");

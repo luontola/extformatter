@@ -29,7 +29,7 @@ import java.io.FileFilter;
  */
 public class FilesSupportedBy implements FileFilter {
 
-    private CodeFormatter formatter;
+    private final CodeFormatter formatter;
 
     public FilesSupportedBy(@NotNull CodeFormatter formatter) {
         this.formatter = formatter;

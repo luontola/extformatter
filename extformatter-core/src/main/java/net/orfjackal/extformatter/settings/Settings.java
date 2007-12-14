@@ -26,10 +26,10 @@ import org.jetbrains.annotations.NotNull;
 public class Settings implements Cloneable {
 
     public static enum Formatter {
-        IDEA_DEFAULT, ECLIPSE, COMMAND_LINE
+        DEFAULT, ECLIPSE, COMMAND_LINE
     }
 
-    @NotNull private Formatter formatter = Formatter.IDEA_DEFAULT;
+    @NotNull private Formatter formatter = Formatter.DEFAULT;
 
     @NotNull private String eclipseExecutable = "";
     @NotNull private String eclipsePrefs = "";

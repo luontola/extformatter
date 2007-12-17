@@ -35,9 +35,6 @@
         <h1>Configuring External Code Formatter</h1>
     </div>
 
-    <!-- TODO: add table of contents -->
-    <!-- TODO: add help for configuring a custom command line code formatter -->
-
     <div id="content">
 
         <div class="introduction">
@@ -51,58 +48,128 @@
                     the plugin will automatically fall back to using IDEA's built-in code formatter.
                 </li>
             </ul>
+
+            <p>Help topics:</p>
+            <ul>
+                <p class="emulateList"><img src="../DefaultCSS/img/blue_romb_blt.png" alt="">&nbsp;&nbsp;<a href="#eclipse">Using the Eclipse code formatter</a> </p>
+                <p class="emulateList"><img src="../DefaultCSS/img/blue_romb_blt.png" alt="">&nbsp;&nbsp;<a href="#cli">Using a custom code formatter</a> </p>
+            </ul>
+
         </div>
 
         <div class="section">
+            <a name="eclipse"><h2>Using the Eclipse code formatter</h2></a>
+
+            <p>You will need to have <b>Eclipse 3.2</b> or later installed to use the Eclipse code formatter from within
+                IDEA. The Eclipse code formatter supports formatting only Java source code files. When reformatting code
+                with it, Eclipse's startup banner will show up momentarily.</p>
+
+            <p>In <b>External Code Formatter</b>'s project settings, choose the
+                <span class="ijControl">Use the Eclipse code formatter</span> option and configure the following fields:</p>
+
+            <dl>
+                <dt>Eclipse executable</dt>
+                <dd>Point this to the install location of <b>Eclipse 3.2 or later</b>.
+
+                    <table cellpadding="4" cellspacing="0" class="ijTip">
+                        <tr>
+                            <td class="noteIcon"><img src="../DefaultCSS/img/tip.gif" alt="Note">&nbsp;</td>
+                            <td><p>On Windows, it is better to select <b>eclipsec.exe</b> instead of <b>eclipse.exe</b>,
+                                because the latter one would pop up a black command line dialog during reformatting.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </dd>
+
+                <dt>Eclipse preferences</dt>
+                <dd>The location of an Eclipse project's <b>org.eclipse.jdt.core.prefs</b> file which contains the
+                    formatter settings. You will need to enable project specific formatter settings in Eclipse to get
+                    this file. <a href="#eclipse-prefs">See the following section</a> for instructions on how to get
+                    this preferences file.
+                </dd>
+            </dl>
+
             <div class="ijProcedureSteps">
-                <p class="procHeader">Configuring Eclipse's code formatter</p>
+                <a name="eclipse-prefs"><p class="procHeader">Getting the Eclipse code formatter preferences file</p>
+                </a>
 
-                <p>
                 <ol>
-                    <li>In your <span class="ijControl">Project Settings</span>, open <b>External Code Formatter</b>'s
-                        configuration and tick <span class="ijControl">Enable for current project</span></li>
-
-                    <li>Browse for the location of the <span class="ijControl">Eclipse executable</span>. You will need
-                        to have <b>Eclipse 3.2</b> or later installed.
+                    <li>With your project open in <b>Eclipse</b>'s workspace, right-click the project and
+                        choose <span class="ijControl">Properties</span>.
                     </li>
-                </ol>
 
-                <table cellpadding="4" cellspacing="0" class="ijTip">
-                    <tr>
-                        <td class="noteIcon"><img src="../DefaultCSS/img/tip.gif" alt="Note">&nbsp;</td>
-                        <td><p>On Windows, it is better to select <b>eclipsec.exe</b> instead of <b>eclipse.exe</b>,
-                            because the latter one would pop up a black command line dialog during reformatting.
-                            However, in both cases Eclipse's startup logo will show up momentarily.</p></td>
-                    </tr>
-                </table>
-
-                <ol start="3">
-                    <li>If you have not already done it, you will need to enable project specific formatter settings in
-                        Eclipse. With your project open in <b>Eclipse</b>'s workspace, right-click the project and
-                        choose <span class="ijControl">Properties</span>. Go to <span class="ijControl">Java Code Style | Formatter</span>
-                        and select <span class="ijControl">Enable project specific settings</span> (see the image).
+                    <li>Go to <span class="ijControl">Java Code Style | Formatter</span>
+                        and select <span class="ijControl">Enable project specific settings</span>.
 
                         <p><img src="img/eclipseFormatter.png" alt=""/></p>
+                    </li>
 
-                        <p>Also in the <b>project properties</b>, go to <span class="ijControl">Java Compiler</span> and
-                            select <span class="ijControl">Enable project specific settings</span> (see the image). Make
-                            sure that the <span class="ijControl">Compiler compliance level</span> is set right.</p>
+                    <li>Also in the project properties, go to <span class="ijControl">Java Compiler</span> and
+                        select <span class="ijControl">Enable project specific settings</span>. Make
+                        sure that the <span class="ijControl">Compiler compliance level</span> is set right.
 
                         <p><img src="img/eclipseCompiler.png" alt=""/></p>
-
-                        <p>Click <span class="ijControl">OK</span> to save the settings. Go to the directory where your
-                            project is and navigate to the <b>.settings</b> subdirectory. There you will find a <b>org.eclipse.jdt.core.prefs</b>
-                            file which contains the Eclipse formatter settings.</p>
                     </li>
 
-                    <li>In <b>External Code Formatter</b>'s configuration, point <span class="ijControl">Eclipse preferences</span>
-                        to the <b>org.eclipse.jdt.core.prefs</b> file which was created in the previous step.
+                    <li>Click <span class="ijControl">OK</span> to save the settings.
                     </li>
 
-                    <li>Click <span class="ijControl">OK</span> to save the settings.</li>
+                    <li>Go to the <b>.settings</b> directory inside your project's directory. There you will find the
+                        <b>org.eclipse.jdt.core.prefs</b> file which contains the Eclipse formatter settings.
+                    </li>
                 </ol>
             </div>
         </div>
+
+        <div class="section">
+            <a name="cli"><h2>Use a custom code formatter</h2></a>
+
+            <p>You can use any code formatter which can be executed on the command line. Refer to the instructions of
+                your code formatter to find out the right command line parameters. It is possible to configure more than
+                one command, which will help <b>External Code Formatter</b> to reformat all files with as few formatter
+                executions as possible.</p>
+
+            <p>In <b>External Code Formatter</b>'s project settings, choose the
+                <span class="ijControl">Use a custom code formatter</span> option and configure the following fields:</p>
+
+            <dl>
+                <dt>Supported file types</dt>
+                <dd>A space separated list of file types which the code formatter should reformat. The wild card
+                    <span class="ijControl">*</span> is supported. To reformat all files, enter
+                    <span class="ijControl">*.*</span>. To reformat for example only Java and HTML files, enter
+                    <span class="ijControl">*.java *.html *.htm</span>.
+                </dd>
+
+                <dt>Command for reformat one file</dt>
+                <dd>A command which can be executed to reformat files one at a time. Even if no other commands are
+                    specified, it is possible to let all the code reformatting to be done with this one command, but it
+                    might be slower. This command should contain the tag <span class="ijControl">%FILE%</span> which
+                    will be replaced with the full path of the file being reformatted.
+                </dd>
+
+                <dt>Command for reformat many files</dt>
+                <dd>A command which can be executed to reformat a list of files. <i>This command has the best performance</i>
+                    and all code formatting can be done just with this command. If this command is specified, then there
+                    is no need to specify the other commands. This command should contain the tag
+                    <span class="ijControl">%FILES%</span> which will be replaced with a space separated list of the
+                    full paths of the files being reformatted.
+                </dd>
+
+                <dt>Command for reformat directory</dt>
+                <dd>A command which can be executed to reformat all supported files in a directory. Does not advance
+                    into subdirectories. This command should contain the tag <span class="ijControl">%DIRECTORY%</span>
+                    which will be replaced with the full path of the directory whose files are being reformatted.
+                </dd>
+
+                <dt>Command for reformat recursively</dt>
+                <dd>A command which can be executed to reformat all supported files in a directory tree. Advances
+                    recursively into all subdirectories. This command should contain the tag
+                    <span class="ijControl">%DIRECTORY%</span> which will be replaced with the full path of the
+                    parent directory whose files and subdirectories are being reformatted.
+                </dd>
+            </dl>
+        </div>
+    
     </div>
 
 </div>

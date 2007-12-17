@@ -28,6 +28,7 @@ import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import com.intellij.util.IncorrectOperationException;
 import net.orfjackal.extformatter.CodeFormatter;
+import net.orfjackal.extformatter.Messages;
 import net.orfjackal.extformatter.ReformatQueue;
 import net.orfjackal.extformatter.plugin.util.CommandRunner;
 import net.orfjackal.extformatter.plugin.util.WriteActionRunner;
@@ -95,7 +96,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         // TODO: even if undo would work, might not support undoing a groups of files with one command
         // IDEA requires this to be executed as a command and a write action
         return new CommandRunner(project, new WriteActionRunner(flushAndRefresh),
-                "Reformat Code (External Code Formatter)", null, UndoConfirmationPolicy.REQUEST_CONFIRMATION);
+                Messages.message("command.reformatCode"), null, UndoConfirmationPolicy.REQUEST_CONFIRMATION);
     }
 
     private boolean canReformat(@NotNull VirtualFile file) {

@@ -26,12 +26,14 @@ import org.jetbrains.annotations.NotNull;
 public class IllegalSettingsException extends Exception {
 
     @NotNull private final String field;
-    @NotNull private final String explanation;
+    @NotNull private final String errorKey;
+    @NotNull private final String[] errorParams;
 
-    public IllegalSettingsException(@NotNull String field, @NotNull String explanation) {
-        super(field + ": " + explanation);
+    public IllegalSettingsException(@NotNull String field, @NotNull String errorKey, @NotNull String... errorParams) {
+        super(field + ": " + errorKey);
         this.field = field;
-        this.explanation = explanation;
+        this.errorKey = errorKey;
+        this.errorParams = errorParams;
     }
 
     @NotNull
@@ -40,7 +42,12 @@ public class IllegalSettingsException extends Exception {
     }
 
     @NotNull
-    public String getExplanation() {
-        return explanation;
+    public String getErrorKey() {
+        return errorKey;
+    }
+
+    @NotNull
+    public String[] getErrorParams() {
+        return errorParams;
     }
 }

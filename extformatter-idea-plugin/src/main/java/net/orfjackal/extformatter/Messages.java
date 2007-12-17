@@ -18,6 +18,7 @@
 package net.orfjackal.extformatter;
 
 import com.intellij.CommonBundle;
+import net.orfjackal.extformatter.settings.IllegalSettingsException;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.PropertyKey;
 
@@ -38,10 +39,6 @@ public class Messages {
     private Messages() {
     }
 
-    public static String message(@PropertyKey(resourceBundle = BUNDLE_NAME)String key, Object... params) {
-        return CommonBundle.message(getBundle(), key, params);
-    }
-
     private static ResourceBundle getBundle() {
         ResourceBundle bundle = null;
         if (Messages.bundle != null) {
@@ -52,5 +49,15 @@ public class Messages {
             Messages.bundle = new SoftReference<ResourceBundle>(bundle);
         }
         return bundle;
+    }
+
+    public static String message(@PropertyKey(resourceBundle = BUNDLE_NAME)String key, Object... params) {
+        return CommonBundle.message(getBundle(), key, params);
+    }
+
+    public static String message(IllegalSettingsException e) {
+        String field = message(e.getField());
+        String error = message(e.getErrorKey(), e.getErrorParams());
+        return message("error.errorInField", field, error);
     }
 }

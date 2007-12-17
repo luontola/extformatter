@@ -27,6 +27,7 @@ import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import net.orfjackal.extformatter.CodeFormatter;
+import net.orfjackal.extformatter.Messages;
 import net.orfjackal.extformatter.Resources;
 import net.orfjackal.extformatter.settings.IllegalSettingsException;
 import net.orfjackal.extformatter.settings.Settings;
@@ -37,8 +38,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Takes care of initializing a project's {@link CodeFormatter} and disposing of it when the project is closed.
@@ -88,28 +87,8 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
             }
         } catch (IllegalSettingsException e) {
             LOG.info(e);
-            throw new ConfigurationException("Error in the \"" + nameOf(e.getField()) + "\" field: " + e.getExplanation());
+            throw new ConfigurationException(Messages.message(e));
         }
-    }
-
-    @NotNull
-    private static String nameOf(@NotNull String field) {
-        // TODO: localize, put names and other texts to a resource bundle
-        Map<String, String> fieldNames = new HashMap<String, String>();
-        fieldNames.put("eclipseExecutable", "Eclipse executable");
-        fieldNames.put("eclipsePrefs", "Eclipse preferences");
-        fieldNames.put("cliSupportedFileTypes", "Supported file types");
-        fieldNames.put("cliReformatOne", "Command for reformat one file");
-        fieldNames.put("cliReformatOneEnabled", "Command for reformat one file");
-        fieldNames.put("cliReformatMany", "Command for reformat many files");
-        fieldNames.put("cliReformatDirectory", "Command for reformat directory");
-        fieldNames.put("cliReformatRecursively", "Command for reformat recursively");
-        String name = fieldNames.get(field);
-        if (name == null) {
-            LOG.warn("Unknown field: " + field);
-            return field;
-        }
-        return name;
     }
 
     // implements ProjectComponent
@@ -137,7 +116,7 @@ public class ProjectSettingsComponent implements ProjectComponent, Configurable,
 
     @Nls
     public String getDisplayName() {
-        return "External\nCode Formatter";
+        return Messages.message("action.pluginSettings");
     }
 
     @Nullable

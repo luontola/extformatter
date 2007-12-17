@@ -34,6 +34,8 @@ import java.io.File;
  */
 public class SettingsManager {
 
+    private static final String WHITESPACE = "\\s+";
+
     @Nullable
     public static CodeFormatter newFormatter(@NotNull Settings settings) throws IllegalSettingsException {
         if (settings.getFormatter().equals(Settings.Formatter.ECLIPSE)) {
@@ -47,14 +49,14 @@ public class SettingsManager {
 
     @NotNull
     private static EclipseCodeFormatterFactory eclipseFactory(@NotNull Settings settings) throws IllegalSettingsException {
-        mustNotBeEmpty(settings.getEclipseExecutable(), "eclipseExecutable");
-        mustNotBeEmpty(settings.getEclipsePrefs(), "eclipsePrefs");
+        mustNotBeEmpty(settings.getEclipseExecutable(), "settings.eclipseExecutable");
+        mustNotBeEmpty(settings.getEclipsePrefs(), "settings.eclipsePrefs");
 
         File eclipsePrefs = new File(settings.getEclipsePrefs());
         File eclipseExecutable = new File(settings.getEclipseExecutable());
 
-        fileMustExist(eclipseExecutable, "eclipseExecutable");
-        fileMustExist(eclipsePrefs, "eclipsePrefs");
+        fileMustExist(eclipseExecutable, "settings.eclipseExecutable");
+        fileMustExist(eclipsePrefs, "settings.eclipsePrefs");
 
         EclipseCodeFormatterFactory factory = new EclipseCodeFormatterFactory();
         factory.setEclipseExecutable(eclipseExecutable);
@@ -69,53 +71,53 @@ public class SettingsManager {
                 && !settings.isCliReformatManyEnabled()
                 && !settings.isCliReformatDirectoryEnabled()
                 && !settings.isCliReformatRecursivelyEnabled()) {
-            throw new IllegalSettingsException("cliReformatOneEnabled", "At least one the commands must be enabled");
+            throw new IllegalSettingsException("settings.cliOneFile", "error.enableAtLeastOneCommand");
         }
         if (settings.isCliReformatOneEnabled()) {
             String s = settings.getCliReformatOne();
-            mustNotBeEmpty(s, "cliReformatOne");
-            mustContain(FILE_TAG, s, "cliReformatOne");
+            mustNotBeEmpty(s, "settings.cliOneFile");
+            mustContain(FILE_TAG, s, "settings.cliOneFile");
             factory.setOneFileCommand(s);
         }
         if (settings.isCliReformatManyEnabled()) {
             String s = settings.getCliReformatMany();
-            mustNotBeEmpty(s, "cliReformatMany");
-            mustContain(FILES_TAG, s, "cliReformatMany");
+            mustNotBeEmpty(s, "settings.cliManyFiles");
+            mustContain(FILES_TAG, s, "settings.cliManyFiles");
             factory.setManyFilesCommand(s);
         }
         if (settings.isCliReformatDirectoryEnabled()) {
             String s = settings.getCliReformatDirectory();
-            mustNotBeEmpty(s, "cliReformatDirectory");
-            mustContain(DIRECTORY_TAG, s, "cliReformatDirectory");
+            mustNotBeEmpty(s, "settings.cliDirectory");
+            mustContain(DIRECTORY_TAG, s, "settings.cliDirectory");
             factory.setDirectoryCommand(s);
         }
         if (settings.isCliReformatRecursivelyEnabled()) {
             String s = settings.getCliReformatRecursively();
-            mustNotBeEmpty(s, "cliReformatRecursively");
-            mustContain(DIRECTORY_TAG, s, "cliReformatRecursively");
+            mustNotBeEmpty(s, "settings.cliRecursive");
+            mustContain(DIRECTORY_TAG, s, "settings.cliRecursive");
             factory.setRecursiveCommand(s);
         }
         String s = settings.getCliSupportedFileTypes();
-        mustNotBeEmpty(s, "cliSupportedFileTypes");
-        factory.setSupportedFileTypes(s.split("\\s+"));
+        mustNotBeEmpty(s, "settings.cliFileTypes");
+        factory.setSupportedFileTypes(s.split(WHITESPACE));
         return factory;
     }
 
     private static void mustNotBeEmpty(@NotNull String s, @NotNull String field) throws IllegalSettingsException {
         if (isEmpty(s)) {
-            throw new IllegalSettingsException(field, "Field is empty");
+            throw new IllegalSettingsException(field, "error.emptyField");
         }
     }
 
     private static void mustContain(@NotNull String needle, @NotNull String haystack, @NotNull String field) throws IllegalSettingsException {
         if (!haystack.contains(needle)) {
-            throw new IllegalSettingsException(field, "Does not contain text: " + needle);
+            throw new IllegalSettingsException(field, "error.doesNotContain", needle);
         }
     }
 
     private static void fileMustExist(@NotNull File file, @NotNull String field) throws IllegalSettingsException {
         if (!file.isFile()) {
-            throw new IllegalSettingsException(field, "File does not exist: " + file);
+            throw new IllegalSettingsException(field, "error.noSuchFile", file.toString());
         }
     }
 

@@ -28,26 +28,29 @@
             <groupId>com.intellij.idea</groupId>
             <artifactId>openapi</artifactId>
             <version>${idea.version}</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/openapi.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.intellij.idea</groupId>
             <artifactId>extensions</artifactId>
             <version>${idea.version}</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/extensions.jar</systemPath>
         </dependency>
 
+        <!-- TODO: get forms_rt somewhere else, so that we can get rid of install-idea-files.bar -->
         <dependency>
             <groupId>com.intellij.idea</groupId>
             <artifactId>forms_rt</artifactId>
             <version>${idea.version}</version>
             <!--<scope>provided</scope>-->
             <scope>compile</scope>
-            <!-- 'ideauidesigner-maven-plugin' does not support using 'provided' scope -->
+            <!-- 'ideauidesigner-maven-plugin' does not support using 'provided' scope so 'compile' must be used instead -->
         </dependency>
 
-        <!-- Used by IDEA, not sure that which version -->
+        <!-- Used by IDEA (exact version unsure), with this dependency we can see the source and javadocs -->
         <dependency>
             <groupId>org.picocontainer</groupId>
             <artifactId>picocontainer</artifactId>
@@ -55,13 +58,13 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- TODO: move CodeStyleManagerEx to its own jar and add it as a system library, store with sources -->
+        <!-- TODO: we need access to CodeStyleManagerEx so openapi is not enough -->
         <dependency>
             <groupId>com.intellij.idea</groupId>
             <artifactId>idea</artifactId>
             <version>${idea.version}</version>
             <scope>system</scope>
-            <systemPath>C:\Program Files\JetBrains\idea-7.0-jdk15\lib\idea.jar</systemPath>
+            <systemPath>${idea.home}/lib/idea.jar</systemPath>
         </dependency>
 
     </dependencies>

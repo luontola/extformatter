@@ -12,8 +12,6 @@
         <module>extformatter-help</module>
     </modules>
     <properties>
-        <!-- TODO: store IDEA's path and version in a profile.xml file? -->
-        <idea.version>7.0.7361</idea.version>
         <plugin.name>External Code Formatter</plugin.name>
         <plugin.id>ExternalCodeFormatter</plugin.id>
     </properties>
@@ -66,7 +64,8 @@
             <groupId>com.intellij.idea</groupId>
             <artifactId>annotations</artifactId>
             <version>${idea.version}</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/annotations.jar</systemPath>
         </dependency>
 
         <!-- JDave -->

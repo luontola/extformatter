@@ -18,11 +18,14 @@ into IDEA.
 
 0. You will need have Maven (http://maven.apache.org/), IntelliJ IDEA 
    (http://www.jetbrains.com/idea/) and its Plugin Development Kit installed. 
-   The IDEA version required reads in pom.xml under the <idea.version> tag.
+   The IDEA version required reads in profiles.xml under the <idea.version> tag.
+   Change <idea.home> in profiles.xml to point to the IDEA installation.
 
-1. Configure IDEA_HOME in "idea-install-files.bat" to point to an IDEA 
+1. Configure IDEA_HOME in "idea-install-files.bat" to point to an IDEA
    installation of version IDEA_VERSION. Run the file to add the necessary jars 
    to your local maven repository. You need to do this only once.
+   (This step is needed because of a problem with ideauidesigner-maven-plugin.)
+   TODO: fix this problem and get rid of idea-install-files.bat
 
 2. Run the following command "mvn clean package assembly:assembly" in the root 
    source directory. On successive calls you may use the "mvn-assemble.bat" 

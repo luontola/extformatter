@@ -64,7 +64,7 @@
         </constraints>
         <properties>
           <labelFor value="90367"/>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.eclipseFileTypes"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.eclipseSupportedFileTypes"/>
         </properties>
       </component>
       <component id="90367" class="javax.swing.JTextField" binding="eclipseSupportedFileTypes">
@@ -82,7 +82,7 @@
           <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliOneFile"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliReformatOne"/>
         </properties>
       </component>
       <component id="cd01f" class="javax.swing.JCheckBox" binding="cliReformatDirectoryEnabled">
@@ -90,7 +90,7 @@
           <grid row="16" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliDirectory"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliReformatDirectory"/>
         </properties>
       </component>
       <component id="c1bc" class="javax.swing.JCheckBox" binding="cliReformatRecursivelyEnabled">
@@ -98,7 +98,7 @@
           <grid row="18" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliRecursive"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliReformatRecursively"/>
         </properties>
       </component>
       <component id="26900" class="javax.swing.JLabel" binding="cliSupportedFileTypesLabel">
@@ -107,7 +107,7 @@
         </constraints>
         <properties>
           <labelFor value="482ad"/>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliFileTypes"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliSupportedFileTypes"/>
         </properties>
       </component>
       <component id="482ad" class="javax.swing.JTextField" binding="cliSupportedFileTypes">
@@ -230,7 +230,7 @@
           <grid row="14" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliManyFiles"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliReformatMany"/>
         </properties>
       </component>
       <component id="3f0a6" class="javax.swing.JTextPane" binding="cliSupportedFileTypesExample">
@@ -241,7 +241,7 @@
           <background swing-color="Label.background"/>
           <editable value="false"/>
           <foreground swing-color="Label.foreground"/>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliFileTypesExample"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliSupportedFileTypesExample"/>
         </properties>
       </component>
       <component id="c204c" class="javax.swing.JTextPane" binding="cliReformatOneExample">
@@ -252,7 +252,7 @@
           <background swing-color="Label.background"/>
           <editable value="false"/>
           <foreground swing-color="Label.foreground"/>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliOneFileExample"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliReformatOneExample"/>
         </properties>
       </component>
       <component id="a7c5" class="javax.swing.JTextPane" binding="cliReformatManyExample">
@@ -263,7 +263,7 @@
           <background swing-color="Label.background"/>
           <editable value="false"/>
           <foreground swing-color="Label.foreground"/>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliManyFilesExample"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliReformatManyExample"/>
         </properties>
       </component>
       <component id="c9495" class="javax.swing.JTextPane" binding="cliReformatDirectoryExample">
@@ -274,7 +274,7 @@
           <background swing-color="Label.background"/>
           <editable value="false"/>
           <foreground swing-color="Label.foreground"/>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliDirectoryExample"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliReformatDirectoryExample"/>
         </properties>
       </component>
       <component id="8edee" class="javax.swing.JTextPane" binding="cliReformatRecursivelyExample">
@@ -285,7 +285,7 @@
           <background swing-color="Label.background"/>
           <editable value="false"/>
           <foreground swing-color="Label.foreground"/>
-          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliRecursiveExample"/>
+          <text resource-bundle="net/orfjackal/extformatter/messages" key="settings.cliReformatRecursivelyExample"/>
         </properties>
       </component>
     </children>

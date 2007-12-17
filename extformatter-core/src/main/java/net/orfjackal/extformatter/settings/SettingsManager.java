@@ -71,34 +71,34 @@ public class SettingsManager {
                 && !settings.isCliReformatManyEnabled()
                 && !settings.isCliReformatDirectoryEnabled()
                 && !settings.isCliReformatRecursivelyEnabled()) {
-            throw new IllegalSettingsException("settings.cliOneFile", "error.enableAtLeastOneCommand");
+            throw new IllegalSettingsException("settings.cliReformatOne", "error.noCommandsSelected");
         }
         if (settings.isCliReformatOneEnabled()) {
             String s = settings.getCliReformatOne();
-            mustNotBeEmpty(s, "settings.cliOneFile");
-            mustContain(FILE_TAG, s, "settings.cliOneFile");
+            mustNotBeEmpty(s, "settings.cliReformatOne");
+            mustContain(FILE_TAG, s, "settings.cliReformatOne");
             factory.setOneFileCommand(s);
         }
         if (settings.isCliReformatManyEnabled()) {
             String s = settings.getCliReformatMany();
-            mustNotBeEmpty(s, "settings.cliManyFiles");
-            mustContain(FILES_TAG, s, "settings.cliManyFiles");
+            mustNotBeEmpty(s, "settings.cliReformatMany");
+            mustContain(FILES_TAG, s, "settings.cliReformatMany");
             factory.setManyFilesCommand(s);
         }
         if (settings.isCliReformatDirectoryEnabled()) {
             String s = settings.getCliReformatDirectory();
-            mustNotBeEmpty(s, "settings.cliDirectory");
-            mustContain(DIRECTORY_TAG, s, "settings.cliDirectory");
+            mustNotBeEmpty(s, "settings.cliReformatDirectory");
+            mustContain(DIRECTORY_TAG, s, "settings.cliReformatDirectory");
             factory.setDirectoryCommand(s);
         }
         if (settings.isCliReformatRecursivelyEnabled()) {
             String s = settings.getCliReformatRecursively();
-            mustNotBeEmpty(s, "settings.cliRecursive");
-            mustContain(DIRECTORY_TAG, s, "settings.cliRecursive");
+            mustNotBeEmpty(s, "settings.cliReformatRecursively");
+            mustContain(DIRECTORY_TAG, s, "settings.cliReformatRecursively");
             factory.setRecursiveCommand(s);
         }
         String s = settings.getCliSupportedFileTypes();
-        mustNotBeEmpty(s, "settings.cliFileTypes");
+        mustNotBeEmpty(s, "settings.cliSupportedFileTypes");
         factory.setSupportedFileTypes(s.split(WHITESPACE));
         return factory;
     }

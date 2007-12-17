@@ -17,6 +17,9 @@
     <idea-version since-build="7361"/>
 
     <change-notes><![CDATA[
+        <p>0.4.1 (2007-12-xx)
+        <br>- Help documentation for using a custom code formatter.</p>
+
         <p>0.4.0 (2007-12-14)
         <br>- Support for any code formatter which has a command line interface.</p>
 

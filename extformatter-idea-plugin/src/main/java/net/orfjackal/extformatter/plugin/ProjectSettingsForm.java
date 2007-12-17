@@ -20,6 +20,7 @@ package net.orfjackal.extformatter.plugin;
 import com.intellij.ui.DocumentAdapter;
 import static net.orfjackal.extformatter.CommandLineCodeFormatter.*;
 import net.orfjackal.extformatter.EclipseCodeFormatter;
+import net.orfjackal.extformatter.Messages;
 import net.orfjackal.extformatter.settings.Settings;
 import static net.orfjackal.extformatter.settings.Settings.Formatter.*;
 import org.jetbrains.annotations.NotNull;
@@ -247,7 +248,7 @@ public class ProjectSettingsForm {
     private boolean notEmpty(@NotNull JTextField field) {
         if (field.getText().trim().length() == 0) {
             field.setBackground(WARNING);
-            showPopup(field, "Required field"); // TODO: localize
+            showPopup(field, Messages.message("warning.requiredField"));
             return false;
         }
         return true;
@@ -256,7 +257,7 @@ public class ProjectSettingsForm {
     private boolean containsText(@NotNull String needle, @NotNull JTextField field) {
         if (!field.getText().contains(needle)) {
             field.setBackground(ERROR);
-            showPopup(field, "Must contain: " + needle); // TODO: localize
+            showPopup(field, Messages.message("warning.mustContain", needle));
             return false;
         }
         return true;
@@ -265,7 +266,7 @@ public class ProjectSettingsForm {
     private boolean fileExists(@NotNull JTextField field) {
         if (!new File(field.getText()).isFile()) {
             field.setBackground(ERROR);
-            showPopup(field, "No such file"); // TODO: localize
+            showPopup(field, Messages.message("warning.noSuchFile"));
             return false;
         }
         return true;
@@ -277,7 +278,7 @@ public class ProjectSettingsForm {
                 return;
             }
         }
-        showPopup(buttons[0], "Select at least one"); // TODO: localize
+        showPopup(buttons[0], Messages.message("warning.selectAtLeastOne"));
     }
 
     private void ok(@NotNull JTextField field) {

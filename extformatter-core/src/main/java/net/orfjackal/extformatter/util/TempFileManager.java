@@ -54,6 +54,11 @@ public class TempFileManager {
     }
 
     @NotNull
+    public List<File> tempFiles() {
+        return new ArrayList<File>(tempsToOriginals.keySet());
+    }
+
+    @NotNull
     public Map<File, File> tempsToOriginals() {
         return new HashMap<File, File>(tempsToOriginals);
     }

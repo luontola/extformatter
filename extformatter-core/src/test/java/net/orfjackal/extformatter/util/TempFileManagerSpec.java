@@ -57,8 +57,11 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
 
         public void tempDirectoryShouldContainTempFilesWithTheSameNames() {
-            String[] fileNames = manager.tempDirectory(1).list();
-            specify(fileNames, should.containExactly(FOO_FILE.getName(), BAR_FILE.getName()));
+            final File FOO_TEMP = new File(manager.tempDirectory(1), FOO_FILE.getName());
+            final File BAR_TEMP = new File(manager.tempDirectory(1), BAR_FILE.getName());
+            List<File> files = manager.tempFiles();
+            specify(files.size(), should.equal(2));
+            specify(files, should.containExactly(FOO_TEMP, BAR_TEMP));
         }
 
         public void filesInTempDirectoryShouldBeCopiesOfTheOriginalFiles() throws IOException {

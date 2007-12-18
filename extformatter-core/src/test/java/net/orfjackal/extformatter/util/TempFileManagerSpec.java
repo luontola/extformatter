@@ -19,7 +19,13 @@ package net.orfjackal.extformatter.util;
 
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
+import static net.orfjackal.extformatter.TestResources.BAR_FILE;
+import static net.orfjackal.extformatter.TestResources.FOO_FILE;
+import static net.orfjackal.extformatter.util.FileUtil.contentsOf;
 import org.junit.runner.RunWith;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Esko Luontola
@@ -28,8 +34,75 @@ import org.junit.runner.RunWith;
 @RunWith(JDaveRunner.class)
 public class TempFileManagerSpec extends Specification<TempFileManager> {
 
+    public class ATempFileManager {
+
+        private TempFileManager manager;
+
+        public TempFileManager create() {
+            manager = new TempFileManager();
+            manager.add(FOO_FILE);
+            manager.add(BAR_FILE);
+            return manager;
+        }
+
+        public void destroy() {
+            manager.dispose();
+        }
+
+        public void shouldContainAllFiles() {
+            File[] files = manager.files();
+            specify(files.length, should.equal(2));
+            specify(files, should.containExactly(FOO_FILE, BAR_FILE));
+        }
+
+        public void tempDirectoryShouldContainTempFilesWithTheSameNames() {
+            String[] fileNames = manager.tempDirectory(1).list();
+            specify(fileNames, should.containExactly(FOO_FILE.getName(), BAR_FILE.getName()));
+        }
+
+        public void filesInTempDirectoryShouldBeCopiesOfTheOriginalFiles() throws IOException {
+            File tmpFoo = new File(manager.tempDirectory(1), FOO_FILE.getName());
+            specify(contentsOf(tmpFoo), should.equal(contentsOf(FOO_FILE)));
+        }
+
+        public void afterDisposingTheTempDirectoryShouldNotExist() {
+            manager.dispose();
+            specify(manager.tempDirectory().exists(), should.equal(false));
+        }
+    }
+
+    public class WhenThereAreManyFilesWithTheSameName {
+
+        private TempFileManager manager;
+
+        public TempFileManager create() {
+            manager = new TempFileManager();
+            manager.add(FOO_FILE);
+            manager.add(FOO_FILE);
+            return manager;
+        }
+
+        public void destroy() {
+            manager.dispose();
+        }
+
+        public void shouldContainAllFiles() {
+            File[] files = manager.files();
+            specify(files.length, should.equal(2));
+            specify(files, should.containExactly(FOO_FILE, FOO_FILE));
+        }
+
+        public void tempFilesShouldBeInDifferentDirectories() {
+            File tmpDir1 = manager.tempDirectory(1);
+            File tmpDir2 = manager.tempDirectory(2);
+            specify(tmpDir1, should.not().equal(tmpDir2));
+            specify(tmpDir1.list(), should.containExactly(FOO_FILE.getName()));
+            specify(tmpDir2.list(), should.containExactly(FOO_FILE.getName()));
+        }
+    }
+
     public class WhenManagerIsEmpty {
-        
+
         private TempFileManager manager;
 
         public TempFileManager create() {
@@ -41,10 +114,9 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
             manager.dispose();
         }
 
-        public void managerShouldContainNoFiles() {
-            specify(manager.size(), should.equal(0));
+        public void shouldContainNoFiles() {
+            specify(manager.files().length, should.equal(0));
         }
-
 
         public void tempDirectoryShouldExists() {
             specify(manager.tempDirectory().isDirectory());
@@ -60,7 +132,8 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
     }
 
-    public class WhenThereAreTwoManagers {
+    public class WhenThereAreManyManagers {
+
         private TempFileManager managerA;
         private TempFileManager managerB;
 

@@ -19,9 +19,7 @@ package net.orfjackal.extformatter.util;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author Esko Luontola
@@ -66,5 +64,31 @@ public class FileUtil {
             result.append(buf, 0, len);
         }
         return result.toString();
+    }
+
+    public static void copy(@NotNull File from, @NotNull File to) throws IOException {
+        InputStream readFrom = new FileInputStream(from);
+        OutputStream writeTo = new FileOutputStream(to);
+        try {
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = readFrom.read(buf)) >= 0) {
+                writeTo.write(buf, 0, len);
+            }
+        } finally {
+            readFrom.close();
+            writeTo.close();
+        }
+    }
+
+    public static void deleteRecursively(@NotNull File file) {
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                deleteRecursively(f);
+            }
+        }
+        if (!file.delete()) {
+            file.deleteOnExit();
+        }
     }
 }

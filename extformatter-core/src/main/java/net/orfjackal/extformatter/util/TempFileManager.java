@@ -20,6 +20,9 @@ package net.orfjackal.extformatter.util;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Esko Luontola
@@ -28,22 +31,26 @@ import java.io.File;
 public class TempFileManager {
 
     @NotNull private final File tempDirectory;
+    @NotNull private final List<File> files = new ArrayList<File>();
 
     public TempFileManager() {
         tempDirectory = createTempDirectory();
     }
 
-    public int size() {
-        return 0;
+    public File[] files() {
+        return files.toArray(new File[files.size()]);
     }
 
-    public File tempDirectory() {
+    protected File tempDirectory() {
         return tempDirectory;
     }
 
+    protected File tempDirectory(int subdir) {
+        return new File(tempDirectory, String.valueOf(subdir));
+    }
+
     public void dispose() {
-        tempDirectory.delete();
-        tempDirectory.deleteOnExit();
+        FileUtil.deleteRecursively(tempDirectory);
     }
 
     private static File createTempDirectory() {
@@ -59,4 +66,28 @@ public class TempFileManager {
             throw new RuntimeException("Unable to create directory: " + dir);
         }
     }
+
+    public void add(File file) {
+        try {
+            copyToTemp(file);
+            files.add(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void copyToTemp(File file) throws IOException {
+        int i = 0;
+        File tmpFile;
+        do {
+            i++;
+            File dir = tempDirectory(i);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            tmpFile = new File(dir, file.getName());
+        } while (tmpFile.exists());
+        FileUtil.copy(file, tmpFile);
+    }
+
 }

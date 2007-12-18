@@ -19,13 +19,14 @@ package net.orfjackal.extformatter.util;
 
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
-import static net.orfjackal.extformatter.TestResources.BAR_FILE;
-import static net.orfjackal.extformatter.TestResources.FOO_FILE;
+import static net.orfjackal.extformatter.TestResources.*;
 import static net.orfjackal.extformatter.util.FileUtil.contentsOf;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Esko Luontola
@@ -50,8 +51,8 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
 
         public void shouldContainAddedFiles() {
-            File[] files = manager.files();
-            specify(files.length, should.equal(2));
+            List<File> files = manager.originalFiles();
+            specify(files.size(), should.equal(2));
             specify(files, should.containExactly(FOO_FILE, BAR_FILE));
         }
 
@@ -63,6 +64,18 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         public void filesInTempDirectoryShouldBeCopiesOfTheOriginalFiles() throws IOException {
             File tmpFoo = new File(manager.tempDirectory(1), FOO_FILE.getName());
             specify(contentsOf(tmpFoo), should.equal(contentsOf(FOO_FILE)));
+        }
+
+        public void tempFilesShouldBeMappedToTheOriginalFiles() {
+            Map<File, File> map = manager.tempsToOriginals();
+            specify(map.keySet().size(), should.equal(2));
+            specify(map.values(), should.containExactly(FOO_FILE, BAR_FILE));
+            for (File tmp : map.keySet()) {
+                File original = map.get(tmp);
+                specify(tmp.getName(), should.equal(original.getName()));
+                specify(tmp.getParentFile(), should.equal(manager.tempDirectory(1)));
+                specify(original.getParentFile(), should.equal(TESTFILES_DIR));
+            }
         }
 
         public void afterDisposingTheTempDirectoryShouldNotExist() {
@@ -85,7 +98,7 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
 
         public void shouldContainNoFiles() {
-            specify(manager.files().length, should.equal(0));
+            specify(manager.originalFiles().size(), should.equal(0));
         }
 
         public void tempDirectoryShouldExists() {
@@ -118,8 +131,8 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
 
         public void shouldContainAddedFiles() {
-            File[] files = manager.files();
-            specify(files.length, should.equal(2));
+            List<File> files = manager.originalFiles();
+            specify(files.size(), should.equal(2));
             specify(files, should.containExactly(FOO_FILE, FOO_FILE));
         }
 

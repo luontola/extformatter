@@ -22,7 +22,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Esko Luontola
@@ -31,60 +33,74 @@ import java.util.List;
 public class TempFileManager {
 
     @NotNull private final File tempDirectory;
-    @NotNull private final List<File> files = new ArrayList<File>();
+    @NotNull private final Map<File, File> tempsToOriginals = new HashMap<File, File>();
 
     public TempFileManager() {
         tempDirectory = createTempDirectory();
     }
 
-    public void add(File file) {
+    public void add(@NotNull File file) {
         try {
-            copyToTemp(file);
-            files.add(file);
+            File tempFile = copyToTemp(file);
+            tempsToOriginals.put(tempFile, file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public File[] files() {
-        return files.toArray(new File[files.size()]);
+    @NotNull
+    public List<File> originalFiles() {
+        return new ArrayList<File>(tempsToOriginals.values());
+    }
+
+    @NotNull
+    public Map<File, File> tempsToOriginals() {
+        return new HashMap<File, File>(tempsToOriginals);
     }
 
     public void dispose() {
         FileUtil.deleteRecursively(tempDirectory);
+        tempsToOriginals.clear();
     }
 
+    @NotNull
     protected File tempDirectory() {
         return tempDirectory;
     }
 
+    @NotNull
     protected File tempDirectory(int subdir) {
         return new File(tempDirectory, String.valueOf(subdir));
     }
 
-    private void copyToTemp(File file) throws IOException {
-        File tmpFile = newTempFile(file);
-        createParentDir(tmpFile);
-        FileUtil.copy(file, tmpFile);
+    // Helper methods
+    @NotNull
+    private File copyToTemp(@NotNull File file) throws IOException {
+        File tempFile = newTempFile(file);
+        createParentDir(tempFile);
+        FileUtil.copy(file, tempFile);
+        return tempFile;
     }
 
-    private File newTempFile(File file) {
+    @NotNull
+    private File newTempFile(@NotNull File file) {
         int i = 0;
-        File tmpFile;
+        File tempFile;
         do {
             i++;
-            tmpFile = new File(tempDirectory(i), file.getName());
-        } while (tmpFile.exists());
-        return tmpFile;
+            tempFile = new File(tempDirectory(i), file.getName());
+        } while (tempFile.exists());
+        return tempFile;
     }
 
-    private static void createParentDir(File file) {
+    private static void createParentDir(@NotNull File file) {
         File dir = file.getParentFile();
         if (!dir.exists()) {
             dir.mkdir();
         }
     }
 
+    @NotNull
     private static File createTempDirectory() {
         File dir = newTempDir();
         if (!dir.mkdir()) {
@@ -93,6 +109,7 @@ public class TempFileManager {
         return dir;
     }
 
+    @NotNull
     private static File newTempDir() {
         int i = 0;
         File dir;

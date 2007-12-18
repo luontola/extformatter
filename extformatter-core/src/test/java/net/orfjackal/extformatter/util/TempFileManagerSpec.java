@@ -25,7 +25,6 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,16 +50,16 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
 
         public void shouldContainAddedFiles() {
-            List<File> files = manager.originalFiles();
-            specify(files.size(), should.equal(2));
+            File[] files = manager.originalFiles();
+            specify(files.length, should.equal(2));
             specify(files, should.containExactly(FOO_FILE, BAR_FILE));
         }
 
         public void tempDirectoryShouldContainTempFilesWithTheSameNames() {
             final File FOO_TEMP = new File(manager.tempDirectory(1), FOO_FILE.getName());
             final File BAR_TEMP = new File(manager.tempDirectory(1), BAR_FILE.getName());
-            List<File> files = manager.tempFiles();
-            specify(files.size(), should.equal(2));
+            File[] files = manager.tempFiles();
+            specify(files.length, should.equal(2));
             specify(files, should.containExactly(FOO_TEMP, BAR_TEMP));
         }
 
@@ -101,7 +100,7 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
 
         public void shouldContainNoFiles() {
-            specify(manager.originalFiles().size(), should.equal(0));
+            specify(manager.originalFiles().length, should.equal(0));
         }
 
         public void tempDirectoryShouldExists() {
@@ -134,8 +133,8 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
 
         public void shouldContainAddedFiles() {
-            List<File> files = manager.originalFiles();
-            specify(files.size(), should.equal(2));
+            File[] files = manager.originalFiles();
+            specify(files.length, should.equal(2));
             specify(files, should.containExactly(FOO_FILE, FOO_FILE));
         }
 

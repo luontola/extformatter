@@ -21,10 +21,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Esko Luontola
@@ -49,13 +49,15 @@ public class TempFileManager {
     }
 
     @NotNull
-    public List<File> originalFiles() {
-        return new ArrayList<File>(tempsToOriginals.values());
+    public File[] originalFiles() {
+        Collection<File> files = tempsToOriginals.values();
+        return files.toArray(new File[files.size()]);
     }
 
     @NotNull
-    public List<File> tempFiles() {
-        return new ArrayList<File>(tempsToOriginals.keySet());
+    public File[] tempFiles() {
+        Set<File> files = tempsToOriginals.keySet();
+        return files.toArray(new File[files.size()]);
     }
 
     @NotNull

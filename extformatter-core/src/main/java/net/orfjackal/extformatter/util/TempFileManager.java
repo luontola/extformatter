@@ -37,8 +37,21 @@ public class TempFileManager {
         tempDirectory = createTempDirectory();
     }
 
+    public void add(File file) {
+        try {
+            copyToTemp(file);
+            files.add(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public File[] files() {
         return files.toArray(new File[files.size()]);
+    }
+
+    public void dispose() {
+        FileUtil.deleteRecursively(tempDirectory);
     }
 
     protected File tempDirectory() {
@@ -49,45 +62,44 @@ public class TempFileManager {
         return new File(tempDirectory, String.valueOf(subdir));
     }
 
-    public void dispose() {
-        FileUtil.deleteRecursively(tempDirectory);
+    private void copyToTemp(File file) throws IOException {
+        File tmpFile = newTempFile(file);
+        createParentDir(tmpFile);
+        FileUtil.copy(file, tmpFile);
+    }
+
+    private File newTempFile(File file) {
+        int i = 0;
+        File tmpFile;
+        do {
+            i++;
+            tmpFile = new File(tempDirectory(i), file.getName());
+        } while (tmpFile.exists());
+        return tmpFile;
+    }
+
+    private static void createParentDir(File file) {
+        File dir = file.getParentFile();
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
     }
 
     private static File createTempDirectory() {
+        File dir = newTempDir();
+        if (!dir.mkdir()) {
+            throw new RuntimeException("Unable to create directory: " + dir);
+        }
+        return dir;
+    }
+
+    private static File newTempDir() {
         int i = 0;
         File dir;
         do {
             i++;
             dir = new File(System.getProperty("java.io.tmpdir"), TempFileManager.class.getName() + "." + i);
         } while (dir.exists());
-        if (dir.mkdir()) {
-            return dir;
-        } else {
-            throw new RuntimeException("Unable to create directory: " + dir);
-        }
+        return dir;
     }
-
-    public void add(File file) {
-        try {
-            copyToTemp(file);
-            files.add(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void copyToTemp(File file) throws IOException {
-        int i = 0;
-        File tmpFile;
-        do {
-            i++;
-            File dir = tempDirectory(i);
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-            tmpFile = new File(dir, file.getName());
-        } while (tmpFile.exists());
-        FileUtil.copy(file, tmpFile);
-    }
-
 }

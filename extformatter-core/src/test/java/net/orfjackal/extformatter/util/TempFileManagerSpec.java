@@ -49,7 +49,7 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
             manager.dispose();
         }
 
-        public void shouldContainAllFiles() {
+        public void shouldContainAddedFiles() {
             File[] files = manager.files();
             specify(files.length, should.equal(2));
             specify(files, should.containExactly(FOO_FILE, BAR_FILE));
@@ -68,36 +68,6 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         public void afterDisposingTheTempDirectoryShouldNotExist() {
             manager.dispose();
             specify(manager.tempDirectory().exists(), should.equal(false));
-        }
-    }
-
-    public class WhenThereAreManyFilesWithTheSameName {
-
-        private TempFileManager manager;
-
-        public TempFileManager create() {
-            manager = new TempFileManager();
-            manager.add(FOO_FILE);
-            manager.add(FOO_FILE);
-            return manager;
-        }
-
-        public void destroy() {
-            manager.dispose();
-        }
-
-        public void shouldContainAllFiles() {
-            File[] files = manager.files();
-            specify(files.length, should.equal(2));
-            specify(files, should.containExactly(FOO_FILE, FOO_FILE));
-        }
-
-        public void tempFilesShouldBeInDifferentDirectories() {
-            File tmpDir1 = manager.tempDirectory(1);
-            File tmpDir2 = manager.tempDirectory(2);
-            specify(tmpDir1, should.not().equal(tmpDir2));
-            specify(tmpDir1.list(), should.containExactly(FOO_FILE.getName()));
-            specify(tmpDir2.list(), should.containExactly(FOO_FILE.getName()));
         }
     }
 
@@ -132,9 +102,40 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
         }
     }
 
+    public class WhenThereAreManyFilesWithTheSameName {
+
+        private TempFileManager manager;
+
+        public TempFileManager create() {
+            manager = new TempFileManager();
+            manager.add(FOO_FILE);
+            manager.add(FOO_FILE);
+            return manager;
+        }
+
+        public void destroy() {
+            manager.dispose();
+        }
+
+        public void shouldContainAddedFiles() {
+            File[] files = manager.files();
+            specify(files.length, should.equal(2));
+            specify(files, should.containExactly(FOO_FILE, FOO_FILE));
+        }
+
+        public void tempFilesShouldBeInDifferentDirectories() {
+            File tmpDir1 = manager.tempDirectory(1);
+            File tmpDir2 = manager.tempDirectory(2);
+            specify(tmpDir1, should.not().equal(tmpDir2));
+            specify(tmpDir1.list(), should.containExactly(FOO_FILE.getName()));
+            specify(tmpDir2.list(), should.containExactly(FOO_FILE.getName()));
+        }
+    }
+
     public class WhenThereAreManyManagers {
 
         private TempFileManager managerA;
+
         private TempFileManager managerB;
 
         public TempFileManager create() {

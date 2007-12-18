@@ -20,6 +20,7 @@ package net.orfjackal.extformatter.util;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -53,5 +54,17 @@ public class FileUtil {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @NotNull
+    public static String contentsOf(@NotNull File file) throws IOException {
+        FileReader reader = new FileReader(file);
+        StringBuilder result = new StringBuilder((int) (file.length() * 1.2));
+        char[] buf = new char[1024];
+        int len;
+        while ((len = reader.read(buf)) >= 0) {
+            result.append(buf, 0, len);
+        }
+        return result.toString();
     }
 }

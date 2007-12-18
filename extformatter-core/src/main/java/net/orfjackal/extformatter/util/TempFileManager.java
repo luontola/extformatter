@@ -97,6 +97,7 @@ public class TempFileManager {
             i++;
             tempFile = new File(tempDirectory(i), file.getName());
         } while (tempFile.exists());
+        assert !tempFile.exists();
         return tempFile;
     }
 
@@ -124,6 +125,7 @@ public class TempFileManager {
             i++;
             dir = new File(System.getProperty("java.io.tmpdir"), TempFileManager.class.getName() + "." + i);
         } while (dir.exists());
+        assert !dir.exists();
         return dir;
     }
 }

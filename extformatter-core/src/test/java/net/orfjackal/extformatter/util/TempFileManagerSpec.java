@@ -150,7 +150,6 @@ public class TempFileManagerSpec extends Specification<TempFileManager> {
     public class WhenThereAreManyManagers {
 
         private TempFileManager managerA;
-
         private TempFileManager managerB;
 
         public TempFileManager create() {

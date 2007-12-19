@@ -18,6 +18,7 @@
 
     <change-notes><![CDATA[
         <p>0.4.1 (2007-12-xx)
+        <br>- Support for Undo (Ctrl+Z)
         <br>- Help documentation for using a custom code formatter.</p>
 
         <p>0.4.0 (2007-12-14)
@@ -35,8 +36,9 @@
         <br>- Initial release</p>
 
         <p>Known issues
-        <br>- Ctrl+Z does not work after reformat (IDEA sees reformatting as an external change)
-        <br>- Does not support reformatting a selection within a file.
+        <br>- Does not support reformatting a selection within a file. Implementation of this feature
+              is not planned, until there is a code formatting tool (executable on the command line)
+              which supports reformatting a text range.
         </p>
     ]]></change-notes>
 

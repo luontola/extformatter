@@ -20,26 +20,31 @@ package net.orfjackal.extformatter.plugin;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.UndoConfirmationPolicy;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import com.intellij.util.IncorrectOperationException;
-import net.orfjackal.extformatter.CodeFormatter;
-import net.orfjackal.extformatter.Messages;
-import net.orfjackal.extformatter.ReformatQueue;
+import net.orfjackal.extformatter.*;
 import net.orfjackal.extformatter.plugin.util.CommandRunner;
+import net.orfjackal.extformatter.plugin.util.ConditionalRunner;
 import net.orfjackal.extformatter.plugin.util.WriteActionRunner;
+import net.orfjackal.extformatter.util.TempFileManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Intercepts the calls to {@link CodeStyleManager#reformatText(com.intellij.psi.PsiFile, int, int)} and redirects
- * them to a {@link CodeFormatter} if the formatter supports reformatting that file. Otherwise falls back to using
- * the original {@link CodeStyleManagerEx} instance.
+ * Intercepts the calls to {@link CodeStyleManager#reformatText} and redirects them
+ * to a {@link CodeFormatter} if the formatter supports reformatting that file.
+ * Otherwise falls back to using the original {@link CodeStyleManagerEx} instance.
  *
  * @author Esko Luontola
  * @since 3.12.2007
@@ -48,9 +53,10 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
 
     private static final Logger LOG = Logger.getInstance(ExternalizedCodeStyleManager.class.getName());
 
-    @NotNull private final ReformatQueue replacement;
+    @NotNull private final CodeFormatter replacement;
+    @NotNull private final List<VirtualFile> toBeReformatted = new ArrayList<VirtualFile>();
 
-    public ExternalizedCodeStyleManager(@NotNull CodeStyleManagerEx original, @NotNull ReformatQueue replacement) {
+    public ExternalizedCodeStyleManager(@NotNull CodeStyleManagerEx original, @NotNull CodeFormatter replacement) {
         super(original);
         this.replacement = replacement;
     }
@@ -70,33 +76,89 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
     /**
      * The formatting will be executed after IDEA has called the 'reformatText' method for all files
      * which should be reformatted in one go. Starting the formatter for each file would be very slow,
-     * especially in the case of EclipseCodeFormatter, so that's why a ReformatQueue must be used here.
+     * especially in the case of EclipseCodeFormatter, so that's why a the files are first put into
+     * a queue which is then processed in one go.
      */
-    private void queueReformatOf(final @NotNull VirtualFile file, @NotNull Project project) {
-        LOG.info("Queue for reformat: " + file.getPath());
-        save(file);
-        replacement.reformatOne(ioFile(file));
-        ApplicationManager.getApplication().invokeLater(flushAndRefresh(file, project));
+    private void queueReformatOf(@NotNull VirtualFile file, @NotNull Project project) {
+        LOG.info("Queue for reformat: " + file);
+        toBeReformatted.add(file);
+        ApplicationManager.getApplication().invokeLater(reformatQueuedFiles(project));
     }
 
     @NotNull
-    private Runnable flushAndRefresh(final @NotNull VirtualFile file, @NotNull Project project) {
-        Runnable flushAndRefresh = new Runnable() {
+    private Runnable reformatQueuedFiles(@NotNull Project project) {
+        Runnable reformatAll = new Runnable() {
             public void run() {
+                LOG.info("Reformatting files: " + toBeReformatted);
                 try {
-                    LOG.info("Flushing queue");
-                    replacement.flush();
+                    reformatWithUndoSupport(toBeReformatted);
                 } finally {
-                    LOG.info("Refresh reformatted file: " + file.getPath());
-                    file.refresh(false, false);
+                    toBeReformatted.clear();
                 }
             }
         };
-        // TODO: does not support undo (Ctrl+Z)
-        // TODO: even if undo would work, might not support undoing a groups of files with one command
-        // IDEA requires this to be executed as a command and a write action
-        return new CommandRunner(project, new WriteActionRunner(flushAndRefresh),
+
+        // IDEA requires 'reformatAll' to be executed as a command and a write action
+        CommandRunner reformatCommand = new CommandRunner(project, new WriteActionRunner(reformatAll),
                 Messages.message("command.reformatCode"), null, UndoConfirmationPolicy.REQUEST_CONFIRMATION);
+
+        return new ConditionalRunner(reformatCommand) {
+            public boolean runOnlyWhen() {
+                return !toBeReformatted.isEmpty();
+            }
+        };
+    }
+
+    /**
+     * HACK: We can't reformat the original files and then use {@link VirtualFile#refresh}
+     * so that IDEA would load the changes, because then it would not be possible to
+     * use the Undo (Ctrl+Z) command. The solution that is used here is to make
+     * temporary copies of all files, reformat them, and finally copy the text contents
+     * from the temporary files to the original files using the Document interface.
+     */
+    private void reformatWithUndoSupport(@NotNull List<VirtualFile> files) {
+        TempFileManager manager = tempFileManagerFor(files);
+        reformatOptimally(manager.tempFiles());
+        copyTextFromTempFiles(manager);
+        manager.dispose();
+    }
+
+    @NotNull
+    private static TempFileManager tempFileManagerFor(@NotNull List<VirtualFile> files) {
+        TempFileManager manager = new TempFileManager();
+        for (VirtualFile file : files) {
+            save(file);
+            manager.add(ioFile(file));
+        }
+        return manager;
+    }
+
+    private void reformatOptimally(@NotNull File[] files) {
+        ReformatQueue optimizer = new OptimizingReformatQueue(replacement);
+        new AdaptiveCodeFormatter(optimizer).reformatMany(files);
+        optimizer.flush();
+    }
+
+    private static void copyTextFromTempFiles(@NotNull TempFileManager manager) {
+        for (Map.Entry<File, File> entry : manager.tempsToOriginals().entrySet()) {
+            File temp = entry.getKey();
+            File original = entry.getValue();
+            copyText(temp, original);
+        }
+    }
+
+    private static void copyText(@NotNull File from, @NotNull File to) {
+        VirtualFile fromFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(from);
+        VirtualFile toFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(to);
+        if (fromFile != null && toFile != null) {
+            Document readFrom = FileDocumentManager.getInstance().getDocument(fromFile);
+            Document writeTo = FileDocumentManager.getInstance().getDocument(toFile);
+            writeTo.setText(readFrom.getText());
+        } else {
+            LOG.error("Error in copying text from \"" + from + "\" to \"" + to + "\""
+                    + "\nfromFile = " + fromFile
+                    + "\ntoFile = " + toFile);
+        }
     }
 
     private boolean canReformat(@NotNull VirtualFile file) {

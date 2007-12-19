@@ -22,7 +22,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import net.orfjackal.extformatter.CodeFormatter;
-import net.orfjackal.extformatter.OptimizingReformatQueue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.picocontainer.MutablePicoContainer;
@@ -59,8 +58,7 @@ public class ProjectCodeStyleInstaller {
     private void installCodeFormatter(@NotNull CodeFormatter formatter) {
         CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
         if (!(manager instanceof ExternalizedCodeStyleManager)) {
-            registerCodeStyleManager(project,
-                    new ExternalizedCodeStyleManager(manager, new OptimizingReformatQueue(formatter)));
+            registerCodeStyleManager(project, new ExternalizedCodeStyleManager(manager, formatter));
         }
     }
 

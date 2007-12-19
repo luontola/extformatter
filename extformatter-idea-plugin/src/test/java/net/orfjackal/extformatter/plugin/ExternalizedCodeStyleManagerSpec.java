@@ -24,7 +24,7 @@ import com.intellij.psi.xml.XmlFile;
 import com.intellij.util.IncorrectOperationException;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
-import net.orfjackal.extformatter.ReformatQueue;
+import net.orfjackal.extformatter.CodeFormatter;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
@@ -49,14 +49,14 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
 
         private PsiFile file;
         private CodeStyleManagerEx original;
-        private ReformatQueue replacement;
+        private CodeFormatter replacement;
         private ExternalizedCodeStyleManager manager;
 
         public ExternalizedCodeStyleManager create() throws Exception {
             if (TEST_DISABLED) return null;
             file = mock(PsiJavaFile.class); // 'file' is a real writable file in local file system
             original = mock(CodeStyleManagerEx.class);
-            replacement = mock(ReformatQueue.class);
+            replacement = mock(CodeFormatter.class);
             manager = new ExternalizedCodeStyleManager(original, replacement);
             return manager;
         }
@@ -88,7 +88,7 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
             if (TEST_DISABLED) return null;
             file = mock(XmlFile.class);
             original = mock(CodeStyleManagerEx.class);
-            ReformatQueue replacement = mock(ReformatQueue.class);
+            CodeFormatter replacement = mock(CodeFormatter.class);
             manager = new ExternalizedCodeStyleManager(original, replacement);
             return manager;
         }

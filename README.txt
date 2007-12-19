@@ -11,7 +11,7 @@ into IDEA.
 1. Unpack the binary release to %HOMEPATH%\.IntelliJIdea70\config\plugins
    or use IDEA's plugin manager to install it automatically.
 
-2. Follow the instructions in the plugin's configuration dialog.
+2. Follow the instructions in the plugin's configuration dialog and help pages.
 
 
     BUILDING
@@ -30,7 +30,7 @@ into IDEA.
 
     RELEASING A NEW VERSION
 
-1. Commands for releasing a new version:
+1. Run these commands in the project's root directory to release a new version:
 
       svn update
       mvn clean
@@ -46,7 +46,11 @@ into IDEA.
 When you build the project with Maven, a more readable plain text summary of the 
 tests will be generated in each module's "/target/jdave" directory. Start your 
 reading from there. For more details and usage examples, read the *Spec.java 
-files in the "/src/test/java" directories. 
+files in the "/src/test/java" directories.
+
+Note: JDave 1.0-rc1 (and earlier) relies on the order of the methods in the
+compiled class files, so the order of the test summaries is not always the same 
+as in the source code files.
 
 
     LICENSE

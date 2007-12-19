@@ -3,6 +3,9 @@
     <profile>
         <id>default</id>
         <properties>
+            <!-- build 7361 = 7.0
+                 build 7364 = 7.0.1
+                 build 7590 = 7.0.2 -->
             <idea.version>7361</idea.version>
             <idea.home>C:/Program Files/JetBrains/idea-7.0-jdk15</idea.home>
         </properties>

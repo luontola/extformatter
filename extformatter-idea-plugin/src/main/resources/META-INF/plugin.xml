@@ -17,12 +17,15 @@
     <idea-version since-build="7361"/>
 
     <change-notes><![CDATA[
+        <p>1.0.0 (2007-12-xx)
+        <br>- Version bump, final cleanups</p>
+
         <p>0.5.0 (2007-12-19)
         <br>- Support for Undo (Ctrl+Z)
-        <br>- Help documentation for using a custom code formatter.</p>
+        <br>- Help documentation for using a custom code formatter</p>
 
         <p>0.4.0 (2007-12-14)
-        <br>- Support for any code formatter which has a command line interface.</p>
+        <br>- Support for any code formatter which has a command line interface</p>
 
         <p>0.3.0 (2007-12-12)
         <br>- Improved performance: Reformats all selected files by starting Eclipse only once</p>

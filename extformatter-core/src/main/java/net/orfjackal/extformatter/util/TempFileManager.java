@@ -27,6 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Creates temporary copies of files, maintaining a mapping between the original files and their copies.
+ *
  * @author Esko Luontola
  * @since 18.12.2007
  */
@@ -48,18 +50,27 @@ public class TempFileManager {
         }
     }
 
+    /**
+     * Original files in no particular order.
+     */
     @NotNull
     public File[] originalFiles() {
         Collection<File> files = tempsToOriginals.values();
         return files.toArray(new File[files.size()]);
     }
 
+    /**
+     * Temporary files in no particular order.
+     */
     @NotNull
     public File[] tempFiles() {
         Set<File> files = tempsToOriginals.keySet();
         return files.toArray(new File[files.size()]);
     }
 
+    /**
+     * Mapping from the temporary files (keys) to the original files (values).
+     */
     @NotNull
     public Map<File, File> tempsToOriginals() {
         return new HashMap<File, File>(tempsToOriginals);

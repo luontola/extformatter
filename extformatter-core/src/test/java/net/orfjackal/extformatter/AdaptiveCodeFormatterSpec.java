@@ -33,8 +33,6 @@ import java.io.File;
 @RunWith(JDaveRunner.class)
 public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatter> {
     
-    // TODO: improve the readability of the tests
-
     public class WhenFormatterSupportsReformatOne {
 
         private CodeFormatter formatter;

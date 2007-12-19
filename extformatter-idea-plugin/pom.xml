@@ -58,7 +58,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- TODO: we need access to CodeStyleManagerEx so openapi is not enough -->
+        <!-- Access to CodeStyleManagerEx is required, so Open API is not enough -->
         <dependency>
             <groupId>com.intellij.idea</groupId>
             <artifactId>idea</artifactId>

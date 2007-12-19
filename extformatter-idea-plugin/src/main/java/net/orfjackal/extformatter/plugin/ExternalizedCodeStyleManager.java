@@ -118,6 +118,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
      * use the Undo (Ctrl+Z) command. The solution that is used here is to make
      * temporary copies of all files, reformat them, and finally copy the text contents
      * from the temporary files to the original files using the Document interface.
+     * (See http://www.intellij.net/forums/thread.jspa?threadID=271800&tstart=0)
      */
     private void reformatWithUndoSupport(@NotNull List<VirtualFile> files) {
         TempFileManager manager = tempFileManagerFor(files);

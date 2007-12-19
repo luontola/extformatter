@@ -41,11 +41,10 @@ import org.jetbrains.annotations.Nullable;
  */
 @SuppressWarnings({"deprecation"})
 public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
-    /* HACK:
-    This class must be a subclass of CodeStyleManagerEx (part of private API)
-    and not CodeStyleManager (part of Open API), because IDEA tries to cast it
-    to CodeStyleManagerEx in some parts of the code. If this class were to
-    extend CodeStyleManager, the following exception would happen often:
+    /* HACK: This class must be a subclass of CodeStyleManagerEx (part of private API)
+    and not CodeStyleManager (part of Open API), because IDEA tries to cast it to
+    CodeStyleManagerEx in some parts of the code. If this class were to extend CodeStyleManager, 
+    the following exception would happen often:
 
     java.lang.ClassCastException: net.orfjackal.extformatter.plugin.DelegatingCodeStyleManager cannot be cast to com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx
         at com.intellij.codeInsight.daemon.impl.PostHighlightingPass.<init>(PostHighlightingPass.java:24)

@@ -57,11 +57,16 @@ public class FileUtil {
     @NotNull
     public static String contentsOf(@NotNull File file) throws IOException {
         FileReader reader = new FileReader(file);
-        StringBuilder result = new StringBuilder((int) (file.length() * 1.2));
-        char[] buf = new char[1024];
-        int len;
-        while ((len = reader.read(buf)) >= 0) {
-            result.append(buf, 0, len);
+        StringBuilder result;
+        try {
+            result = new StringBuilder((int) (file.length() * 1.2));
+            char[] buf = new char[1024];
+            int len;
+            while ((len = reader.read(buf)) >= 0) {
+                result.append(buf, 0, len);
+            }
+        } finally {
+            reader.close();
         }
         return result.toString();
     }

@@ -29,7 +29,10 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import com.intellij.util.IncorrectOperationException;
-import net.orfjackal.extformatter.*;
+import net.orfjackal.extformatter.AdaptiveCodeFormatter;
+import net.orfjackal.extformatter.CodeFormatter;
+import net.orfjackal.extformatter.Messages;
+import net.orfjackal.extformatter.OptimizingReformatQueue;
 import net.orfjackal.extformatter.plugin.util.CommandRunner;
 import net.orfjackal.extformatter.plugin.util.ConditionalRunner;
 import net.orfjackal.extformatter.plugin.util.WriteActionRunner;
@@ -134,7 +137,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
     }
 
     private void reformatOptimally(@NotNull File[] files) {
-        ReformatQueue optimizer = new OptimizingReformatQueue(replacement);
+        OptimizingReformatQueue optimizer = new OptimizingReformatQueue(replacement);
         new AdaptiveCodeFormatter(optimizer).reformatMany(files);
         optimizer.flush();
     }

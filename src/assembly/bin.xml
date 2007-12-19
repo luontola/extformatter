@@ -16,9 +16,8 @@
             <binaries>
                 <outputDirectory>lib</outputDirectory>
                 <unpack>false</unpack>
-                <excludes>
-                    <exclude>com.intellij.idea:forms_rt</exclude>
-                </excludes>
+                <!-- HACK: includeDependencies is needed because of ideauidesigner-maven-plugin -->
+                <includeDependencies>false</includeDependencies>
             </binaries>
         </moduleSet>
         <moduleSet>

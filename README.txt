@@ -21,17 +21,11 @@ into IDEA.
    The IDEA version required reads in profiles.xml under the <idea.version> tag.
    Change <idea.home> in profiles.xml to point to the IDEA installation.
 
-2. Configure IDEA_HOME in "idea-install-files.bat" to point to an IDEA
-   installation of version IDEA_VERSION. Run the file to add the necessary jars 
-   to your local maven repository. You need to do this only once.
-   (This step is needed because of a problem with ideauidesigner-maven-plugin.)
-   TODO: fix this problem and get rid of idea-install-files.bat
-
-3. Run the following command "mvn clean package assembly:assembly" in the root
+2. Run the command "mvn clean package assembly:assembly" in the project's root
    source directory. On successive calls you may use the "mvn-assemble.bat" 
    script which operates in offline mode.
 
-4. Collect the *-bin.zip and *-src.zip files from the /target directory.
+3. Collect the *-bin.zip and *-src.zip files from the /target directory.
 
 
     RELEASING A NEW VERSION

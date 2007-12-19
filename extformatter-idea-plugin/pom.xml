@@ -40,14 +40,13 @@
             <systemPath>${idea.home}/lib/extensions.jar</systemPath>
         </dependency>
 
-        <!-- TODO: get forms_rt somewhere else, so that we can get rid of install-idea-files.bar -->
         <dependency>
-            <groupId>com.intellij.idea</groupId>
+            <groupId>com.intellij</groupId>
             <artifactId>forms_rt</artifactId>
-            <version>${idea.version}</version>
-            <!--<scope>provided</scope>-->
+            <version>6.0.5</version>
+            <!-- HACK: 'ideauidesigner-maven-plugin' does not support using 'provided'
+                 nor 'system' scopes, so 'compile' scope must be used instead -->
             <scope>compile</scope>
-            <!-- 'ideauidesigner-maven-plugin' does not support using 'provided' scope so 'compile' must be used instead -->
         </dependency>
 
         <!-- Used by IDEA (exact version unsure), with this dependency we can see the source and javadocs -->

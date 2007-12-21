@@ -56,9 +56,10 @@ public class FileUtil {
 
     @NotNull
     public static String contentsOf(@NotNull File file) throws IOException {
-        FileReader reader = new FileReader(file);
         StringBuilder result;
+        FileReader reader = null;
         try {
+            reader = new FileReader(file);
             result = new StringBuilder((int) (file.length() * 1.2));
             char[] buf = new char[1024];
             int len;
@@ -66,23 +67,24 @@ public class FileUtil {
                 result.append(buf, 0, len);
             }
         } finally {
-            reader.close();
+            close(reader);
         }
         return result.toString();
     }
 
     public static void copy(@NotNull File from, @NotNull File to) throws IOException {
-        InputStream readFrom = new FileInputStream(from);
-        OutputStream writeTo = new FileOutputStream(to);
+        InputStream readFrom = null;
+        OutputStream writeTo = null;
         try {
+            readFrom = new FileInputStream(from);
+            writeTo = new FileOutputStream(to);
             byte[] buf = new byte[1024];
             int len;
             while ((len = readFrom.read(buf)) >= 0) {
                 writeTo.write(buf, 0, len);
             }
         } finally {
-            readFrom.close();
-            writeTo.close();
+            close(readFrom, writeTo);
         }
     }
 
@@ -94,6 +96,18 @@ public class FileUtil {
         }
         if (!file.delete()) {
             file.deleteOnExit();
+        }
+    }
+
+    private static void close(Closeable... closeables) {
+        for (Closeable closeable : closeables) {
+            try {
+                if (closeable != null) {
+                    closeable.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

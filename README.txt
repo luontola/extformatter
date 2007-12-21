@@ -19,13 +19,14 @@ into IDEA.
 1. You will need have Maven (http://maven.apache.org/), IntelliJ IDEA
    (http://www.jetbrains.com/idea/) and its Plugin Development Kit installed. 
    The IDEA version required reads in profiles.xml under the <idea.version> tag.
-   Change <idea.home> in profiles.xml to point to the IDEA installation.
 
-2. Run the command "mvn clean package assembly:assembly" in the project's root
+2. Change <idea.home> in profiles.xml to point to the IDEA install location.
+
+3. Run the command "mvn clean package assembly:assembly" in the project's root
    source directory. On successive calls you may use the "mvn-assemble.bat" 
    script which operates in offline mode.
 
-3. Collect the *-bin.zip and *-src.zip files from the /target directory.
+4. Collect the *-bin.zip and *-src.zip files from the /target directory.
 
 
     RELEASING A NEW VERSION

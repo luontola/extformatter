@@ -71,10 +71,11 @@ public class EclipseCodeFormatterManualTests {
     public static class ReformatDirectoryTest {
 
         public static void main(String[] args) {
-            showCurrentTest(ReformatDirectoryTest.class, "Foo.java (1), Bar.java (2)");
-            prepareTestFiles();
-            newFormatter().reformatDirectory(testfilesDir);
-            showResultingFiles();
+            System.out.println("Does not support reformat directory");
+//            showCurrentTest(ReformatDirectoryTest.class, "Foo.java (1), Bar.java (2)");
+//            prepareTestFiles();
+//            newFormatter().reformatDirectory(testfilesDir);
+//            showResultingFiles();
         }
     }
 

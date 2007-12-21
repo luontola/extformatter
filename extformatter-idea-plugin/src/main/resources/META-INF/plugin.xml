@@ -16,9 +16,8 @@
 
     <idea-version since-build="7361"/>
 
-    <!-- TODO: release final 1.0.0 version -->
     <change-notes><![CDATA[
-        <p>1.0.0 (2007-12-xx)
+        <p>1.0.0 (2007-12-21)
         <br>- Minor refactorings</p>
 
         <p>0.5.0 (2007-12-19)

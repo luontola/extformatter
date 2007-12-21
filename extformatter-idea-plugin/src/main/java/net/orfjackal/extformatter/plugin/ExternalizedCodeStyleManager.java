@@ -24,6 +24,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.ReadonlyStatusHandler;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
@@ -68,7 +69,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         VirtualFile file = psiFile.getVirtualFile();
         Project project = psiFile.getProject();
         if (file != null
-                && canReformat(file)
+                && canReformat(file, project)
                 && wholeFile(psiFile, startOffset, endOffset)) {
             queueReformatOf(file, project);
         } else {
@@ -165,10 +166,14 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         }
     }
 
-    private boolean canReformat(@NotNull VirtualFile file) {
+    private boolean canReformat(@NotNull VirtualFile file, @NotNull Project project) {
         return file.isInLocalFileSystem()
-                && file.isWritable()
+                && isWritable(file, project)
                 && fileTypeIsSupported(file);
+    }
+
+    private static boolean isWritable(@NotNull VirtualFile file, @NotNull Project project) {
+        return !ReadonlyStatusHandler.getInstance(project).ensureFilesWritable(file).hasReadonlyFiles();
     }
 
     private boolean fileTypeIsSupported(@NotNull VirtualFile file) {

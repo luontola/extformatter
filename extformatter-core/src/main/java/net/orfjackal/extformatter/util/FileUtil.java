@@ -31,7 +31,7 @@ public class FileUtil {
     }
 
     @NotNull
-    public static String listOf(@NotNull File... files) {
+    public static String quotedListOf(@NotNull File... files) {
         if (files.length == 0) {
             throw new IllegalArgumentException("No files");
         }

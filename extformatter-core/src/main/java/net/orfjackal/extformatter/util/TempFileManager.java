@@ -92,6 +92,7 @@ public class TempFileManager {
     }
 
     // Helper methods
+
     @NotNull
     private File copyToTemp(@NotNull File file) throws IOException {
         File tempFile = newTempFile(file);

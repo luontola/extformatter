@@ -17,8 +17,8 @@
 
 package net.orfjackal.extformatter;
 
-import static net.orfjackal.extformatter.util.FileUtil.listOf;
 import static net.orfjackal.extformatter.util.FileUtil.quoted;
+import static net.orfjackal.extformatter.util.FileUtil.quotedListOf;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -127,7 +127,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     @NotNull
     private String parsed(@NotNull String command, @NotNull File[] files) {
         if (command.contains(FILES_TAG) && areFiles(files)) {
-            command = command.replaceAll(FILES_TAG, Matcher.quoteReplacement(listOf(files)));
+            command = command.replaceAll(FILES_TAG, Matcher.quoteReplacement(quotedListOf(files)));
         } else {
             throw new IllegalArgumentException("command '" + command + "',  file '" + Arrays.toString(files) + "'");
         }

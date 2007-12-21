@@ -17,8 +17,8 @@
 
 package net.orfjackal.extformatter;
 
-import static net.orfjackal.extformatter.util.FileUtil.listOf;
 import static net.orfjackal.extformatter.util.FileUtil.quoted;
+import static net.orfjackal.extformatter.util.FileUtil.quotedListOf;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -68,7 +68,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
         for (File file : files) {
             assert supportsFileType(file);
         }
-        executer.execute(commandFor(listOf(files)));
+        executer.execute(commandFor(quotedListOf(files)));
     }
 
     public boolean supportsReformatDirectory() {

@@ -61,7 +61,7 @@
         <!-- IntelliJ IDEA -->
 
         <dependency>
-            <groupId>com.intellij.idea</groupId>
+            <groupId>com.intellij</groupId>
             <artifactId>annotations</artifactId>
             <version>${idea.version}</version>
             <scope>system</scope>

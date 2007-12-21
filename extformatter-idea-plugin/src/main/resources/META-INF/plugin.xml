@@ -6,9 +6,9 @@
     <version>${project.version}</version>
 
     <description>
-        Allows using external code formatters, especially Eclipse's code formatter, from within IntelliJ IDEA.
-        Solves the problem of maintaining a common code style in team environments where both IDEA and Eclipse
-        are being used.
+        Allows using external code formatters, especially Eclipse's code formatter, as well as any command line code
+        formatting tools, from within IntelliJ IDEA. Solves the problem of maintaining a common code style in team
+        environments where both IDEA and Eclipse are used.
     </description>
     <category>Formatting</category>
 
@@ -19,7 +19,7 @@
     <!-- TODO: release final 1.0.0 version -->
     <change-notes><![CDATA[
         <p>1.0.0 (2007-12-xx)
-        <br>- Version bump, final cleanups</p>
+        <br>- Minor refactorings</p>
 
         <p>0.5.0 (2007-12-19)
         <br>- Support for Undo (Ctrl+Z)

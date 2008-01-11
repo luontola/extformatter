@@ -32,7 +32,9 @@ import java.io.File;
  */
 @RunWith(JDaveRunner.class)
 public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatter> {
-    
+
+    // TODO: simplify tests by using data-driven tests?
+
     public class WhenFormatterSupportsReformatOne {
 
         private CodeFormatter formatter;

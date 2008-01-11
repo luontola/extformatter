@@ -21,10 +21,9 @@ import jdave.Block;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
 import static net.orfjackal.extformatter.TestResources.*;
+import static net.orfjackal.extformatter.TestUtil.supportsReformatting;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
-
-import java.io.File;
 
 /**
  * @author Esko Luontola
@@ -40,16 +39,12 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
 
         public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
-            queue = new OptimizingReformatQueue(formatter);
             checking(new Expectations() {{
                 allowing (formatter).supportsFileType(JAVA_FILE);   will(returnValue(true));
                 allowing (formatter).supportsFileType(XML_FILE);    will(returnValue(false));
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(true));
-                allowing (formatter).supportsReformatMany();        will(returnValue(false));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
+            checking(supportsReformatting(formatter, true, false, false, false));
+            queue = new OptimizingReformatQueue(formatter);
             return queue;
         }
 
@@ -107,14 +102,8 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
 
         public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, true, true, false, false));
             queue = new OptimizingReformatQueue(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(true));
-                allowing (formatter).supportsReformatMany();        will(returnValue(true));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
-            }});
             return queue;
         }
 
@@ -136,14 +125,8 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
 
         public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, false, false, true, false));
             queue = new OptimizingReformatQueue(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(false));
-                allowing (formatter).supportsReformatMany();        will(returnValue(false));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(true));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
-            }});
             return queue;
         }
 
@@ -189,14 +172,8 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
 
         public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, false, false, false, true));
             queue = new OptimizingReformatQueue(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(false));
-                allowing (formatter).supportsReformatMany();        will(returnValue(false));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(true));
-            }});
             return queue;
         }
 
@@ -247,6 +224,7 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
         }
     }
 
+    @SuppressWarnings({"FieldCanBeLocal"})
     public class WhenQueueIsEmpty {
 
         private CodeFormatter formatter;
@@ -254,14 +232,8 @@ public class OptimizingReformatQueueSpec extends Specification<ReformatQueue> {
 
         public ReformatQueue create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, true, true, true, true));
             queue = new OptimizingReformatQueue(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(true));
-                allowing (formatter).supportsReformatMany();        will(returnValue(true));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(true));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(true));
-            }});
             return queue;
         }
 

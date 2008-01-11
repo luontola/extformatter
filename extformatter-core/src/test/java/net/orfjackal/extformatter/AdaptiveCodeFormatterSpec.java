@@ -21,10 +21,9 @@ import jdave.Block;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
 import static net.orfjackal.extformatter.TestResources.*;
+import static net.orfjackal.extformatter.TestUtil.supportsReformatting;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
-
-import java.io.File;
 
 /**
  * @author Esko Luontola
@@ -42,14 +41,8 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
 
         public AdaptiveCodeFormatter create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, true, false, false, false));
             adapter = new AdaptiveCodeFormatter(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(true));
-                allowing (formatter).supportsReformatMany();        will(returnValue(false));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
-            }});
             return adapter;
         }
 
@@ -109,14 +102,8 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
 
         public AdaptiveCodeFormatter create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, false, true, false, false));
             adapter = new AdaptiveCodeFormatter(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(false));
-                allowing (formatter).supportsReformatMany();        will(returnValue(true));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
-            }});
             return adapter;
         }
 
@@ -173,14 +160,8 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
 
         public AdaptiveCodeFormatter create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, false, false, true, false));
             adapter = new AdaptiveCodeFormatter(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(false));
-                allowing (formatter).supportsReformatMany();        will(returnValue(false));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(true));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
-            }});
             return adapter;
         }
 
@@ -239,14 +220,8 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
 
         public AdaptiveCodeFormatter create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, false, false, false, true));
             adapter = new AdaptiveCodeFormatter(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(false));
-                allowing (formatter).supportsReformatMany();        will(returnValue(false));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(true));
-            }});
             return adapter;
         }
 
@@ -298,6 +273,7 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
         }
     }
 
+    @SuppressWarnings({"FieldCanBeLocal"})
     public class WhenFormatterSupportsNothing {
 
         private CodeFormatter formatter;
@@ -305,14 +281,8 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
 
         public AdaptiveCodeFormatter create() {
             formatter = mock(CodeFormatter.class);
+            checking(supportsReformatting(formatter, false, false, false, false));
             adapter = new AdaptiveCodeFormatter(formatter);
-            checking(new Expectations() {{
-                allowing (formatter).supportsFileType(with(any(File.class))); will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(false));
-                allowing (formatter).supportsReformatMany();        will(returnValue(false));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
-            }});
             return adapter;
         }
 
@@ -372,15 +342,12 @@ public class AdaptiveCodeFormatterSpec extends Specification<AdaptiveCodeFormatt
 
         public AdaptiveCodeFormatter create() {
             formatter = mock(CodeFormatter.class);
-            adapter = new AdaptiveCodeFormatter(formatter);
             checking(new Expectations() {{
                 allowing (formatter).supportsFileType(FOO_FILE);    will(returnValue(false));
                 allowing (formatter).supportsFileType(BAR_FILE);    will(returnValue(true));
-                allowing (formatter).supportsReformatOne();         will(returnValue(true));
-                allowing (formatter).supportsReformatMany();        will(returnValue(false));
-                allowing (formatter).supportsReformatDirectory();   will(returnValue(false));
-                allowing (formatter).supportsReformatRecursively(); will(returnValue(false));
             }});
+            checking(supportsReformatting(formatter, true, false, false, false));
+            adapter = new AdaptiveCodeFormatter(formatter);
             return adapter;
         }
 

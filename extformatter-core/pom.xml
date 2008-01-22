@@ -5,12 +5,12 @@
     <parent>
         <groupId>net.orfjackal.extformatter</groupId>
         <artifactId>extformatter</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <groupId>net.orfjackal.extformatter</groupId>
     <artifactId>extformatter-core</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>extformatter-core</name>
 

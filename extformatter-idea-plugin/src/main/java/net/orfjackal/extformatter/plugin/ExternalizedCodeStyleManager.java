@@ -156,6 +156,8 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         VirtualFile fromFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(from);
         VirtualFile toFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(to);
         if (fromFile != null && toFile != null) {
+            // for some reason refreshAndFindFileByIoFile does not reset a cached document, so another refresh is needed
+            fromFile.refresh(false, false);
             Document readFrom = FileDocumentManager.getInstance().getDocument(fromFile);
             Document writeTo = FileDocumentManager.getInstance().getDocument(toFile);
             writeTo.setText(readFrom.getText());

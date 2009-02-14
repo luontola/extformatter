@@ -1,6 +1,6 @@
 /*
  * External Code Formatter
- * Copyright (c) 2007-2008 Esko Luontola, www.orfjackal.net
+ * Copyright (c) 2007-2009  Esko Luontola, www.orfjackal.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,11 @@
 
 package net.orfjackal.extformatter;
 
-import net.orfjackal.extformatter.util.Directories;
-import net.orfjackal.extformatter.util.FilesSupportedBy;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.orfjackal.extformatter.util.*;
+import org.jetbrains.annotations.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Uses as few reformat method calls as possible to reformat all the queued files.

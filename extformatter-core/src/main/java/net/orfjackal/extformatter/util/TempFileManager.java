@@ -1,6 +1,6 @@
 /*
  * External Code Formatter
- * Copyright (c) 2007-2008 Esko Luontola, www.orfjackal.net
+ * Copyright (c) 2007-2009  Esko Luontola, www.orfjackal.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,8 @@ package net.orfjackal.extformatter.util;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
 /**
  * Creates temporary copies of files, maintaining a mapping between the original files and their copies.

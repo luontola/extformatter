@@ -1,6 +1,6 @@
 /*
  * External Code Formatter
- * Copyright (c) 2007-2008 Esko Luontola, www.orfjackal.net
+ * Copyright (c) 2007-2009  Esko Luontola, www.orfjackal.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,8 @@ package net.orfjackal.extformatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
 /**
  * Checks whether a file's name matches any of the specified file masks (*.java, *.* and so on).

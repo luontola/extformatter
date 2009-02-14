@@ -1,6 +1,6 @@
 /*
  * External Code Formatter
- * Copyright (c) 2007-2008 Esko Luontola, www.orfjackal.net
+ * Copyright (c) 2007-2009  Esko Luontola, www.orfjackal.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,14 @@
 
 package net.orfjackal.extformatter.plugin;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ProjectComponent;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.*;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.options.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import net.orfjackal.extformatter.CodeFormatter;
-import net.orfjackal.extformatter.Messages;
-import net.orfjackal.extformatter.Resources;
-import net.orfjackal.extformatter.settings.IllegalSettingsException;
-import net.orfjackal.extformatter.settings.Settings;
-import net.orfjackal.extformatter.settings.SettingsManager;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.orfjackal.extformatter.*;
+import net.orfjackal.extformatter.settings.*;
+import org.jetbrains.annotations.*;
 
 import javax.swing.*;
 

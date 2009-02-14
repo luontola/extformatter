@@ -1,6 +1,6 @@
 /*
  * External Code Formatter
- * Copyright (c) 2007-2008 Esko Luontola, www.orfjackal.net
+ * Copyright (c) 2007-2009  Esko Luontola, www.orfjackal.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,23 +19,17 @@ package net.orfjackal.extformatter.plugin;
 
 import com.intellij.ui.DocumentAdapter;
 import static net.orfjackal.extformatter.CommandLineCodeFormatter.*;
-import net.orfjackal.extformatter.EclipseCodeFormatter;
-import net.orfjackal.extformatter.Messages;
+import net.orfjackal.extformatter.*;
 import net.orfjackal.extformatter.settings.Settings;
 import static net.orfjackal.extformatter.settings.Settings.Formatter.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.DocumentEvent;
+import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 /**

@@ -1,6 +1,6 @@
 /*
  * External Code Formatter
- * Copyright (c) 2007-2008 Esko Luontola, www.orfjackal.net
+ * Copyright (c) 2007-2009  Esko Luontola, www.orfjackal.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,9 @@
 
 package net.orfjackal.extformatter.settings;
 
-import jdave.Block;
-import jdave.Specification;
+import jdave.*;
 import jdave.junit4.JDaveRunner;
-import net.orfjackal.extformatter.CodeFormatter;
-import net.orfjackal.extformatter.CommandLineCodeFormatter;
-import net.orfjackal.extformatter.EclipseCodeFormatter;
-import net.orfjackal.extformatter.TestResources;
+import net.orfjackal.extformatter.*;
 import static net.orfjackal.extformatter.settings.Settings.Formatter.*;
 import org.junit.runner.RunWith;
 

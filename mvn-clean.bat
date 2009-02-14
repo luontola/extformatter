@@ -1,4 +1,4 @@
 @echo off
-call mvn -o clean
+call mvn clean
 echo.
 pause

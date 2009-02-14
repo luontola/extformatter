@@ -47,6 +47,9 @@
       <entry name="?*.tld" />
     </wildcardResourcePatterns>
   </component>
+  <component name="CopyrightManager" default="">
+    <module2copyright />
+  </component>
   <component name="DependenciesAnalyzeManager">
     <option name="myForwardDirection" value="false" />
   </component>
@@ -67,6 +70,7 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
@@ -106,7 +110,7 @@
     <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="false" />
     <option name="DEPRECATION" value="true" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.5" />
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="JavadocGenerationManager">
@@ -291,6 +295,9 @@
       </item>
     </group>
   </component>
+  <component name="ProjectDetails">
+    <option name="projectName" value="extformatter" />
+  </component>
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectModuleManager">
     <modules>
@@ -305,7 +312,7 @@
       <SplitterProportionsDataImpl />
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA 7941" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA 9013" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
   <component name="ProjectRunConfigurationManager">
@@ -326,7 +333,7 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="false" name="All tests" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+    <configuration default="false" name="All tests" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
       <module name="extformatter" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -356,7 +363,7 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="false" name="All tests with coverage" type="JUnit" factoryName="JUnit" enabled="true" merge="false">
+    <configuration default="false" name="All tests with coverage" type="JUnit" factoryName="JUnit" enabled="true" merge="false" runner="emma">
       <module name="extformatter" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -407,7 +414,8 @@
     </option>
   </component>
   <component name="SvnBranchConfigurationManager">
-    <option name="myVersion" value="123" />
+    <option name="myVersion" value="124" />
+    <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
@@ -572,8 +580,186 @@
       <option name="useAlternate" value="false" />
     </LanguageOptions>
   </component>
+  <component name="libraryTable">
+    <library name="Maven: com.intellij:annotations:9013">
+      <CLASSES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/annotations.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/annotations-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/annotations-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.jdave:jdave-junit4:1.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-junit4/1.0/jdave-junit4-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-junit4/1.0/jdave-junit4-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-junit4/1.0/jdave-junit4-1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.jmock:jmock:2.4.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jmock/jmock/2.4.0/jmock-2.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jmock/jmock/2.4.0/jmock-2.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jmock/jmock/2.4.0/jmock-2.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.hamcrest:hamcrest-core:1.1">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.hamcrest:hamcrest-library:1.1">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.jmock:jmock-legacy:2.4.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jmock/jmock-legacy/2.4.0/jmock-legacy-2.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jmock/jmock-legacy/2.4.0/jmock-legacy-2.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jmock/jmock-legacy/2.4.0/jmock-legacy-2.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.objenesis:objenesis:1.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/objenesis/objenesis/1.0/objenesis-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/objenesis/objenesis/1.0/objenesis-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/objenesis/objenesis/1.0/objenesis-1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: cglib:cglib-nodep:2.1_3">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.jdave:jdave-core:1.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-core/1.0/jdave-core-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-core/1.0/jdave-core-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-core/1.0/jdave-core-1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: junit:junit-dep:4.4">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/junit/junit-dep/4.4/junit-dep-4.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/junit/junit-dep/4.4/junit-dep-4.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/junit/junit-dep/4.4/junit-dep-4.4-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: junit:junit:4.4">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.intellij:openapi:9013">
+      <CLASSES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/openapi.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/openapi-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/openapi-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.intellij:extensions:9013">
+      <CLASSES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/extensions.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/extensions-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/extensions-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.intellij:forms_rt:6.0.5">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/com/intellij/forms_rt/6.0.5/forms_rt-6.0.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/com/intellij/forms_rt/6.0.5/forms_rt-6.0.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/com/intellij/forms_rt/6.0.5/forms_rt-6.0.5-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.intellij:util:9013">
+      <CLASSES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/util.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/util-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/util-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.intellij:picocontainer:9013">
+      <CLASSES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer-sources.jar!/" />
+      </SOURCES>
+    </library>
+  </component>
   <UsedPathMacros>
-    <macro name="M2_REPO" />
+    <macro name="M2_REPO" description="Path to the local Maven repository" />
   </UsedPathMacros>
 </project>
 

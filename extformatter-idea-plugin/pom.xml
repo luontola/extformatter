@@ -5,12 +5,12 @@
     <parent>
         <groupId>net.orfjackal.extformatter</groupId>
         <artifactId>extformatter</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3-SNAPSHOT</version>
     </parent>
 
     <groupId>net.orfjackal.extformatter</groupId>
     <artifactId>extformatter-idea-plugin</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>extformatter-idea-plugin</name>
 
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>net.orfjackal.extformatter</groupId>
             <artifactId>extformatter-core</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3-SNAPSHOT</version>
         </dependency>
 
         <!-- IntelliJ IDEA -->

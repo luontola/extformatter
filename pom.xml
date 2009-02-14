@@ -4,7 +4,7 @@
 
     <groupId>net.orfjackal.extformatter</groupId>
     <artifactId>extformatter</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>extformatter-core</module>
@@ -37,8 +37,8 @@
     </developers>
 
     <scm>
-        <connection>scm:svn:svn://tux/orfjackal/extformatter/tags/extformatter-1.0.2</connection>
-        <developerConnection>scm:svn:svn://tux/orfjackal/extformatter/tags/extformatter-1.0.2</developerConnection>
+        <connection>scm:svn:svn://tux/orfjackal/extformatter/trunk</connection>
+        <developerConnection>scm:svn:svn://tux/orfjackal/extformatter/trunk</developerConnection>
     </scm>
 
     <repositories>

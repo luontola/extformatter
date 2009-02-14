@@ -18,7 +18,7 @@
 
     <change-notes><![CDATA[
         <p>1.0.2 (2009-02-14)
-        <br>- Made compatible with IDEA 8.</p>
+        <br>- Compatible with IDEA 8</p>
 
         <p>1.0.1 (2008-01-22)
         <br>- Fixed a file cache issue: When a file was reformatted more than once, the changes between the reformats

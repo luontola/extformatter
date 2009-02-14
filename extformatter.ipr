@@ -54,12 +54,6 @@
       <option name="myName" value="Apache 2.0 - External Code Formatter" />
       <option name="myLocal" value="true" />
     </copyright>
-    <copyright>
-      <option name="notice" value="External Code Formatter&#10;Copyright (c) 2007-&amp;#36;today.year  Esko Luontola, www.orfjackal.net&#10;&#10;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you may not use this file except in compliance with the License.&#10;You may obtain a copy of the License at&#10;&#10;    http://www.apache.org/licenses/LICENSE-2.0&#10;&#10;Unless required by applicable law or agreed to in writing, software&#10;distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#10;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#10;See the License for the specific language governing permissions and&#10;limitations under the License." />
-      <option name="keyword" value="Copyright" />
-      <option name="myName" value="Apache 2.0 - External Code Formatter" />
-      <option name="myLocal" value="true" />
-    </copyright>
     <module2copyright />
   </component>
   <component name="DependenciesAnalyzeManager">
@@ -315,6 +309,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/extformatter.iml" filepath="$PROJECT_DIR$/extformatter.iml" />
       <module fileurl="file://$PROJECT_DIR$/extformatter-core/extformatter-core.iml" filepath="$PROJECT_DIR$/extformatter-core/extformatter-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/extformatter-dist/extformatter-dist.iml" filepath="$PROJECT_DIR$/extformatter-dist/extformatter-dist.iml" />
       <module fileurl="file://$PROJECT_DIR$/extformatter-help/extformatter-help.iml" filepath="$PROJECT_DIR$/extformatter-help/extformatter-help.iml" />
       <module fileurl="file://$PROJECT_DIR$/extformatter-idea-plugin/extformatter-idea-plugin.iml" filepath="$PROJECT_DIR$/extformatter-idea-plugin/extformatter-idea-plugin.iml" />
     </modules>
@@ -426,6 +421,23 @@
     </option>
   </component>
   <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="svn://tux/orfjackal/extformatter/branches" />
+                  <option value="svn://tux/orfjackal/extformatter/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="svn://tux/orfjackal/extformatter/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="myVersion" value="124" />
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>

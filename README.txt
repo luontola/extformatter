@@ -34,7 +34,7 @@ into IDEA.
 
       svn update
       mvn clean
-      mvn release:prepare
+      mvn release:prepare -DautoVersionSubmodules=true
       mvn release:clean
 
 2. Afterwards, export the new tag from SVN and build the artifacts as explained 

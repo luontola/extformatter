@@ -11,6 +11,7 @@
         <module>extformatter-core</module>
         <module>extformatter-idea-plugin</module>
         <module>extformatter-help</module>
+        <module>extformatter-dist</module>
     </modules>
     <properties>
         <plugin.name>External Code Formatter</plugin.name>
@@ -150,10 +151,18 @@
                 <configuration>
                     <attach>false</attach>
                     <descriptors>
-                        <descriptor>src/main/assembly/bin.xml</descriptor>
                         <descriptor>src/main/assembly/src.xml</descriptor>
                     </descriptors>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

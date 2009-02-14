@@ -8,7 +8,7 @@ into IDEA.
 
     INSTALLING
 
-1. Unpack the binary release to %HOMEPATH%\.IntelliJIdea70\config\plugins
+1. Unpack the binary release to %HOMEPATH%\.IntelliJIdea80\config\plugins
    or use IDEA's plugin manager to install it automatically.
 
 2. Follow the instructions in the plugin's configuration dialog and help pages.
@@ -22,11 +22,10 @@ into IDEA.
 
 2. Change <idea.home> in profiles.xml to point to the IDEA install location.
 
-3. Run the command "mvn clean package assembly:assembly" in the project's root
-   source directory. On successive calls you may use the "mvn-assemble.bat" 
-   script which operates in offline mode.
+3. Run the command "mvn clean package" in the project's root source directory. 
+   You may also use the "mvn-assemble.bat" script.
 
-4. Collect the *-bin.zip and *-src.zip files from the /target directory.
+4. Collect the ZIP files from /target and /extformatter-dist/target directories.
 
 
     RELEASING A NEW VERSION
@@ -48,10 +47,6 @@ When you build the project with Maven, a more readable plain text summary of the
 tests will be generated in each module's "/target/jdave" directory. Start your 
 reading from there. For more details and usage examples, read the *Spec.java 
 files in the "/src/test/java" directories.
-
-Note: JDave 1.0-rc1 (and earlier) relies on the order of the methods in the
-compiled class files, so the order of the test summaries is not always the same 
-as in the source code files.
 
 
     LICENSE

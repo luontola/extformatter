@@ -18,82 +18,36 @@
 package net.orfjackal.extformatter.plugin;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.*;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
-import com.intellij.psi.codeStyle.Indent;
-import com.intellij.psi.codeStyle.SuggestedNameInfo;
-import com.intellij.psi.codeStyle.VariableKind;
-import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
+import com.intellij.psi.codeStyle.*;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
 /**
- * Wrapper for intercepting the method calls to a {@link CodeStyleManagerEx} instance.
+ * Wrapper for intercepting the method calls to a {@link CodeStyleManager} instance.
  *
  * @author Esko Luontola
  * @since 2.12.2007
  */
 @SuppressWarnings({"deprecation"})
-public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
-    /* HACK: This class must be a subclass of CodeStyleManagerEx (part of private API)
-    and not CodeStyleManager (part of Open API), because IDEA tries to cast it to
-    CodeStyleManagerEx in some parts of the code. If this class were to extend CodeStyleManager, 
-    the following exception would happen often:
+public class DelegatingCodeStyleManager extends CodeStyleManager {
 
-    java.lang.ClassCastException: net.orfjackal.extformatter.plugin.DelegatingCodeStyleManager cannot be cast to com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx
-        at com.intellij.codeInsight.daemon.impl.PostHighlightingPass.<init>(PostHighlightingPass.java:24)
-        at com.intellij.codeInsight.daemon.impl.PostHighlightingPass.<init>(PostHighlightingPass.java:258)
-        at com.intellij.openapi.vcs.impl.AbstractVcsHelperImpl.a(AbstractVcsHelperImpl.java:111)
-        at com.intellij.openapi.vcs.impl.AbstractVcsHelperImpl.access$500(AbstractVcsHelperImpl.java:29)
-        at com.intellij.openapi.vcs.impl.AbstractVcsHelperImpl$8.run(AbstractVcsHelperImpl.java:14)
-        at com.intellij.openapi.progress.impl.ProgressManagerImpl$2.run(ProgressManagerImpl.java:6)
-        ...
+    @NotNull private final CodeStyleManager target;
 
-    P.S. It's not possible to extend CodeStyleManagerImpl (the actual class),
-    because at least I don't know how to get a StatisticsManagerEx which could
-    be given to CodeStyleManagerImpl's constructor.
-     */
-
-    @NotNull private final CodeStyleManagerEx target;
-
-    public DelegatingCodeStyleManager(@NotNull CodeStyleManagerEx target) {
+    public DelegatingCodeStyleManager(@NotNull CodeStyleManager target) {
         this.target = target;
     }
 
     @NotNull
-    public CodeStyleManagerEx getTarget() {
+    public CodeStyleManager getTarget() {
         return target;
     }
 
     // Generated delegate methods
-
-    public boolean addImport(@NotNull PsiJavaFile psiJavaFile, @NotNull PsiClass psiClass) {
-        return target.addImport(psiJavaFile, psiClass);
-    }
-
-    public PsiElement shortenClassReferences(@NotNull PsiElement psiElement, int i) throws IncorrectOperationException {
-        return target.shortenClassReferences(psiElement, i);
-    }
-
-    @NotNull
-    public String getPrefixByVariableKind(VariableKind variableKind) {
-        return target.getPrefixByVariableKind(variableKind);
-    }
-
-    @NotNull
-    public String getSuffixByVariableKind(VariableKind variableKind) {
-        return target.getSuffixByVariableKind(variableKind);
-    }
-
-    public int findEntryIndex(@NotNull PsiImportStatementBase psiImportStatementBase) {
-        return target.findEntryIndex(psiImportStatementBase);
-    }
 
     @NotNull
     public Project getProject() {
@@ -122,22 +76,6 @@ public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
         target.reformatText(element, startOffset, endOffset);
     }
 
-    public PsiElement shortenClassReferences(@NotNull PsiElement element) throws IncorrectOperationException {
-        return target.shortenClassReferences(element);
-    }
-
-    public void shortenClassReferences(@NotNull PsiElement element, int startOffset, int endOffset) throws IncorrectOperationException {
-        target.shortenClassReferences(element, startOffset, endOffset);
-    }
-
-    public void optimizeImports(@NotNull PsiFile file) throws IncorrectOperationException {
-        target.optimizeImports(file);
-    }
-
-    public PsiImportList prepareOptimizeImportsResult(@NotNull PsiJavaFile file) {
-        return target.prepareOptimizeImportsResult(file);
-    }
-
     public void adjustLineIndent(@NotNull PsiFile file, TextRange rangeToAdjust) throws IncorrectOperationException {
         target.adjustLineIndent(file, rangeToAdjust);
     }
@@ -154,10 +92,12 @@ public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
         return target.isLineToBeIndented(file, offset);
     }
 
+    @Nullable
     public String getLineIndent(@NotNull PsiFile file, int offset) {
         return target.getLineIndent(file, offset);
     }
 
+    @Nullable
     public String getLineIndent(@NotNull Editor editor) {
         return target.getLineIndent(editor);
     }
@@ -174,41 +114,9 @@ public class DelegatingCodeStyleManager extends CodeStyleManagerEx {
         return target.zeroIndent();
     }
 
+    @Nullable
     public PsiElement insertNewLineIndentMarker(@NotNull PsiFile file, int offset) throws IncorrectOperationException {
         return target.insertNewLineIndentMarker(file, offset);
-    }
-
-    public VariableKind getVariableKind(@NotNull PsiVariable variable) {
-        return target.getVariableKind(variable);
-    }
-
-    public SuggestedNameInfo suggestVariableName(@NotNull VariableKind kind, @Nullable String propertyName, @Nullable PsiExpression expr, @Nullable PsiType type) {
-        return target.suggestVariableName(kind, propertyName, expr, type);
-    }
-
-    public String variableNameToPropertyName(@NonNls String name, VariableKind variableKind) {
-        return target.variableNameToPropertyName(name, variableKind);
-    }
-
-    public String propertyNameToVariableName(@NonNls String propertyName, VariableKind variableKind) {
-        return target.propertyNameToVariableName(propertyName, variableKind);
-    }
-
-    public String suggestUniqueVariableName(@NonNls String baseName, PsiElement place, boolean lookForward) {
-        return target.suggestUniqueVariableName(baseName, place, lookForward);
-    }
-
-    @NotNull
-    public SuggestedNameInfo suggestUniqueVariableName(@NotNull SuggestedNameInfo baseNameInfo, PsiElement place, boolean lookForward) {
-        return target.suggestUniqueVariableName(baseNameInfo, place, lookForward);
-    }
-
-    public PsiElement qualifyClassReferences(@NotNull PsiElement element) {
-        return target.qualifyClassReferences(element);
-    }
-
-    public void removeRedundantImports(@NotNull PsiJavaFile file) throws IncorrectOperationException {
-        target.removeRedundantImports(file);
     }
 
     public void reformatNewlyAddedElement(@NotNull ASTNode block, @NotNull ASTNode addedElement) throws IncorrectOperationException {

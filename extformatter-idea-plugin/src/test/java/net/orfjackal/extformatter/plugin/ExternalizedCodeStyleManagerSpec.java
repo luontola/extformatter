@@ -17,9 +17,8 @@
 
 package net.orfjackal.extformatter.plugin;
 
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiJavaFile;
-import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
+import com.intellij.psi.*;
+import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.util.IncorrectOperationException;
 import jdave.Specification;
@@ -48,14 +47,14 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
     public class WhenTheFileIsInLocalFileSystemAndItsTypeIsSupported {
 
         private PsiFile file;
-        private CodeStyleManagerEx original;
+        private CodeStyleManager original;
         private CodeFormatter replacement;
         private ExternalizedCodeStyleManager manager;
 
         public ExternalizedCodeStyleManager create() throws Exception {
             if (TEST_DISABLED) return null;
             file = mock(PsiJavaFile.class); // 'file' is a real writable file in local file system
-            original = mock(CodeStyleManagerEx.class);
+            original = mock(CodeStyleManager.class);
             replacement = mock(CodeFormatter.class);
             manager = new ExternalizedCodeStyleManager(original, replacement);
             return manager;
@@ -81,13 +80,13 @@ public class ExternalizedCodeStyleManagerSpec extends Specification<Externalized
     public class WhenTheFileIsNotSupported {
 
         private PsiFile file;
-        private CodeStyleManagerEx original;
+        private CodeStyleManager original;
         private ExternalizedCodeStyleManager manager;
 
         public ExternalizedCodeStyleManager create() throws Exception {
             if (TEST_DISABLED) return null;
             file = mock(XmlFile.class);
-            original = mock(CodeStyleManagerEx.class);
+            original = mock(CodeStyleManager.class);
             CodeFormatter replacement = mock(CodeFormatter.class);
             manager = new ExternalizedCodeStyleManager(original, replacement);
             return manager;

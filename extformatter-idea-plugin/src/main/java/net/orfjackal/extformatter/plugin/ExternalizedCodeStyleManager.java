@@ -23,32 +23,22 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.ReadonlyStatusHandler;
-import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.*;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import com.intellij.util.IncorrectOperationException;
-import net.orfjackal.extformatter.AdaptiveCodeFormatter;
-import net.orfjackal.extformatter.CodeFormatter;
-import net.orfjackal.extformatter.Messages;
-import net.orfjackal.extformatter.OptimizingReformatQueue;
-import net.orfjackal.extformatter.plugin.util.CommandRunner;
-import net.orfjackal.extformatter.plugin.util.ConditionalRunner;
-import net.orfjackal.extformatter.plugin.util.WriteActionRunner;
+import net.orfjackal.extformatter.*;
+import net.orfjackal.extformatter.plugin.util.*;
 import net.orfjackal.extformatter.util.TempFileManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Intercepts the calls to {@link CodeStyleManager#reformatText} and redirects them
  * to a {@link CodeFormatter} if the formatter supports reformatting that file.
- * Otherwise falls back to using the original {@link CodeStyleManagerEx} instance.
+ * Otherwise falls back to using the original {@link CodeStyleManager} instance.
  *
  * @author Esko Luontola
  * @since 3.12.2007
@@ -60,7 +50,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
     @NotNull private final CodeFormatter replacement;
     @NotNull private final List<VirtualFile> toBeReformatted = new ArrayList<VirtualFile>();
 
-    public ExternalizedCodeStyleManager(@NotNull CodeStyleManagerEx original, @NotNull CodeFormatter replacement) {
+    public ExternalizedCodeStyleManager(@NotNull CodeStyleManager original, @NotNull CodeFormatter replacement) {
         super(original);
         this.replacement = replacement;
     }

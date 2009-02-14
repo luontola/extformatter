@@ -30,7 +30,7 @@
             <binaries>
                 <outputDirectory>help</outputDirectory>
                 <unpack>false</unpack>
-                <outputFileNameMapping>${artifactId}.${extension}</outputFileNameMapping>
+                <outputFileNameMapping>extformatter-help.jar</outputFileNameMapping>
             </binaries>
         </moduleSet>
     </moduleSets>

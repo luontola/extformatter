@@ -5,9 +5,11 @@
         <properties>
             <!-- build 7361 = 7.0
                  build 7364 = 7.0.1
-                 build 7590 = 7.0.2 -->
-            <idea.version>7361</idea.version>
-            <idea.home>C:/Program Files/JetBrains/idea-7.0-jdk15</idea.home>
+                 build 7590 = 7.0.2
+                 build 7941 = 7.0.4
+                 build 9013 = 8.0 -->
+            <idea.version>9013</idea.version>
+            <idea.home>C:/Program Files/JetBrains/idea-8.0-jdk15</idea.home>
         </properties>
         <activation>
             <activeByDefault>true</activeByDefault>

@@ -20,10 +20,8 @@ package net.orfjackal.extformatter.plugin;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.impl.source.codeStyle.CodeStyleManagerEx;
 import net.orfjackal.extformatter.CodeFormatter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 import org.picocontainer.MutablePicoContainer;
 
 /**
@@ -56,21 +54,21 @@ public class ProjectCodeStyleInstaller {
     }
 
     private void installCodeFormatter(@NotNull CodeFormatter formatter) {
-        CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
+        CodeStyleManager manager = CodeStyleManager.getInstance(project);
         if (!(manager instanceof ExternalizedCodeStyleManager)) {
             registerCodeStyleManager(project, new ExternalizedCodeStyleManager(manager, formatter));
         }
     }
 
     private void uninstallCodeFormatter() {
-        CodeStyleManagerEx manager = (CodeStyleManagerEx) CodeStyleManager.getInstance(project);
+        CodeStyleManager manager = CodeStyleManager.getInstance(project);
         while (manager instanceof ExternalizedCodeStyleManager) {
             manager = ((ExternalizedCodeStyleManager) manager).getTarget();
             registerCodeStyleManager(project, manager);
         }
     }
 
-    private static void registerCodeStyleManager(@NotNull Project project, @NotNull CodeStyleManagerEx manager) {
+    private static void registerCodeStyleManager(@NotNull Project project, @NotNull CodeStyleManager manager) {
         LOG.info("Registering code style manager '" + manager + "' for project '" + project.getName() + "'");
         MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
         container.unregisterComponent(CODE_STYLE_MANAGER_KEY);

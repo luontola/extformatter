@@ -19,7 +19,7 @@
 
     <name>External Code Formatter</name>
     <description>Intellij IDEA plugin for using external code formatters.</description>
-    <url>http://www.orfjackal.net</url>
+    <url>http://github.com/orfjackal/extformatter</url>
     <inceptionYear>2007</inceptionYear>
 
     <licenses>
@@ -37,8 +37,8 @@
     </developers>
 
     <scm>
-        <connection>scm:svn:svn://tux/orfjackal/extformatter/trunk</connection>
-        <developerConnection>scm:svn:svn://tux/orfjackal/extformatter/trunk</developerConnection>
+        <connection>scm:git:git://github.com/orfjackal/extformatter.git</connection>
+        <url>http://github.com/orfjackal/extformatter</url>
     </scm>
 
     <repositories>

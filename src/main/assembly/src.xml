@@ -8,6 +8,7 @@
     <fileSets>
         <fileSet>
             <excludes>
+                <exclude>.git/**</exclude>
                 <!--<exclude>*.iws</exclude>-->
                 <exclude>target/**</exclude>
                 <exclude>*/target/**</exclude>

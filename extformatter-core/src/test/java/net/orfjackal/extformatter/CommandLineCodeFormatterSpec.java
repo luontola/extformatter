@@ -20,6 +20,7 @@ package net.orfjackal.extformatter;
 import jdave.*;
 import jdave.junit4.JDaveRunner;
 import static net.orfjackal.extformatter.TestResources.*;
+import net.orfjackal.extformatter.util.ProcessExecutor1;
 import org.jmock.Expectations;
 import org.junit.runner.RunWith;
 
@@ -34,40 +35,40 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
 
     public class ACommandLineCodeFormatter {
 
-        private Executer executer;
+        private ProcessExecutor1 executor;
         private CodeFormatter formatter;
 
         public CodeFormatter create() {
-            executer = mock(Executer.class);
+            executor = mock(ProcessExecutor1.class);
             formatter = new CommandLineCodeFormatter(SUPPORTS_TXT,
-                    "formatOne %FILE%", "formatMany %FILES%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executer);
+                    "formatOne %FILE%", "formatMany %FILES%", "formatDir %DIRECTORY%", "formatDirRec %DIRECTORY%", executor);
             return formatter;
         }
 
         public void shouldExecuteCommandForReformatOne() throws IOException {
             checking(new Expectations() {{
-                one (executer).execute("formatOne \"" + FOO_FILE.getAbsolutePath() + "\"");
+                one (executor).execute("formatOne \"" + FOO_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatOne(FOO_FILE);
         }
 
         public void shouldExecuteCommandForReformatMany() throws IOException {
             checking(new Expectations() {{
-                one (executer).execute("formatMany \"" + FOO_FILE.getAbsolutePath() + "\" \"" + BAR_FILE.getAbsolutePath() + "\"");
+                one (executor).execute("formatMany \"" + FOO_FILE.getAbsolutePath() + "\" \"" + BAR_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatMany(FOO_FILE, BAR_FILE);
         }
 
         public void shouldExecuteCommandForReformatDirectory() throws IOException {
             checking(new Expectations() {{
-                one (executer).execute("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
+                one (executor).execute("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
             formatter.reformatDirectory(TESTFILES_DIR);
         }
 
         public void shouldExecuteCommandForReformatRecursively() throws IOException {
             checking(new Expectations() {{
-                one (executer).execute("formatDirRec \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
+                one (executor).execute("formatDirRec \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
             formatter.reformatRecursively(TESTFILES_DIR);
         }

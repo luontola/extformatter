@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter;
+package net.orfjackal.extformatter.util;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,12 +25,12 @@ import org.jetbrains.annotations.NotNull;
  * @author Esko Luontola
  * @since 1.12.2007
  */
-public class ExecuterDummy implements Executer {
+public class ProcessExecutor1Dummy implements ProcessExecutor1 {
 
     private static final int LINE_LENGTH = 120;
 
     public void execute(@NotNull String command) {
-        System.out.println(ExecuterDummy.class.getName() + ".execute(), command:");
+        System.out.println(ProcessExecutor1Dummy.class.getName() + ".execute(), command:");
         System.out.print(lineWrap(command));
     }
 

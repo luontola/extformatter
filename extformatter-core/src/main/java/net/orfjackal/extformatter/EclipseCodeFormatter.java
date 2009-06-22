@@ -18,6 +18,7 @@
 package net.orfjackal.extformatter;
 
 import static net.orfjackal.extformatter.util.FileUtil.*;
+import net.orfjackal.extformatter.util.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -34,16 +35,16 @@ public class EclipseCodeFormatter implements CodeFormatter {
 
     @NotNull private final File eclipseExecutable;
     @NotNull private final File eclipsePrefs;
-    @NotNull private final Executer executer;
+    @NotNull private final ProcessExecutor1 executor;
 
-    public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs, @NotNull Executer executer) {
+    public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs, @NotNull ProcessExecutor1 executor) {
         this.eclipseExecutable = eclipseExecutable;
         this.eclipsePrefs = eclipsePrefs;
-        this.executer = executer;
+        this.executor = executor;
     }
 
     public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs) {
-        this(eclipseExecutable, eclipsePrefs, new ExecuterImpl());
+        this(eclipseExecutable, eclipsePrefs, new ProcessExecutor1Impl());
     }
 
     public boolean supportsFileType(@NotNull File file) {
@@ -56,7 +57,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
 
     public void reformatOne(@NotNull File file) {
         assert supportsFileType(file);
-        executer.execute(commandFor(quoted(file)));
+        executor.execute(commandFor(quoted(file)));
     }
 
     public boolean supportsReformatMany() {
@@ -67,7 +68,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
         for (File file : files) {
             assert supportsFileType(file);
         }
-        executer.execute(commandFor(quotedListOf(files)));
+        executor.execute(commandFor(quotedListOf(files)));
     }
 
     public boolean supportsReformatDirectory() {
@@ -83,7 +84,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public void reformatRecursively(@NotNull File directory) {
-        executer.execute(commandFor(quoted(directory)));
+        executor.execute(commandFor(quoted(directory)));
     }
 
     @NotNull

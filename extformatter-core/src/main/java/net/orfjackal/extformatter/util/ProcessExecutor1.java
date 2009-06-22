@@ -15,27 +15,17 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter.integration;
+package net.orfjackal.extformatter.util;
 
-import net.orfjackal.extformatter.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
+ * Executes a shell command.
+ *
  * @author Esko Luontola
- * @since 1.12.2007
+ * @since 30.11.2007
  */
-public class ExecuterManualTests {
+public interface ProcessExecutor1 {
 
-    public static class ExecuteCommandTest {
-
-        /**
-         * EXPECTED: To System.out will be printed the output of the ping command,
-         * which should be the help message of ping.
-         */
-        public static void main(String[] args) {
-            Executer executer = new ExecuterImpl();
-            System.out.println("--- BEGIN ---");
-            executer.execute("ping");
-            System.out.println("--- END ---");
-        }
-    }
+    void execute(@NotNull String command);
 }

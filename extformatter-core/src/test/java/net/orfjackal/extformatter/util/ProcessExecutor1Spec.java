@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter;
+package net.orfjackal.extformatter.util;
 
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
@@ -28,34 +28,34 @@ import java.io.ByteArrayOutputStream;
  * @since 6.12.2007
  */
 @RunWith(JDaveRunner.class)
-public class ExecuterSpec extends Specification<Executer> {
+public class ProcessExecutor1Spec extends Specification<ProcessExecutor1> {
 
-    public class AnExecuter {
+    public class AnExecutor {
 
-        private Executer executer;
+        private ProcessExecutor1 executor;
         private ByteArrayOutputStream stdout;
         private ByteArrayOutputStream stderr;
 
-        public Executer create() {
+        public ProcessExecutor1 create() {
             stdout = new ByteArrayOutputStream();
             stderr = new ByteArrayOutputStream();
-            executer = new ExecuterImpl(stdout, stderr);
-            return executer;
+            executor = new ProcessExecutor1Impl(stdout, stderr);
+            return executor;
         }
 
         public void shouldExecuteTheSystemCommand() {
-            // tested with the following tests and net.orfjackal.extformatter.integration.ExecuterManualTests
+            // tested with the following tests and net.orfjackal.extformatter.integration.ProcessExecutor1ManualTests
         }
 
         public void shouldRedirectStdout() {
             // "cmd /c" is required by Windows because "echo" is not a file (unlike in Linux) but a shell command
-            executer.execute("cmd /c echo foo");
+            executor.execute("cmd /c echo foo");
             specify(stdout.toString(), should.equal("foo\r\n"));
             specify(stderr.toString(), should.equal(""));
         }
 
         public void shouldRedirectStderr() {
-            executer.execute("cmd /c echo bar>&2");
+            executor.execute("cmd /c echo bar>&2");
             specify(stdout.toString(), should.equal(""));
             specify(stderr.toString(), should.equal("bar\r\n"));
         }

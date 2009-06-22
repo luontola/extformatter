@@ -18,6 +18,7 @@
 package net.orfjackal.extformatter.integration;
 
 import net.orfjackal.extformatter.*;
+import net.orfjackal.extformatter.util.*;
 
 import java.io.*;
 
@@ -32,8 +33,8 @@ public class EclipseCodeFormatterManualTests {
      */
 //    private static final File ECLIPSE_EXECUTABLE = new File("C:\\eclipse-SDK-3.3.1-win32\\eclipse\\eclipsec.exe");
     private static final File ECLIPSE_EXECUTABLE = new File("C:\\eclipse-java-europa-fall2-win32\\eclipse\\eclipsec.exe");
-    private static final Executer EXECUTER = new ExecuterImpl();
-//    private static final Executer EXECUTER = new ExecuterDummy();
+    private static final ProcessExecutor1 EXECUTOR = new ProcessExecutor1Impl();
+//    private static final ProcessExecutor1 EXECUTOR = new ProcessExecutor1Dummy();
 
     private static File testfilesDir;
     private static File eclipsePrefsFile;
@@ -42,7 +43,7 @@ public class EclipseCodeFormatterManualTests {
     private static File gazonkFile;
 
     private static EclipseCodeFormatter newFormatter() {
-        return new EclipseCodeFormatter(ECLIPSE_EXECUTABLE, eclipsePrefsFile, EXECUTER);
+        return new EclipseCodeFormatter(ECLIPSE_EXECUTABLE, eclipsePrefsFile, EXECUTOR);
     }
 
     public static class ReformatOneTest {

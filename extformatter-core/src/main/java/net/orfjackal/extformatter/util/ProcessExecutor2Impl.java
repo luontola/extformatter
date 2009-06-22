@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter;
+package net.orfjackal.extformatter.util;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 
@@ -27,35 +26,25 @@ import java.io.*;
  * @author Esko Luontola
  * @since 1.12.2007
  */
-public class ExecuterImpl implements Executer {
+public class ProcessExecutor2Impl implements ProcessExecutor2 {
 
-    @NotNull private final OutputStream stdout;
-    @NotNull private final OutputStream stderr;
-
-    public ExecuterImpl() {
-        this(System.out, System.err);
+    public Process exec(String... command) {
+        return exec(command, System.out, System.err);
     }
 
-    public ExecuterImpl(@NotNull OutputStream redirectStdout, @NotNull OutputStream redirectStderr) {
-        this.stdout = redirectStdout;
-        this.stderr = redirectStderr;
-    }
-
-    public void execute(@NotNull String command) {
+    public Process exec(String[] command, OutputStream stdout, OutputStream stderr) {
         try {
             Process process = Runtime.getRuntime().exec(command);
             redirect(process.getInputStream(), stdout);
             redirect(process.getErrorStream(), stderr);
-            process.waitFor();
+            return process;
 
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    private static void redirect(@NotNull final InputStream from, @NotNull final OutputStream to) {
+    private static void redirect(final InputStream from, final OutputStream to) {
         Thread t = new Thread() {
             public void run() {
                 byte[] buf = new byte[1024];

@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package net.orfjackal.extformatter;
+package net.orfjackal.extformatter.util;
 
-import org.jetbrains.annotations.NotNull;
+import java.io.OutputStream;
 
 /**
  * Executes a shell command.
@@ -25,7 +25,15 @@ import org.jetbrains.annotations.NotNull;
  * @author Esko Luontola
  * @since 30.11.2007
  */
-public interface Executer {
+public interface ProcessExecutor2 {
 
-    void execute(@NotNull String command);
+    /**
+     * Executes the command and redirects stdout and stderr to System.out and System.err.
+     */
+    Process exec(String... command);
+
+    /**
+     * Executes the command and redirects stdout and stderr to the specified streams.
+     */
+    Process exec(String[] command, OutputStream stdout, OutputStream stderr);
 }

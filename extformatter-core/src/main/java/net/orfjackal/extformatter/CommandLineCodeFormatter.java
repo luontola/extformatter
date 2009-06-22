@@ -18,6 +18,7 @@
 package net.orfjackal.extformatter;
 
 import static net.orfjackal.extformatter.util.FileUtil.*;
+import net.orfjackal.extformatter.util.*;
 import org.jetbrains.annotations.*;
 
 import java.io.File;
@@ -41,20 +42,20 @@ public class CommandLineCodeFormatter implements CodeFormatter {
     @Nullable private final String manyFilesCommand;
     @Nullable private final String directoryCommand;
     @Nullable private final String recursiveCommand;
-    @NotNull private final Executer executer;
+    @NotNull private final ProcessExecutor1 executor;
 
     public CommandLineCodeFormatter(@NotNull String[] supportedFileTypes,
                                     @Nullable String oneFileCommand,
                                     @Nullable String manyFilesCommand,
                                     @Nullable String directoryCommand,
                                     @Nullable String recursiveCommand,
-                                    @NotNull Executer executer) {
+                                    @NotNull ProcessExecutor1 executor) {
         this.supportedFileTypes = new SupportedFileTypes(supportedFileTypes);
         this.oneFileCommand = oneFileCommand;
         this.manyFilesCommand = manyFilesCommand;
         this.directoryCommand = directoryCommand;
         this.recursiveCommand = recursiveCommand;
-        this.executer = executer;
+        this.executor = executor;
     }
 
     public CommandLineCodeFormatter(@NotNull String[] supportedFileTypes,
@@ -62,7 +63,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
                                     @Nullable String manyFilesCommand,
                                     @Nullable String directoryCommand,
                                     @Nullable String recursiveCommand) {
-        this(supportedFileTypes, oneFileCommand, manyFilesCommand, directoryCommand, recursiveCommand, new ExecuterImpl());
+        this(supportedFileTypes, oneFileCommand, manyFilesCommand, directoryCommand, recursiveCommand, new ProcessExecutor1Impl());
     }
 
     public boolean supportsFileType(@NotNull File file) {
@@ -75,7 +76,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     public void reformatOne(@NotNull File file) {
         if (oneFileCommand != null) {
-            executer.execute(parsed(oneFileCommand, file));
+            executor.execute(parsed(oneFileCommand, file));
         }
     }
 
@@ -85,7 +86,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     public void reformatMany(@NotNull File... files) {
         if (manyFilesCommand != null) {
-            executer.execute(parsed(manyFilesCommand, files));
+            executor.execute(parsed(manyFilesCommand, files));
         }
     }
 
@@ -95,7 +96,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     public void reformatDirectory(@NotNull File directory) {
         if (directoryCommand != null) {
-            executer.execute(parsed(directoryCommand, directory));
+            executor.execute(parsed(directoryCommand, directory));
         }
     }
 
@@ -105,7 +106,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     public void reformatRecursively(@NotNull File directory) {
         if (recursiveCommand != null) {
-            executer.execute(parsed(recursiveCommand, directory));
+            executor.execute(parsed(recursiveCommand, directory));
         }
     }
 

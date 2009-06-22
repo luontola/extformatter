@@ -27,5 +27,5 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface ProcessExecutor1 {
 
-    void execute(@NotNull String command);
+    void executeAndWait(@NotNull String command);
 }

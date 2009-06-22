@@ -41,7 +41,7 @@ public class ProcessExecutor1Impl implements ProcessExecutor1 {
         this.stderr = redirectStderr;
     }
 
-    public void execute(@NotNull String command) {
+    public void executeAndWait(@NotNull String command) {
         try {
             Process process = Runtime.getRuntime().exec(command);
             redirect(process.getInputStream(), stdout);

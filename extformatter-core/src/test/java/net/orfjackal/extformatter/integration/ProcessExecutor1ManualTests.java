@@ -34,7 +34,7 @@ public class ProcessExecutor1ManualTests {
         public static void main(String[] args) {
             ProcessExecutor1 executor = new ProcessExecutor1Impl();
             System.out.println("--- BEGIN ---");
-            executor.execute("ping");
+            executor.executeAndWait("ping");
             System.out.println("--- END ---");
         }
     }

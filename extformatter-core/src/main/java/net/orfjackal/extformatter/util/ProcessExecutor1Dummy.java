@@ -29,7 +29,7 @@ public class ProcessExecutor1Dummy implements ProcessExecutor1 {
 
     private static final int LINE_LENGTH = 120;
 
-    public void execute(@NotNull String command) {
+    public void executeAndWait(@NotNull String command) {
         System.out.println(ProcessExecutor1Dummy.class.getName() + ".execute(), command:");
         System.out.print(lineWrap(command));
     }

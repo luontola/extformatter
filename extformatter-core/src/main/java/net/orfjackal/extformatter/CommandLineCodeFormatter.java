@@ -76,7 +76,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     public void reformatOne(@NotNull File file) {
         if (oneFileCommand != null) {
-            executor.execute(parsed(oneFileCommand, file));
+            executor.executeAndWait(parsed(oneFileCommand, file));
         }
     }
 
@@ -86,7 +86,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     public void reformatMany(@NotNull File... files) {
         if (manyFilesCommand != null) {
-            executor.execute(parsed(manyFilesCommand, files));
+            executor.executeAndWait(parsed(manyFilesCommand, files));
         }
     }
 
@@ -96,7 +96,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     public void reformatDirectory(@NotNull File directory) {
         if (directoryCommand != null) {
-            executor.execute(parsed(directoryCommand, directory));
+            executor.executeAndWait(parsed(directoryCommand, directory));
         }
     }
 
@@ -106,7 +106,7 @@ public class CommandLineCodeFormatter implements CodeFormatter {
 
     public void reformatRecursively(@NotNull File directory) {
         if (recursiveCommand != null) {
-            executor.execute(parsed(recursiveCommand, directory));
+            executor.executeAndWait(parsed(recursiveCommand, directory));
         }
     }
 

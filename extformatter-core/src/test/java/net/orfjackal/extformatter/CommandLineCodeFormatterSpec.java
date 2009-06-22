@@ -47,28 +47,28 @@ public class CommandLineCodeFormatterSpec extends Specification<CodeFormatter> {
 
         public void shouldExecuteCommandForReformatOne() throws IOException {
             checking(new Expectations() {{
-                one (executor).execute("formatOne \"" + FOO_FILE.getAbsolutePath() + "\"");
+                one (executor).executeAndWait("formatOne \"" + FOO_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatOne(FOO_FILE);
         }
 
         public void shouldExecuteCommandForReformatMany() throws IOException {
             checking(new Expectations() {{
-                one (executor).execute("formatMany \"" + FOO_FILE.getAbsolutePath() + "\" \"" + BAR_FILE.getAbsolutePath() + "\"");
+                one (executor).executeAndWait("formatMany \"" + FOO_FILE.getAbsolutePath() + "\" \"" + BAR_FILE.getAbsolutePath() + "\"");
             }});
             formatter.reformatMany(FOO_FILE, BAR_FILE);
         }
 
         public void shouldExecuteCommandForReformatDirectory() throws IOException {
             checking(new Expectations() {{
-                one (executor).execute("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
+                one (executor).executeAndWait("formatDir \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
             formatter.reformatDirectory(TESTFILES_DIR);
         }
 
         public void shouldExecuteCommandForReformatRecursively() throws IOException {
             checking(new Expectations() {{
-                one (executor).execute("formatDirRec \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
+                one (executor).executeAndWait("formatDirRec \"" + TESTFILES_DIR.getAbsolutePath() + "\"");
             }});
             formatter.reformatRecursively(TESTFILES_DIR);
         }

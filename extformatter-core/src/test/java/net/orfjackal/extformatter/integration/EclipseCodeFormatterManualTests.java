@@ -33,7 +33,7 @@ public class EclipseCodeFormatterManualTests {
      */
 //    private static final File ECLIPSE_EXECUTABLE = new File("C:\\eclipse-SDK-3.3.1-win32\\eclipse\\eclipsec.exe");
     private static final File ECLIPSE_EXECUTABLE = new File("C:\\eclipse-java-europa-fall2-win32\\eclipse\\eclipsec.exe");
-    private static final ProcessExecutor1 EXECUTOR = new ProcessExecutor1Impl();
+    private static final ProcessExecutor2 EXECUTOR = new ProcessExecutor2Impl();
 //    private static final ProcessExecutor1 EXECUTOR = new ProcessExecutor1Dummy();
 
     private static File testfilesDir;

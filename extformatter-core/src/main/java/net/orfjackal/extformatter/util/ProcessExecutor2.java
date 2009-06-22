@@ -27,6 +27,8 @@ import java.io.OutputStream;
  */
 public interface ProcessExecutor2 {
 
+    void executeAndWait(String... command);
+
     /**
      * Executes the command and redirects stdout and stderr to System.out and System.err.
      */

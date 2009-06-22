@@ -17,11 +17,11 @@
 
 package net.orfjackal.extformatter;
 
-import static net.orfjackal.extformatter.util.FileUtil.*;
 import net.orfjackal.extformatter.util.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import java.io.*;
+import java.util.*;
 
 /**
  * {@link CodeFormatter} for Eclipse 3.2 or later.
@@ -35,16 +35,16 @@ public class EclipseCodeFormatter implements CodeFormatter {
 
     @NotNull private final File eclipseExecutable;
     @NotNull private final File eclipsePrefs;
-    @NotNull private final ProcessExecutor1 executor;
+    @NotNull private final ProcessExecutor2 executor;
 
-    public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs, @NotNull ProcessExecutor1 executor) {
+    public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs, @NotNull ProcessExecutor2 executor) {
         this.eclipseExecutable = eclipseExecutable;
         this.eclipsePrefs = eclipsePrefs;
         this.executor = executor;
     }
 
     public EclipseCodeFormatter(@NotNull File eclipseExecutable, @NotNull File eclipsePrefs) {
-        this(eclipseExecutable, eclipsePrefs, new ProcessExecutor1Impl());
+        this(eclipseExecutable, eclipsePrefs, new ProcessExecutor2Impl());
     }
 
     public boolean supportsFileType(@NotNull File file) {
@@ -57,7 +57,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
 
     public void reformatOne(@NotNull File file) {
         assert supportsFileType(file);
-        executor.execute(commandFor(quoted(file)));
+        executor.executeAndWait(commandFor(file));
     }
 
     public boolean supportsReformatMany() {
@@ -68,7 +68,7 @@ public class EclipseCodeFormatter implements CodeFormatter {
         for (File file : files) {
             assert supportsFileType(file);
         }
-        executor.execute(commandFor(quotedListOf(files)));
+        executor.executeAndWait(commandFor(files));
     }
 
     public boolean supportsReformatDirectory() {
@@ -84,11 +84,11 @@ public class EclipseCodeFormatter implements CodeFormatter {
     }
 
     public void reformatRecursively(@NotNull File directory) {
-        executor.execute(commandFor(quoted(directory)));
+        executor.executeAndWait(commandFor(directory));
     }
 
     @NotNull
-    private String commandFor(@NotNull String path) {
+    private String[] commandFor(@NotNull File... files) {
         /*
          *  Usage: eclipse -application org.eclipse.jdt.core.JavaCodeFormatter [ OPTIONS ] -config <configFile> <files>
          *
@@ -108,12 +108,30 @@ public class EclipseCodeFormatter implements CodeFormatter {
         //      -application org.eclipse.jdt.core.JavaCodeFormatter -verbose
         //      -config C:\eclipse-SDK-3.3.1-win32\workspace\foo\.settings\org.eclipse.jdt.core.prefs
         //      C:\Temp\weenyconsole\src\main\java\net\orfjackal\weenyconsole\*.java
+
         assert eclipseExecutable.isFile() : "Not a file, eclipseExecutable: " + eclipseExecutable;
         assert eclipsePrefs.isFile() : "Not a file, eclipsePrefs: " + eclipsePrefs;
-        String eclipse = quoted(eclipseExecutable);
-        String java = quoted(new File(System.getProperty("java.home"), "bin/java"));
-        String config = quoted(eclipsePrefs);
-        return eclipse + " -application org.eclipse.jdt.core.JavaCodeFormatter -verbose"
-                + " -vm " + java + " -config " + config + " " + path;
+
+        List<String> command = new ArrayList<String>();
+        command.add(pathTo(eclipseExecutable));
+        command.add("-application");
+        command.add("org.eclipse.jdt.core.JavaCodeFormatter");
+        command.add("-verbose");
+        command.add("-vm");
+        command.add(pathTo(new File(System.getProperty("java.home"), "bin/java")));
+        command.add("-config");
+        command.add(pathTo(eclipsePrefs));
+        for (File file : files) {
+            command.add(pathTo(file));
+        }
+        return command.toArray(new String[command.size()]);
+    }
+
+    private static String pathTo(File file) {
+        try {
+            return file.getCanonicalPath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

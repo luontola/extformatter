@@ -28,6 +28,14 @@ import java.io.*;
  */
 public class ProcessExecutor2Impl implements ProcessExecutor2 {
 
+    public void executeAndWait(String... command) {
+        try {
+            exec(command).waitFor();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Process exec(String... command) {
         return exec(command, System.out, System.err);
     }

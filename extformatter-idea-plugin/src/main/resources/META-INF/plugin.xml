@@ -14,7 +14,7 @@
 
     <vendor url="http://www.orfjackal.net" logo="/net/orfjackal/extformatter/icons/logo-16.png">Esko Luontola</vendor>
 
-    <idea-version since-build="9000" until-build="9999"/>
+    <idea-version since-build="9000"/>
 
     <change-notes><![CDATA[
         <p>1.0.3 (2009-06-23)

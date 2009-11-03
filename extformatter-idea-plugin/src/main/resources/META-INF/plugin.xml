@@ -17,6 +17,9 @@
     <idea-version since-build="9000"/>
 
     <change-notes><![CDATA[
+        <p>1.0.4 (2009-11-04)
+        <br>- Compatible with IDEA 9</p>
+
         <p>1.0.3 (2009-06-23)
         <br>- Fixed Eclipse code formatter on non-Windows platforms</p>
 

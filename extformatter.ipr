@@ -304,7 +304,11 @@
   <component name="ProjectDetails">
     <option name="projectName" value="extformatter" />
   </component>
-  <component name="ProjectFileVersion" converted="true" />
+  <component name="ProjectFileVersion" converted="true">
+    <converter id="javaee-modules" />
+    <converter id="ror-modules" />
+    <converter id="SelenaRunConfToDiana" />
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/extformatter.iml" filepath="$PROJECT_DIR$/extformatter.iml" />
@@ -323,24 +327,7 @@
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
   <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="extformatter" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="extformatter-idea-plugin" />
-      <option name="VM_PARAMETERS" value=" -Xms32m -Xmx1024m -XX:MaxPermSize=200m -ea -server -Dsun.awt.keepWorkingSetOnMinimize=true -XX:SoftRefLRUPolicyMSPerMB=10000" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <log_file path="C:/Documents and Settings/ORFJackal/.IntelliJIdea70/system/plugins-sandbox/system/log/idea.log" checked="true" skipped="true" show_all="false" alias="IDEA LOG" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="3998" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="false" name="All tests" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
+    <configuration default="false" name="All tests" type="JUnit" factoryName="JUnit" enabled="false" merge="false" sample_coverage="true" runner="emma">
       <module name="extformatter" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -363,6 +350,19 @@
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
+      <RunnerSettings RunnerId="Profile CPU">
+        <option name="startFromMode" value="MAIN_CLASS" />
+        <option name="otherClassesToStartFrom" value="" />
+        <option name="profileNewRunnables" value="true" />
+        <option name="filteringMode" value="EXCLUDE" />
+        <option name="filterIncludeClasses" value="" />
+        <option name="filterExcludeClasses" value="java.*, javax.*,&#10;sun.*, sunw.*, com.sun.*" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile Memory">
+        <option name="profileAllocMode" value="ALLOC_AND_GC" />
+        <option name="profileAllocInterval" value="10" />
+        <option name="recordAllocTraces" value="false" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -370,7 +370,11 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="false" name="All tests with coverage" type="JUnit" factoryName="JUnit" enabled="true" merge="false" runner="emma">
+    <configuration default="false" name="All tests with coverage" type="JUnit" factoryName="JUnit" enabled="true" merge="false" per_test_coverage_enabled="false" track_test_folders="true" runner="idea">
+      <pattern>
+        <option name="PATTERN" value="net.orfjackal.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
       <module name="extformatter" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -392,6 +396,49 @@
         <option name="DEBUG_PORT" value="3409" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile CPU">
+        <option name="startFromMode" value="MAIN_CLASS" />
+        <option name="otherClassesToStartFrom" value="" />
+        <option name="profileNewRunnables" value="true" />
+        <option name="filteringMode" value="EXCLUDE" />
+        <option name="filterIncludeClasses" value="" />
+        <option name="filterExcludeClasses" value="java.*, javax.*,&#10;sun.*, sunw.*, com.sun.*" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile Memory">
+        <option name="profileAllocMode" value="ALLOC_AND_GC" />
+        <option name="profileAllocInterval" value="10" />
+        <option name="recordAllocTraces" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="extformatter" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="extformatter-idea-plugin" />
+      <option name="VM_PARAMETERS" value=" -Xms32m -Xmx300m -XX:MaxPermSize=200m -ea" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <log_file path="$PROJECT_DIR$/../../../Documents and Settings/ORFJackal/.IntelliJIdea80/system/plugins-sandbox/system/log/idea.log" checked="true" skipped="true" show_all="false" alias="IDEA LOG" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="3998" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile CPU">
+        <option name="startFromMode" value="MAIN_CLASS" />
+        <option name="otherClassesToStartFrom" value="" />
+        <option name="profileNewRunnables" value="true" />
+        <option name="filteringMode" value="EXCLUDE" />
+        <option name="filterIncludeClasses" value="" />
+        <option name="filterExcludeClasses" value="java.*, javax.*,&#10;sun.*, sunw.*, com.sun.*" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile Memory">
+        <option name="profileAllocMode" value="ALLOC_AND_GC" />
+        <option name="profileAllocInterval" value="10" />
+        <option name="recordAllocTraces" value="false" />
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
@@ -607,13 +654,13 @@
   <component name="libraryTable">
     <library name="Maven: com.intellij:annotations:9013">
       <CLASSES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/annotations.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/annotations.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/annotations-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/annotations-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/annotations-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/annotations-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.jmock:jmock:2.4.0">
@@ -706,24 +753,24 @@
     </library>
     <library name="Maven: com.intellij:openapi:9013">
       <CLASSES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/openapi.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/openapi.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/openapi-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/openapi-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/openapi-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/openapi-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.intellij:extensions:9013">
       <CLASSES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/extensions.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/extensions.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/extensions-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/extensions-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/extensions-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/extensions-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.intellij:forms_rt:6.0.5">
@@ -739,24 +786,24 @@
     </library>
     <library name="Maven: com.intellij:util:9013">
       <CLASSES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/util.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/util.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/util-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/util-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/util-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/util-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.intellij:picocontainer:9013">
       <CLASSES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer-javadoc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://C:/Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../Program Files/JetBrains/idea-8.0-jdk15/lib/picocontainer-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.jdave:jdave-junit4:1.1">

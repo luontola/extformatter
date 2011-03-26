@@ -35,7 +35,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <inherited>false</inherited>
                 <configuration>
-                    <finalName>extformatter-${version}</finalName>
+                    <finalName>extformatter-${project.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <attach>false</attach>
                     <descriptors>

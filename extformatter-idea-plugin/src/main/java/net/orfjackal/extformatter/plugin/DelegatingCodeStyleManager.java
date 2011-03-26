@@ -17,15 +17,19 @@
 
 package net.orfjackal.extformatter.plugin;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
-import com.intellij.openapi.editor.*;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
-import com.intellij.psi.codeStyle.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.codeStyle.CodeStyleManager;
+import com.intellij.psi.codeStyle.Indent;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.*;
 
 /**
  * Wrapper for intercepting the method calls to a {@link CodeStyleManager} instance.
@@ -114,12 +118,13 @@ public class DelegatingCodeStyleManager extends CodeStyleManager {
         return target.zeroIndent();
     }
 
-    @Nullable
-    public PsiElement insertNewLineIndentMarker(@NotNull PsiFile file, int offset) throws IncorrectOperationException {
-        return target.insertNewLineIndentMarker(file, offset);
-    }
-
     public void reformatNewlyAddedElement(@NotNull ASTNode block, @NotNull ASTNode addedElement) throws IncorrectOperationException {
         target.reformatNewlyAddedElement(block, addedElement);
+    }
+
+    @Override
+    public boolean isSequentialProcessingAllowed()
+    {
+        return target.isSequentialProcessingAllowed();
     }
 }

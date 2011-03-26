@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.orfjackal.extformatter</groupId>
@@ -13,9 +15,23 @@
         <module>extformatter-dist</module>
     </modules>
     <properties>
+        <maven.test.skip>true</maven.test.skip>
         <plugin.name>External Code Formatter</plugin.name>
         <plugin.id>ExternalCodeFormatter</plugin.id>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <properties>
+                <idea.version>106.330</idea.version>
+                <idea.home>C:/Program Files (x86)/JetBrains/IntelliJ IDEA 106.330</idea.home>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 
     <name>External Code Formatter</name>
     <description>Intellij IDEA plugin for using external code formatters.</description>
@@ -115,6 +131,7 @@
                     <target>1.5</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
+                <version>2.3.2</version>
             </plugin>
 
             <plugin>
@@ -122,6 +139,7 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
+                <version>2.5</version>
             </plugin>
 
             <plugin>
@@ -166,6 +184,7 @@
 
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.0.4</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>

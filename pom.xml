@@ -16,8 +16,8 @@
     </modules>
     <properties>
         <maven.test.skip>true</maven.test.skip>
-        <plugin.name>External Code Formatter</plugin.name>
-        <plugin.id>ExternalCodeFormatter</plugin.id>
+        <plugin.name>Son of External Code Formatter</plugin.name>
+        <plugin.id>SonOfExternalCodeFormatter</plugin.id>
     </properties>
 
     <profiles>
@@ -33,9 +33,9 @@
         </profile>
     </profiles>
 
-    <name>External Code Formatter</name>
+    <name>Son of External Code Formatter</name>
     <description>Intellij IDEA plugin for using external code formatters.</description>
-    <url>http://github.com/orfjackal/extformatter</url>
+    <url>http://github.com/awallgren/extformatter</url>
     <inceptionYear>2007</inceptionYear>
 
     <licenses>
@@ -53,8 +53,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/orfjackal/extformatter.git</connection>
-        <url>http://github.com/orfjackal/extformatter</url>
+        <connection>scm:git:git://github.com/awallgren/extformatter.git</connection>
+        <url>http://github.com/awallgren/extformatter</url>
     </scm>
 
     <repositories>

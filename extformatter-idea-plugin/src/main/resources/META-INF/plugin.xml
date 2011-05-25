@@ -20,7 +20,7 @@
     <idea-version since-build="9000"/>
 
     <change-notes><![CDATA[
-        <p>1.0.5-SNAPSHOT (2011-05-25)
+        <p>1.0.5 (2011-05-25)
         <br>- Compatible with IDEA 10.5</p>
         <br>- Remove code that does the reformat in the background -- seems t o cause problems when also doing import optimization as the optimization is done at the same time the background reformat happens</p>
         <br>- Changed how the contents of the temp file are read in an attempt to fix the "can't undo" problems</p>

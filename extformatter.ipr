@@ -291,6 +291,21 @@
   <component name="ProjectDetails">
     <option name="projectName" value="extformatter" />
   </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="anders">
+      <words>
+        <w>awallgren</w>
+        <w>esko</w>
+        <w>extformatter</w>
+        <w>formatters</w>
+        <w>github</w>
+        <w>intelli</w>
+        <w>luontola</w>
+        <w>orfjackal</w>
+        <w>reformats</w>
+      </words>
+    </dictionary>
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/extformatter.iml" filepath="$PROJECT_DIR$/extformatter.iml" />
@@ -308,10 +323,40 @@
       <SplitterProportionsDataImpl />
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-106.273" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-10.5" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
   <component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="extformatter" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="extformatter-idea-plugin" />
+      <option name="VM_PARAMETERS" value=" -Xms32m -Xmx300m -XX:MaxPermSize=200m -ea" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="3998" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile ">
+        <option name="myExternalizedOptions" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile CPU">
+        <option name="startFromMode" value="MAIN_CLASS" />
+        <option name="otherClassesToStartFrom" value="" />
+        <option name="profileNewRunnables" value="true" />
+        <option name="filteringMode" value="EXCLUDE" />
+        <option name="filterIncludeClasses" value="" />
+        <option name="filterExcludeClasses" value="java.*, javax.*,&#10;sun.*, sunw.*, com.sun.*" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile Memory">
+        <option name="profileAllocMode" value="ALLOC_AND_GC" />
+        <option name="profileAllocInterval" value="10" />
+        <option name="recordAllocTraces" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
     <configuration default="false" name="All tests" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma" />
       <module name="extformatter" />
@@ -382,37 +427,6 @@
         <option name="DEBUG_PORT" value="3409" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Profile CPU">
-        <option name="startFromMode" value="MAIN_CLASS" />
-        <option name="otherClassesToStartFrom" value="" />
-        <option name="profileNewRunnables" value="true" />
-        <option name="filteringMode" value="EXCLUDE" />
-        <option name="filterIncludeClasses" value="" />
-        <option name="filterExcludeClasses" value="java.*, javax.*,&#10;sun.*, sunw.*, com.sun.*" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Profile Memory">
-        <option name="profileAllocMode" value="ALLOC_AND_GC" />
-        <option name="profileAllocInterval" value="10" />
-        <option name="recordAllocTraces" value="false" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="extformatter" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="extformatter-idea-plugin" />
-      <option name="VM_PARAMETERS" value=" -Xms32m -Xmx300m -XX:MaxPermSize=200m -ea" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <log_file path="$USER_HOME$/.IntelliJIdea10/system/plugins-sandbox/system/log/idea.log" checked="true" skipped="true" show_all="false" alias="IDEA LOG" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="3998" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Profile ">
-        <option name="myExternalizedOptions" />
       </RunnerSettings>
       <RunnerSettings RunnerId="Profile CPU">
         <option name="startFromMode" value="MAIN_CLASS" />
@@ -640,13 +654,6 @@
       <SOURCES>
         <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar!/" />
       </SOURCES>
-    </library>
-    <library name="Maven: com.intellij:annotations:106.330">
-      <CLASSES>
-        <root url="jar://$APPLICATION_HOME_DIR$/lib/annotations.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
     </library>
     <library name="Maven: com.intellij:forms_rt:6.0.5">
       <CLASSES>

@@ -12,5 +12,18 @@
     <packaging>jar</packaging>
 
     <name>extformatter-core</name>
+    
+    <dependencies>
+        <!-- IntelliJ IDEA -->
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${idea.version}</version>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/annotations.jar</systemPath>
+        </dependency>
+
+    </dependencies>
 
 </project>

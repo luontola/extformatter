@@ -15,7 +15,7 @@
         <module>extformatter-dist</module>
     </modules>
     <properties>
-        <maven.test.skip>true</maven.test.skip>
+        <!--<maven.test.skip>true</maven.test.skip>-->
         <plugin.name>Son of External Code Formatter</plugin.name>
         <plugin.id>SonOfExternalCodeFormatter</plugin.id>
     </properties>
@@ -24,8 +24,8 @@
         <profile>
             <id>default</id>
             <properties>
-                <idea.version>106.330</idea.version>
-                <idea.home>C:/Program Files (x86)/JetBrains/IntelliJ IDEA 106.330</idea.home>
+                <idea.version>10.5</idea.version>
+                <idea.home>C:/Program Files (x86)/JetBrains/IntelliJ IDEA 10.5</idea.home>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -49,6 +49,10 @@
         <developer>
             <id>orfjackal</id>
             <name>Esko Luontola</name>
+        </developer>
+        <developer>
+            <id>anders</id>
+            <name>Anders Wallgren</name>
         </developer>
     </developers>
 
@@ -74,16 +78,6 @@
     </pluginRepositories>
 
     <dependencies>
-
-        <!-- IntelliJ IDEA -->
-
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/annotations.jar</systemPath>
-        </dependency>
 
         <!-- JDave -->
 
@@ -138,6 +132,7 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <configuration>
                     <encoding>UTF-8</encoding>
+                    <outputDirectory/>
                 </configuration>
                 <version>2.5</version>
             </plugin>

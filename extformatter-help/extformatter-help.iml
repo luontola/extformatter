@@ -12,7 +12,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.intellij:annotations:106.330" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jdave:jdave-junit4:1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jdave:jdave-core:1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jmock:jmock:2.4.0" level="project" />

@@ -17,23 +17,35 @@
 
 package net.orfjackal.extformatter.plugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import net.orfjackal.extformatter.AdaptiveCodeFormatter;
+import net.orfjackal.extformatter.CodeFormatter;
+import net.orfjackal.extformatter.Messages;
+import net.orfjackal.extformatter.OptimizingReformatQueue;
+import net.orfjackal.extformatter.plugin.util.CommandRunner;
+import net.orfjackal.extformatter.plugin.util.ConditionalRunner;
+import net.orfjackal.extformatter.plugin.util.WriteActionRunner;
+import net.orfjackal.extformatter.util.FileUtil;
+import net.orfjackal.extformatter.util.TempFileManager;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.UndoConfirmationPolicy;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.*;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.ReadonlyStatusHandler;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.util.IncorrectOperationException;
-import net.orfjackal.extformatter.*;
-import net.orfjackal.extformatter.plugin.util.*;
-import net.orfjackal.extformatter.util.TempFileManager;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.*;
 
 /**
  * Intercepts the calls to {@link CodeStyleManager#reformatText} and redirects them
@@ -61,7 +73,7 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         if (file != null
                 && canReformat(file, project)
                 && wholeFile(psiFile, startOffset, endOffset)) {
-            queueReformatOf(file, project);
+            reformatWithUndoSupport(Collections.singletonList(file));
         } else {
             super.reformatText(psiFile, startOffset, endOffset);
         }
@@ -143,17 +155,21 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
     }
 
     private static void copyText(@NotNull File from, @NotNull File to) {
-        VirtualFile fromFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(from);
         VirtualFile toFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(to);
-        if (fromFile != null && toFile != null) {
-            // for some reason refreshAndFindFileByIoFile does not reset a cached document, so another refresh is needed
-            fromFile.refresh(false, false);
-            Document readFrom = FileDocumentManager.getInstance().getDocument(fromFile);
+        if (toFile != null) {
             Document writeTo = FileDocumentManager.getInstance().getDocument(toFile);
-            writeTo.setText(readFrom.getText());
+            try {
+                assert writeTo != null;
+                writeTo.setText(FileUtil.contentsOf(from));
+            }
+            catch (IOException e) {
+                LOG.error("Error in copying text from \"" + from + "\" to \"" + to + "\""
+                        + "\nfromFile = " + from.getAbsolutePath()
+                        + "\ntoFile = " + toFile + ": " + e.getMessage());
+            }
         } else {
             LOG.error("Error in copying text from \"" + from + "\" to \"" + to + "\""
-                    + "\nfromFile = " + fromFile
+                    + "\nfromFile = " + from.getAbsolutePath()
                     + "\ntoFile = " + toFile);
         }
     }

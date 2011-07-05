@@ -43,7 +43,7 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/awallgren/extformatter.git</connection>
+        <connection>scm:git: git@github.com:awallgren/extformatter.git</connection>
         <url>http://github.com/awallgren/extformatter</url>
     </scm>
 

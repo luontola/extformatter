@@ -17,12 +17,14 @@
 
 package net.orfjackal.extformatter;
 
-import com.intellij.CommonBundle;
-import net.orfjackal.extformatter.settings.IllegalSettingsException;
-import org.jetbrains.annotations.*;
-
-import java.lang.ref.*;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 import java.util.ResourceBundle;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.PropertyKey;
+import net.orfjackal.extformatter.settings.IllegalSettingsException;
+import com.intellij.CommonBundle;
 
 /**
  * @author Esko Luontola
@@ -55,7 +57,7 @@ public class Messages {
 
     public static String message(IllegalSettingsException e) {
         String field = message(e.getField());
-        String error = message(e.getErrorKey(), e.getErrorParams());
+        String error = message(e.getErrorKey(), (Object[])e.getErrorParams());
         return message("error.errorInField", field, error);
     }
 }

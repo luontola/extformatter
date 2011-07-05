@@ -27,15 +27,9 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import net.orfjackal.extformatter.AdaptiveCodeFormatter;
 import net.orfjackal.extformatter.CodeFormatter;
-import net.orfjackal.extformatter.Messages;
 import net.orfjackal.extformatter.OptimizingReformatQueue;
-import net.orfjackal.extformatter.plugin.util.CommandRunner;
-import net.orfjackal.extformatter.plugin.util.ConditionalRunner;
-import net.orfjackal.extformatter.plugin.util.WriteActionRunner;
 import net.orfjackal.extformatter.util.FileUtil;
 import net.orfjackal.extformatter.util.TempFileManager;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.UndoConfirmationPolicy;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -77,42 +71,6 @@ public class ExternalizedCodeStyleManager extends DelegatingCodeStyleManager {
         } else {
             super.reformatText(psiFile, startOffset, endOffset);
         }
-    }
-
-    /**
-     * The formatting will be executed after IDEA has called the 'reformatText' method for all files
-     * which should be reformatted in one go. Starting the formatter for each file would be very slow,
-     * especially in the case of EclipseCodeFormatter, so that's why a the files are first put into
-     * a queue which is then processed in one go.
-     */
-    private void queueReformatOf(@NotNull VirtualFile file, @NotNull Project project) {
-        LOG.info("Queue for reformat: " + file);
-        toBeReformatted.add(file);
-        ApplicationManager.getApplication().invokeLater(reformatQueuedFiles(project));
-    }
-
-    @NotNull
-    private Runnable reformatQueuedFiles(@NotNull Project project) {
-        Runnable reformatAll = new Runnable() {
-            public void run() {
-                LOG.info("Reformatting files: " + toBeReformatted);
-                try {
-                    reformatWithUndoSupport(toBeReformatted);
-                } finally {
-                    toBeReformatted.clear();
-                }
-            }
-        };
-
-        // IDEA requires 'reformatAll' to be executed as a command and a write action
-        CommandRunner reformatCommand = new CommandRunner(project, new WriteActionRunner(reformatAll),
-                Messages.message("command.reformatCode"), null, UndoConfirmationPolicy.REQUEST_CONFIRMATION);
-
-        return new ConditionalRunner(reformatCommand) {
-            public boolean runOnlyWhen() {
-                return !toBeReformatted.isEmpty();
-            }
-        };
     }
 
     /**

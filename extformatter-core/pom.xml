@@ -1,29 +1,31 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>net.orfjackal.extformatter</groupId>
-        <artifactId>extformatter</artifactId>
-        <version>1.6.0</version>
-    </parent>
+  <parent>
+    <groupId>net.orfjackal.extformatter</groupId>
+    <artifactId>extformatter</artifactId>
+    <version>1.6.1</version>
+  </parent>
 
-    <artifactId>extformatter-core</artifactId>
-    <packaging>jar</packaging>
+  <artifactId>extformatter-core</artifactId>
+  <packaging>jar</packaging>
 
-    <name>extformatter-core</name>
-    
-    <dependencies>
-        <!-- IntelliJ IDEA -->
+  <name>ExtFormatter : Core</name>
 
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/annotations.jar</systemPath>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>com.intellij</groupId>
+      <artifactId>annotations</artifactId>
+    </dependency>
 
-    </dependencies>
+    <dependency>
+      <groupId>org.jdave</groupId>
+      <artifactId>jdave-junit4</artifactId>
+    </dependency>
+
+  </dependencies>
 
 </project>

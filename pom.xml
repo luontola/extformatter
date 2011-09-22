@@ -1,182 +1,252 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.orfjackal.extformatter</groupId>
-    <artifactId>extformatter</artifactId>
-    <version>1.6.0</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>extformatter-core</module>
-        <module>extformatter-idea-plugin</module>
-        <module>extformatter-help</module>
-        <module>extformatter-dist</module>
-    </modules>
-    <properties>
-        <plugin.name>Son of External Code Formatter</plugin.name>
-        <plugin.id>SonOfExternalCodeFormatter</plugin.id>
-        <idea.version>10.5.1</idea.version>
-        <idea.home>C:/Program Files (x86)/JetBrains/IntelliJ IDEA 10.5.1</idea.home>
-    </properties>
+  <groupId>net.orfjackal.extformatter</groupId>
+  <artifactId>extformatter</artifactId>
+  <version>1.6.1</version>
+  <packaging>pom</packaging>
 
-    <name>Son of External Code Formatter</name>
-    <description>Intellij IDEA plugin for using external code formatters.</description>
+  <modules>
+    <module>extformatter-core</module>
+    <module>extformatter-dist</module>
+    <module>extformatter-help</module>
+    <module>extformatter-idea-plugin</module>
+  </modules>
+
+  <properties>
+    <plugin.name>Son of External Code Formatter</plugin.name>
+    <plugin.id>SonOfExternalCodeFormatter</plugin.id>
+    <idea.version>108.1333</idea.version>
+    <idea.home>C:/Program Files (x86)/JetBrains/IntelliJ IDEA 108.1333</idea.home>
+  </properties>
+
+  <name>Son of External Code Formatter</name>
+  <description>Intellij IDEA plugin for using external code formatters.</description>
+  <url>http://github.com/awallgren/extformatter</url>
+  <inceptionYear>2007</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>Apache License 2.0</name>
+      <url>http://www.apache.org/licenses</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>anders</id>
+      <name>Anders Wallgren</name>
+    </developer>
+    <developer>
+      <id>orfjackal</id>
+      <name>Esko Luontola</name>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:awallgren/extformatter.git</connection>
     <url>http://github.com/awallgren/extformatter</url>
-    <inceptionYear>2007</inceptionYear>
+  </scm>
 
-    <licenses>
-        <license>
-            <name>Apache License 2.0</name>
-            <url>http://www.apache.org/licenses</url>
-        </license>
-    </licenses>
+  <repositories>
+    <repository>
+      <id>laughing-panda</id>
+      <name>Laughing Panda</name>
+      <url>http://www.laughingpanda.org/maven2/</url>
+    </repository>
+  </repositories>
 
-    <developers>
-        <developer>
-            <id>orfjackal</id>
-            <name>Esko Luontola</name>
-        </developer>
-        <developer>
-            <id>anders</id>
-            <name>Anders Wallgren</name>
-        </developer>
-    </developers>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>laughing-panda</id>
+      <name>Laughing Panda</name>
+      <url>http://www.laughingpanda.org/maven2/</url>
+    </pluginRepository>
+  </pluginRepositories>
 
-    <scm>
-        <connection>scm:git:git@github.com:awallgren/extformatter.git</connection>
-        <url>http://github.com/awallgren/extformatter</url>
-    </scm>
-
-    <repositories>
-        <repository>
-            <id>laughing-panda</id>
-            <name>Laughing Panda</name>
-            <url>http://www.laughingpanda.org/maven2/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>laughing-panda</id>
-            <name>Laughing Panda</name>
-            <url>http://www.laughingpanda.org/maven2/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
+  <dependencyManagement>
     <dependencies>
 
-        <dependency>
-            <groupId>org.jdave</groupId>
-            <artifactId>jdave-junit4</artifactId>
-            <version>1.1</version>
-            <scope>test</scope>
-        </dependency>
+      <dependency>
+        <groupId>com.intellij</groupId>
+        <artifactId>annotations</artifactId>
+        <version>${idea.version}</version>
+        <scope>system</scope>
+        <systemPath>${idea.home}/lib/annotations.jar</systemPath>
+      </dependency>
 
-        <!-- Needed because of a bug in Surefire. See: https://www.laughingpanda.org/jira/browse/JDAVE-24 -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.4</version>
-            <scope>test</scope>
-        </dependency>
+      <dependency>
+        <groupId>com.intellij</groupId>
+        <artifactId>extensions</artifactId>
+        <version>${idea.version}</version>
+        <scope>system</scope>
+        <systemPath>${idea.home}/lib/extensions.jar</systemPath>
+      </dependency>
+
+      <dependency>
+        <groupId>com.intellij</groupId>
+        <artifactId>forms_rt</artifactId>
+        <version>6.0.5</version>
+        <!-- HACK: 'ideauidesigner-maven-plugin' does not support using 'provided'
+  nor 'system' scopes, so 'compile' scope must be used instead -->
+        <scope>compile</scope>
+        <!-- Dependencies of forms_rt are not needed -->
+        <exclusions>
+          <exclusion>
+            <groupId>asm</groupId>
+            <artifactId>asm-commons</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>forms</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>com.intellij</groupId>
+        <artifactId>openapi</artifactId>
+        <version>${idea.version}</version>
+        <scope>system</scope>
+        <systemPath>${idea.home}/lib/openapi.jar</systemPath>
+      </dependency>
+
+      <dependency>
+        <groupId>com.intellij</groupId>
+        <artifactId>picocontainer</artifactId>
+        <version>${idea.version}</version>
+        <scope>system</scope>
+        <systemPath>${idea.home}/lib/picocontainer.jar</systemPath>
+      </dependency>
+
+      <dependency>
+        <groupId>com.intellij</groupId>
+        <artifactId>util</artifactId>
+        <version>${idea.version}</version>
+        <scope>system</scope>
+        <systemPath>${idea.home}/lib/util.jar</systemPath>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jdave</groupId>
+        <artifactId>jdave-junit4</artifactId>
+        <version>1.1</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- Needed because of a bug in Surefire. See: https://www.laughingpanda.org/jira/browse/JDAVE-24 -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.4</version>
+        <scope>test</scope>
+      </dependency>
 
     </dependencies>
+  </dependencyManagement>
 
-    <build>
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/plugin.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <filtering>false</filtering>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**/plugin.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
+  <build>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/plugin.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>**/plugin.xml</exclude>
+        </excludes>
+      </resource>
+    </resources>
 
-        <plugins>
+    <plugins>
 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-                <version>2.3.2</version>
-            </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+        <version>2.3.2</version>
+      </plugin>
 
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <outputDirectory />
-                </configuration>
-                <version>2.5</version>
-            </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <outputDirectory/>
+        </configuration>
+        <version>2.5</version>
+      </plugin>
 
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Spec.java</include>
-                    </includes>
-                    <systemProperties>
-                        <property>
-                            <name>jdave.tools.specdox.format</name>
-                            <value>txt</value>
-                        </property>
-                        <property>
-                            <name>jdave.tools.specdox.dir</name>
-                            <value>target/jdave</value>
-                        </property>
-                    </systemProperties>
-                </configuration>
-            </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <includes>
+            <include>**/*Spec.java</include>
+          </includes>
+          <systemProperties>
+            <property>
+              <name>jdave.tools.specdox.format</name>
+              <value>txt</value>
+            </property>
+            <property>
+              <name>jdave.tools.specdox.dir</name>
+              <value>target/jdave</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
 
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2.1</version>
-                <inherited>false</inherited>
-                <configuration>
-                    <attach>false</attach>
-                    <descriptors>
-                        <descriptor>src/main/assembly/src.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2.1</version>
+        <inherited>false</inherited>
+        <configuration>
+          <attach>false</attach>
+          <descriptors>
+            <descriptor>src/main/assembly/src.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1.2</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-        </plugins>
-    </build>
+    </plugins>
+  </build>
 
 </project>

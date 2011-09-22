@@ -1,110 +1,84 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>net.orfjackal.extformatter</groupId>
-        <artifactId>extformatter</artifactId>
-        <version>1.6.0</version>
-    </parent>
+  <parent>
+    <groupId>net.orfjackal.extformatter</groupId>
+    <artifactId>extformatter</artifactId>
+    <version>1.6.1</version>
+  </parent>
 
-    <artifactId>extformatter-idea-plugin</artifactId>
-    <packaging>jar</packaging>
+  <artifactId>extformatter-idea-plugin</artifactId>
+  <name>ExtFormatter : IDEA Plugin</name>
+  
+  <packaging>jar</packaging>
 
-    <name>extformatter-idea-plugin</name>
+  <dependencies>
 
-    <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>extformatter-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>net.orfjackal.extformatter</groupId>
-            <artifactId>extformatter-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>com.intellij</groupId>
+      <artifactId>openapi</artifactId>
+    </dependency>
 
-        <!-- IntelliJ IDEA -->
+    <dependency>
+      <groupId>com.intellij</groupId>
+      <artifactId>extensions</artifactId>
+    </dependency>
 
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>openapi</artifactId>
-            <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/openapi.jar</systemPath>
-        </dependency>
+    <dependency>
+      <groupId>com.intellij</groupId>
+      <artifactId>util</artifactId>
+    </dependency>
 
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>extensions</artifactId>
-            <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/extensions.jar</systemPath>
-        </dependency>
+    <dependency>
+      <groupId>com.intellij</groupId>
+      <artifactId>forms_rt</artifactId>
+    </dependency>
 
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>util</artifactId>
-            <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/util.jar</systemPath>
-        </dependency>
+    <dependency>
+      <groupId>com.intellij</groupId>
+      <artifactId>picocontainer</artifactId>
+    </dependency>
 
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>forms_rt</artifactId>
-            <version>6.0.5</version>
-            <!-- HACK: 'ideauidesigner-maven-plugin' does not support using 'provided'
-                 nor 'system' scopes, so 'compile' scope must be used instead -->
-            <scope>compile</scope>
-            <!-- Dependencies of forms_rt are not needed -->
-            <exclusions>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm-commons</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.jgoodies</groupId>
-                    <artifactId>forms</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jdom</groupId>
-                    <artifactId>jdom</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <dependency>
+      <groupId>org.jdave</groupId>
+      <artifactId>jdave-junit4</artifactId>
+    </dependency>
 
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>picocontainer</artifactId>
-            <version>${idea.version}</version>
-            <scope>system</scope>
-            <systemPath>${idea.home}/lib/picocontainer.jar</systemPath>
-        </dependency>
+  </dependencies>
 
-    </dependencies>
+  <build>
+    <plugins>
 
-    <build>
-        <plugins>
+      <!-- TODO: does not process @NotNull. try using http://maven.apache.org/plugins/maven-antrun-plugin/
+      http://www.intellij.net/forums/thread.jspa?messageID=5181425
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>ideauidesigner-maven-plugin</artifactId>
+        <version>1.0-beta-1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>javac2</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <fork>true</fork>
+          <debug>true</debug>
+          <failOnError>true</failOnError>
+        </configuration>
+      </plugin>
 
-            <!-- TODO: does not process @NotNull. try using http://maven.apache.org/plugins/maven-antrun-plugin/
-                http://www.intellij.net/forums/thread.jspa?messageID=5181425
-                -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>ideauidesigner-maven-plugin</artifactId>
-                <version>1.0-beta-1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>javac2</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <fork>true</fork>
-                    <debug>true</debug>
-                    <failOnError>true</failOnError>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
+    </plugins>
+  </build>
 </project>

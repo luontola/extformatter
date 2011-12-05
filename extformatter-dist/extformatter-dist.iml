@@ -10,12 +10,12 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="extformatter-idea-plugin" />
     <orderEntry type="module" module-name="extformatter-core" />
-    <orderEntry type="library" name="Maven: com.intellij:annotations:108.1333" level="project" />
-    <orderEntry type="library" name="Maven: com.intellij:openapi:108.1333" level="project" />
-    <orderEntry type="library" name="Maven: com.intellij:extensions:108.1333" level="project" />
-    <orderEntry type="library" name="Maven: com.intellij:util:108.1333" level="project" />
+    <orderEntry type="library" name="Maven: com.intellij:annotations:111.54" level="project" />
+    <orderEntry type="library" name="Maven: com.intellij:openapi:111.54" level="project" />
+    <orderEntry type="library" name="Maven: com.intellij:extensions:111.54" level="project" />
+    <orderEntry type="library" name="Maven: com.intellij:util:111.54" level="project" />
     <orderEntry type="library" name="Maven: com.intellij:forms_rt:6.0.5" level="project" />
-    <orderEntry type="library" name="Maven: com.intellij:picocontainer:108.1333" level="project" />
+    <orderEntry type="library" name="Maven: com.intellij:picocontainer:111.54" level="project" />
     <orderEntry type="module" module-name="extformatter-help" />
   </component>
 </module>

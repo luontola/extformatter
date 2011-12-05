@@ -20,6 +20,9 @@
     <idea-version since-build="9000"/>
 
     <change-notes><![CDATA[
+        <p>1.6.2 (2011-12-05)
+        <br>- Rebuilt with IDEA 11.0 RC2</p>
+    
         <p>1.6.1 (2011-09-22)
         <br>- Rebuilt with IDEA 108.1333
         <br>- Yeah, screwed up the version number last time. Oh well.</p>

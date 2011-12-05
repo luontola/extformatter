@@ -1,49 +1,49 @@
 <assembly
-    xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-    <id>dist</id>
-    <formats>
-        <format>zip</format>
-    </formats>
-    <includeBaseDirectory>true</includeBaseDirectory>
-    <baseDirectory>${plugin.id}</baseDirectory>
+  xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+  <id>dist</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>true</includeBaseDirectory>
+  <baseDirectory>${plugin.id}</baseDirectory>
 
-    <dependencySets>
+  <dependencySets>
 
-        <!-- Libraries -->
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>lib</outputDirectory>
-            <includes>
-                <include>net.orfjackal.extformatter:extformatter-core:jar</include>
-                <include>net.orfjackal.extformatter:extformatter-idea-plugin:jar</include>
-            </includes>
-        </dependencySet>
+    <!-- Libraries -->
+    <dependencySet>
+      <useProjectArtifact>false</useProjectArtifact>
+      <outputDirectory>lib</outputDirectory>
+      <includes>
+        <include>net.orfjackal.extformatter:extformatter-core:jar</include>
+        <include>net.orfjackal.extformatter:extformatter-idea-plugin:jar</include>
+      </includes>
+    </dependencySet>
 
-        <!-- Fixed names for help -->
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>help</outputDirectory>
-            <includes>
-                <include>net.orfjackal.extformatter:extformatter-help:jar</include>
-            </includes>
-            <outputFileNameMapping>extformatter-help.jar</outputFileNameMapping>
-        </dependencySet>
+    <!-- Fixed names for help -->
+    <dependencySet>
+      <useProjectArtifact>false</useProjectArtifact>
+      <outputDirectory>help</outputDirectory>
+      <includes>
+        <include>net.orfjackal.extformatter:extformatter-help:jar</include>
+      </includes>
+      <outputFileNameMapping>extformatter-help.jar</outputFileNameMapping>
+    </dependencySet>
 
-    </dependencySets>
+  </dependencySets>
 
-    <fileSets>
+  <fileSets>
 
-        <!-- Documentation -->
-        <fileSet>
-            <outputDirectory>/</outputDirectory>
-            <directory>..</directory>
-            <includes>
-                <include>*.txt</include>
-            </includes>
-        </fileSet>
+    <!-- Documentation -->
+    <fileSet>
+      <outputDirectory>/</outputDirectory>
+      <directory>..</directory>
+      <includes>
+        <include>*.txt</include>
+      </includes>
+    </fileSet>
 
-    </fileSets>
+  </fileSets>
 
 </assembly>

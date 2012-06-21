@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Maven: com.intellij:util:114.55">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

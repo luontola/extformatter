@@ -9,6 +9,8 @@
 
 package net.orfjackal.extformatter.plugin;
 
+import java.util.Collection;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -150,6 +152,15 @@ public class DelegatingCodeStyleManager
         throws IncorrectOperationException
     {
         m_target.reformatText(element, startOffset, endOffset);
+    }
+
+    @Override
+    public void reformatText(
+        @NotNull PsiFile psiFile,
+        @NotNull Collection<TextRange> textRanges)
+        throws IncorrectOperationException
+    {
+        m_target.reformatText(psiFile, textRanges);
     }
 
     @Override public Indent zeroIndent()

@@ -1,227 +1,302 @@
-/*
- * External Code Formatter
- * Copyright (c) 2007-2009  Esko Luontola, www.orfjackal.net
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
+// OptimizingReformatQueue.java --
+//
+// OptimizingReformatQueue.java is part of ElectricCommander.
+//
+// Copyright (c) 2005-2012 Electric Cloud, Inc.
+// All rights reserved.
+//
 
 package net.orfjackal.extformatter;
 
-import net.orfjackal.extformatter.util.*;
-import org.jetbrains.annotations.*;
-
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.orfjackal.extformatter.util.Directories;
+import net.orfjackal.extformatter.util.FilesSupportedBy;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Uses as few reformat method calls as possible to reformat all the queued files.
+ * Uses as few reformat method calls as possible to reformat all the queued
+ * files.
  *
- * @author Esko Luontola
- * @since 7.12.2007
+ * @author  Esko Luontola
+ * @since   7.12.2007
  */
-public class OptimizingReformatQueue implements ReformatQueue {
+public class OptimizingReformatQueue
+    implements ReformatQueue
+{
 
-    @NotNull private final CodeFormatter formatter;
-    @NotNull private final List<File> fileQueue = new ArrayList<File>();
+    //~ Instance fields --------------------------------------------------------
 
-    public OptimizingReformatQueue(@NotNull CodeFormatter formatter) {
-        this.formatter = formatter;
+    @NotNull private final CodeFormatter m_formatter;
+    @NotNull private final List<File>    m_fileQueue = new ArrayList<File>();
+
+    //~ Constructors -----------------------------------------------------------
+
+    public OptimizingReformatQueue(@NotNull CodeFormatter formatter)
+    {
+        m_formatter = formatter;
     }
 
-    public boolean supportsFileType(@NotNull File file) {
-        return formatter.supportsFileType(file);
+    //~ Methods ----------------------------------------------------------------
+
+    @Override public void flush()
+    {
+        m_fileQueue.removeAll(useReformatMany());
+        m_fileQueue.removeAll(useReformatRecursively());
+        m_fileQueue.removeAll(useReformatDirectory());
+        m_fileQueue.removeAll(useReformatOne());
+        mustBeEmpty(m_fileQueue);
     }
 
-    public boolean supportsReformatOne() {
-        return true;
+    @Override public void reformatDirectory(@NotNull File directory)
+    {
+        throw new UnsupportedOperationException();
     }
 
-    public void reformatOne(@NotNull File file) {
+    @Override public void reformatMany(@NotNull File... files)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override public void reformatOne(@NotNull File file)
+    {
         assert supportsFileType(file);
-        fileQueue.add(file);
+        m_fileQueue.add(file);
     }
 
-    public boolean isEmpty() {
-        return fileQueue.isEmpty();
+    @Override public void reformatRecursively(@NotNull File directory)
+    {
+        throw new UnsupportedOperationException();
     }
 
-    public void flush() {
-        fileQueue.removeAll(useReformatMany());
-        fileQueue.removeAll(useReformatRecursively());
-        fileQueue.removeAll(useReformatDirectory());
-        fileQueue.removeAll(useReformatOne());
-        mustBeEmpty(fileQueue);
+    @Override public boolean supportsFileType(@NotNull File file)
+    {
+        return m_formatter.supportsFileType(file);
     }
 
-    @NotNull
-    private List<File> useReformatOne() {
-        List<File> reformatted = new ArrayList<File>();
-        if (formatter.supportsReformatOne()) {
-            for (File file : fileQueue) {
-                formatter.reformatOne(file);
-                reformatted.add(file);
-            }
-        }
-        return reformatted;
+    @Override public boolean supportsReformatDirectory()
+    {
+        return false;
     }
 
-    @NotNull
-    private List<File> useReformatMany() {
-        List<File> reformatted = new ArrayList<File>();
-        if (formatter.supportsReformatMany() && fileQueue.size() > 0) {
-            formatter.reformatMany(toArray(fileQueue));
-            reformatted.addAll(fileQueue);
-        }
-        return reformatted;
+    // Unsupported operations
+    @Override public boolean supportsReformatMany()
+    {
+        return false;
     }
 
-    @NotNull
-    private List<File> useReformatDirectory() {
-        List<File> reformatted = new ArrayList<File>();
-        if (formatter.supportsReformatDirectory()) {
-            Map<File, List<File>> groups = groupByDirectory(fileQueue);
-            for (Map.Entry<File, List<File>> group : groups.entrySet()) {
-                File directory = group.getKey();
-                List<File> files = group.getValue();
-                if (noOthersInTheSameDirectory(directory, files)) {
-                    formatter.reformatDirectory(directory);
-                    reformatted.addAll(files);
-                }
-            }
-        }
-        return reformatted;
-    }
-
-    @NotNull
-    private List<File> useReformatRecursively() {
-        List<File> reformatted = new ArrayList<File>();
-        if (formatter.supportsReformatRecursively()) {
-            File directory = commonParentDirectory(fileQueue);
-            if (directory != null && noOthersInTheSameDirectoryTree(directory, fileQueue)) {
-                formatter.reformatRecursively(directory);
-                reformatted.addAll(fileQueue);
-            }
-        }
-        return reformatted;
-    }
-
-    private static void mustBeEmpty(@NotNull List<File> files) {
-        if (!files.isEmpty()) {
-            try {
-                throw new IllegalStateException("The following files could not be reformatted: " + files);
-            } finally {
-                files.clear();
-            }
-        }
-    }
-
-    private boolean noOthersInTheSameDirectoryTree(@NotNull File directory, @NotNull List<File> files) {
-        if (!noOthersInTheSameDirectory(directory, files)) {
-            return false;
-        }
-        File[] subDirs = directory.listFiles(new Directories());
-        for (File subDir : subDirs) {
-            if (!noOthersInTheSameDirectoryTree(subDir, files)) {
-                return false;
-            }
-        }
+    @Override public boolean supportsReformatOne()
+    {
         return true;
     }
 
-    private boolean noOthersInTheSameDirectory(@NotNull File directory, @NotNull List<File> files) {
+    @Override public boolean supportsReformatRecursively()
+    {
+        return false;
+    }
+
+    private boolean noOthersInTheSameDirectory(
+            @NotNull File       directory,
+            @NotNull List<File> files)
+    {
         File[] allFilesInDir = directory.listFiles(new FilesSupportedBy(this));
+
         for (File fileInDir : allFilesInDir) {
+
             if (!files.contains(fileInDir)) {
                 return false;
             }
         }
+
         return true;
     }
 
-    @Nullable
-    private static File commonParentDirectory(@NotNull List<File> files) {
+    private boolean noOthersInTheSameDirectoryTree(
+            @NotNull File       directory,
+            @NotNull List<File> files)
+    {
+
+        if (!noOthersInTheSameDirectory(directory, files)) {
+            return false;
+        }
+
+        File[] subDirs = directory.listFiles(new Directories());
+
+        for (File subDir : subDirs) {
+
+            if (!noOthersInTheSameDirectoryTree(subDir, files)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @NotNull private List<File> useReformatDirectory()
+    {
+        List<File> reformatted = new ArrayList<File>();
+
+        if (m_formatter.supportsReformatDirectory()) {
+            Map<File, List<File>> groups = groupByDirectory(m_fileQueue);
+
+            for (Map.Entry<File, List<File>> group : groups.entrySet()) {
+                File       directory = group.getKey();
+                List<File> files     = group.getValue();
+
+                if (noOthersInTheSameDirectory(directory, files)) {
+                    m_formatter.reformatDirectory(directory);
+                    reformatted.addAll(files);
+                }
+            }
+        }
+
+        return reformatted;
+    }
+
+    @NotNull private List<File> useReformatMany()
+    {
+        List<File> reformatted = new ArrayList<File>();
+
+        if (m_formatter.supportsReformatMany() && m_fileQueue.size() > 0) {
+            m_formatter.reformatMany(toArray(m_fileQueue));
+            reformatted.addAll(m_fileQueue);
+        }
+
+        return reformatted;
+    }
+
+    @NotNull private List<File> useReformatOne()
+    {
+        List<File> reformatted = new ArrayList<File>();
+
+        if (m_formatter.supportsReformatOne()) {
+
+            for (File file : m_fileQueue) {
+                m_formatter.reformatOne(file);
+                reformatted.add(file);
+            }
+        }
+
+        return reformatted;
+    }
+
+    @NotNull private List<File> useReformatRecursively()
+    {
+        List<File> reformatted = new ArrayList<File>();
+
+        if (m_formatter.supportsReformatRecursively()) {
+            File directory = commonParentDirectory(m_fileQueue);
+
+            if (directory != null
+                    && noOthersInTheSameDirectoryTree(directory, m_fileQueue)) {
+                m_formatter.reformatRecursively(directory);
+                reformatted.addAll(m_fileQueue);
+            }
+        }
+
+        return reformatted;
+    }
+
+    @Override public boolean isEmpty()
+    {
+        return m_fileQueue.isEmpty();
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    @Nullable private static File commonParentDirectory(
+            @NotNull List<File> files)
+    {
+
         // Assumes that the common parent directory contains some files.
         // Otherwise there should be some check that this does not go
         // up to the root directory and possibly by accident reformat
         // files outside the project source directories.
         File commonParent = null;
+
         for (File file : files) {
+
             if (commonParent == null) {
                 commonParent = file.getParentFile();
             }
+
             if (isParent(file.getParentFile(), commonParent)) {
                 commonParent = file.getParentFile();
             }
         }
+
         return commonParent;
     }
 
-    private static boolean isParent(@NotNull File parent, @NotNull File child) {
-        for (File dir = child; dir.getParentFile() != null; dir = dir.getParentFile()) {
-            if (dir.equals(parent)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @NotNull
-    private static Map<File, List<File>> groupByDirectory(@NotNull List<File> files) {
+    @NotNull private static Map<File, List<File>> groupByDirectory(
+            @NotNull List<File> files)
+    {
         Map<File, List<File>> groups = new HashMap<File, List<File>>();
+
         for (File file : files) {
             File directory = file.getParentFile();
+
             putToList(groups, directory, file);
         }
+
         return groups;
     }
 
-    private static <T> void putToList(@NotNull Map<T, List<T>> map, @NotNull T key, @NotNull T value) {
+    private static void mustBeEmpty(@NotNull List<File> files)
+    {
+
+        if (!files.isEmpty()) {
+
+            try {
+                throw new IllegalStateException(
+                    "The following files could not be reformatted: " + files);
+            }
+            finally {
+                files.clear();
+            }
+        }
+    }
+
+    private static <T> void putToList(
+            @NotNull Map<T, List<T>> map,
+            @NotNull T               key,
+            @NotNull T               value)
+    {
         List<T> list = map.get(key);
+
         if (list == null) {
             list = new ArrayList<T>();
             map.put(key, list);
         }
+
         list.add(value);
     }
 
-    @NotNull
-    private static File[] toArray(@NotNull List<File> files) {
+    @NotNull private static File[] toArray(@NotNull List<File> files)
+    {
         return files.toArray(new File[files.size()]);
     }
 
-    // Unsupported operations
+    private static boolean isParent(
+            @NotNull File parent,
+            @NotNull File child)
+    {
 
-    public boolean supportsReformatMany() {
+        for (File dir = child; dir.getParentFile() != null;
+                dir = dir.getParentFile()) {
+
+            if (dir.equals(parent)) {
+                return true;
+            }
+        }
+
         return false;
-    }
-
-    public void reformatMany(@NotNull File... files) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean supportsReformatDirectory() {
-        return false;
-    }
-
-    public void reformatDirectory(@NotNull File directory) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean supportsReformatRecursively() {
-        return false;
-    }
-
-    public void reformatRecursively(@NotNull File directory) {
-        throw new UnsupportedOperationException();
     }
 }

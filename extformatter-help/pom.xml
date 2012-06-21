@@ -7,11 +7,13 @@
   <parent>
     <groupId>net.orfjackal.extformatter</groupId>
     <artifactId>extformatter</artifactId>
-    <version>1.6.2</version>
+    <version>1.6.6</version>
   </parent>
 
+  <groupId>net.orfjackal.extformatter</groupId>
   <artifactId>extformatter-help</artifactId>
   <packaging>jar</packaging>
+  <version>1.6.6</version>
 
   <name>ExtFormatter : Help</name>
 

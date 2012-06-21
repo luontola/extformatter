@@ -1,112 +1,140 @@
-/*
- * External Code Formatter
- * Copyright (c) 2007-2009  Esko Luontola, www.orfjackal.net
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
+// AdaptiveCodeFormatter.java --
+//
+// AdaptiveCodeFormatter.java is part of ElectricCommander.
+//
+// Copyright (c) 2005-2012 Electric Cloud, Inc.
+// All rights reserved.
+//
 
 package net.orfjackal.extformatter;
 
-import net.orfjackal.extformatter.util.*;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 
+import net.orfjackal.extformatter.util.Directories;
+import net.orfjackal.extformatter.util.FilesSupportedBy;
+
+import org.jetbrains.annotations.NotNull;
+
 /**
- * Uses alternative reformat methods if the underlying formatter does not support all methods.
+ * Uses alternative reformat methods if the underlying formatter does not
+ * support all methods.
  *
- * @author Esko Luontola
- * @since 6.12.2007
+ * @author  Esko Luontola
+ * @since   6.12.2007
  */
-public class AdaptiveCodeFormatter implements CodeFormatter {
+public class AdaptiveCodeFormatter
+    implements CodeFormatter
+{
 
-    private final CodeFormatter formatter;
+    //~ Instance fields --------------------------------------------------------
 
-    public AdaptiveCodeFormatter(@NotNull CodeFormatter formatter) {
-        this.formatter = formatter;
+    private final CodeFormatter m_formatter;
+
+    //~ Constructors -----------------------------------------------------------
+
+    public AdaptiveCodeFormatter(@NotNull CodeFormatter formatter)
+    {
+        m_formatter = formatter;
     }
 
-    public boolean supportsFileType(@NotNull File file) {
-        return formatter.supportsFileType(file);
-    }
+    //~ Methods ----------------------------------------------------------------
 
-    public boolean supportsReformatOne() {
-        return formatter.supportsReformatOne()
-                || formatter.supportsReformatMany();
-    }
+    @Override public void reformatDirectory(@NotNull File directory)
+    {
 
-    public void reformatOne(@NotNull File file) {
-        assert supportsFileType(file);
-        if (formatter.supportsReformatOne()) {
-            formatter.reformatOne(file);
-        } else if (formatter.supportsReformatMany()) {
-            formatter.reformatMany(file);
-        } else {
-            throw new UnsupportedOperationException();
+        if (m_formatter.supportsReformatDirectory()) {
+            m_formatter.reformatDirectory(directory);
         }
-    }
-
-    public boolean supportsReformatMany() {
-        return formatter.supportsReformatOne()
-                || formatter.supportsReformatMany();
-    }
-
-    public void reformatMany(@NotNull File... files) {
-        for (File file : files) {
-            assert supportsFileType(file);
-        }
-        if (formatter.supportsReformatMany()) {
-            formatter.reformatMany(files);
-        } else if (formatter.supportsReformatOne()) {
-            for (File file : files) {
-                formatter.reformatOne(file);
-            }
-        } else {
-            throw new UnsupportedOperationException();
-        }
-    }
-
-    public boolean supportsReformatDirectory() {
-        return formatter.supportsReformatOne()
-                || formatter.supportsReformatMany()
-                || formatter.supportsReformatDirectory();
-    }
-
-    public void reformatDirectory(@NotNull File directory) {
-        if (formatter.supportsReformatDirectory()) {
-            formatter.reformatDirectory(directory);
-        } else {
+        else {
             File[] files = directory.listFiles(new FilesSupportedBy(this));
+
             reformatMany(files);
         }
     }
 
-    public boolean supportsReformatRecursively() {
-        return formatter.supportsReformatOne()
-                || formatter.supportsReformatMany()
-                || formatter.supportsReformatDirectory()
-                || formatter.supportsReformatRecursively();
+    @Override public void reformatMany(@NotNull File... files)
+    {
+
+        for (File file : files) {
+            assert supportsFileType(file);
+        }
+
+        if (m_formatter.supportsReformatMany()) {
+            m_formatter.reformatMany(files);
+        }
+        else if (m_formatter.supportsReformatOne()) {
+
+            for (File file : files) {
+                m_formatter.reformatOne(file);
+            }
+        }
+        else {
+            throw new UnsupportedOperationException();
+        }
     }
 
-    public void reformatRecursively(@NotNull File directory) {
-        if (formatter.supportsReformatRecursively()) {
-            formatter.reformatRecursively(directory);
-        } else {
+    @Override public void reformatOne(@NotNull File file)
+    {
+        assert supportsFileType(file);
+
+        if (m_formatter.supportsReformatOne()) {
+            m_formatter.reformatOne(file);
+        }
+        else if (m_formatter.supportsReformatMany()) {
+            m_formatter.reformatMany(file);
+        }
+        else {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    @Override public void reformatRecursively(@NotNull File directory)
+    {
+
+        if (m_formatter.supportsReformatRecursively()) {
+            m_formatter.reformatRecursively(directory);
+        }
+        else {
             File[] subdirs = directory.listFiles(new Directories());
+
             reformatDirectory(directory);
+
             for (File subdir : subdirs) {
                 reformatRecursively(subdir);
             }
         }
+    }
+
+    @Override public boolean supportsFileType(@NotNull File file)
+    {
+        return m_formatter.supportsFileType(file);
+    }
+
+    @Override public boolean supportsReformatDirectory()
+    {
+        return m_formatter.supportsReformatOne()
+            || m_formatter.supportsReformatMany()
+            || m_formatter.supportsReformatDirectory();
+    }
+
+    @Override public boolean supportsReformatMany()
+    {
+        return m_formatter.supportsReformatOne()
+            || m_formatter.supportsReformatMany();
+    }
+
+    @Override public boolean supportsReformatOne()
+    {
+        return m_formatter.supportsReformatOne()
+            || m_formatter.supportsReformatMany();
+    }
+
+    @Override public boolean supportsReformatRecursively()
+    {
+        return m_formatter.supportsReformatOne()
+            || m_formatter.supportsReformatMany()
+            || m_formatter.supportsReformatDirectory()
+            || m_formatter.supportsReformatRecursively();
     }
 }

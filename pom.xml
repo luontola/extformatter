@@ -6,8 +6,13 @@
 
   <groupId>net.orfjackal.extformatter</groupId>
   <artifactId>extformatter</artifactId>
-  <version>1.6.2</version>
+  <version>1.6.6</version>
   <packaging>pom</packaging>
+
+  <name>Son of External Code Formatter</name>
+  <description>Intellij IDEA plugin for using external code formatters.</description>
+  <url>http://github.com/awallgren/extformatter</url>
+  <inceptionYear>2007</inceptionYear>
 
   <modules>
     <module>extformatter-core</module>
@@ -19,14 +24,9 @@
   <properties>
     <plugin.name>Son of External Code Formatter</plugin.name>
     <plugin.id>SonOfExternalCodeFormatter</plugin.id>
-    <idea.version>111.54</idea.version>
-    <idea.home>C:/Program Files (x86)/JetBrains/IntelliJ IDEA 11.0 RC2</idea.home>
+    <idea.version>114.55</idea.version>
+    <idea.home>C:/Program Files (x86)/JetBrains/IntelliJ IDEA 11.1.1</idea.home>
   </properties>
-
-  <name>Son of External Code Formatter</name>
-  <description>Intellij IDEA plugin for using external code formatters.</description>
-  <url>http://github.com/awallgren/extformatter</url>
-  <inceptionYear>2007</inceptionYear>
 
   <licenses>
     <license>
@@ -51,25 +51,142 @@
     <url>http://github.com/awallgren/extformatter</url>
   </scm>
 
-  <repositories>
-    <repository>
-      <id>laughing-panda</id>
-      <name>Laughing Panda</name>
-      <url>http://www.laughingpanda.org/maven2/</url>
-    </repository>
-  </repositories>
+  <build>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/plugin.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>**/plugin.xml</exclude>
+        </excludes>
+      </resource>
+    </resources>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>laughing-panda</id>
-      <name>Laughing Panda</name>
-      <url>http://www.laughingpanda.org/maven2/</url>
-    </pluginRepository>
-  </pluginRepositories>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>**/*Spec.java</include>
+          </includes>
+          <systemProperties>
+            <property>
+              <name>jdave.tools.specdox.format</name>
+              <value>txt</value>
+            </property>
+            <property>
+              <name>jdave.tools.specdox.dir</name>
+              <value>target/jdave</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <attach>false</attach>
+          <descriptors>
+            <descriptor>src/main/assembly/src.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.3.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.1.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.12</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>ideauidesigner-maven-plugin</artifactId>
+          <version>1.0-beta-1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+  </build>
 
   <dependencyManagement>
     <dependencies>
 
+<!--
       <dependency>
         <groupId>com.intellij</groupId>
         <artifactId>annotations</artifactId>
@@ -77,6 +194,7 @@
         <scope>system</scope>
         <systemPath>${idea.home}/lib/annotations.jar</systemPath>
       </dependency>
+-->
 
       <dependency>
         <groupId>com.intellij</groupId>
@@ -151,102 +269,5 @@
 
     </dependencies>
   </dependencyManagement>
-
-  <build>
-    <resources>
-      <resource>
-        <filtering>true</filtering>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**/plugin.xml</include>
-        </includes>
-      </resource>
-      <resource>
-        <filtering>false</filtering>
-        <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>**/plugin.xml</exclude>
-        </excludes>
-      </resource>
-    </resources>
-
-    <plugins>
-
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-          <encoding>UTF-8</encoding>
-        </configuration>
-        <version>2.3.2</version>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-          <outputDirectory/>
-        </configuration>
-        <version>2.5</version>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.11</version>
-        <configuration>
-          <includes>
-            <include>**/*Spec.java</include>
-          </includes>
-          <systemProperties>
-            <property>
-              <name>jdave.tools.specdox.format</name>
-              <value>txt</value>
-            </property>
-            <property>
-              <name>jdave.tools.specdox.dir</name>
-              <value>target/jdave</value>
-            </property>
-          </systemProperties>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2.2</version>
-        <inherited>false</inherited>
-        <configuration>
-          <attach>false</attach>
-          <descriptors>
-            <descriptor>src/main/assembly/src.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
 
 </project>

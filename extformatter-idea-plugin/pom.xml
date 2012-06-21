@@ -7,13 +7,40 @@
   <parent>
     <groupId>net.orfjackal.extformatter</groupId>
     <artifactId>extformatter</artifactId>
-    <version>1.6.2</version>
+    <version>1.6.6</version>
   </parent>
 
+  <groupId>net.orfjackal.extformatter</groupId>
   <artifactId>extformatter-idea-plugin</artifactId>
   <name>ExtFormatter : IDEA Plugin</name>
-
+  <version>1.6.6</version>
   <packaging>jar</packaging>
+
+  <build>
+    <plugins>
+
+      <!-- TODO: does not process @NotNull. try using http://maven.apache.org/plugins/maven-antrun-plugin/
+      http://www.intellij.net/forums/thread.jspa?messageID=5181425
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>ideauidesigner-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>javac2</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <fork>true</fork>
+          <debug>true</debug>
+          <failOnError>true</failOnError>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
 
   <dependencies>
 
@@ -55,30 +82,4 @@
 
   </dependencies>
 
-  <build>
-    <plugins>
-
-      <!-- TODO: does not process @NotNull. try using http://maven.apache.org/plugins/maven-antrun-plugin/
-      http://www.intellij.net/forums/thread.jspa?messageID=5181425
-      -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>ideauidesigner-maven-plugin</artifactId>
-        <version>1.0-beta-1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>javac2</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <fork>true</fork>
-          <debug>true</debug>
-          <failOnError>true</failOnError>
-        </configuration>
-      </plugin>
-
-    </plugins>
-  </build>
 </project>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.intellij:annotations:116.108">
+    <CLASSES>
+      <root url="jar://$M2_REPO$/com/intellij/annotations/116.108/annotations-116.108.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$M2_REPO$/com/intellij/annotations/116.108/annotations-116.108-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$M2_REPO$/com/intellij/annotations/116.108/annotations-116.108-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

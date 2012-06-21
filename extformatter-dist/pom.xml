@@ -7,32 +7,21 @@
   <parent>
     <groupId>net.orfjackal.extformatter</groupId>
     <artifactId>extformatter</artifactId>
-    <version>1.6.2</version>
+    <version>1.6.6</version>
   </parent>
 
+  <groupId>net.orfjackal.extformatter</groupId>
   <artifactId>extformatter-dist</artifactId>
   <name>ExtFormatter : Dist</name>
+  <version>1.6.6</version>
 
   <packaging>pom</packaging>
-
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>extformatter-idea-plugin</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>extformatter-help</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2.2</version>
         <inherited>false</inherited>
         <configuration>
           <finalName>extformatter-${project.version}</finalName>
@@ -54,4 +43,17 @@
       </plugin>
     </plugins>
   </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>extformatter-idea-plugin</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>extformatter-help</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>
